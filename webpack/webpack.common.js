@@ -48,7 +48,7 @@ module.exports = {
 				use: ['@svgr/webpack', 'url-loader'],
 			},
 			{
-				test: /\.(sa|sc|c)ss$/,
+				test: /\.(le|c)ss$/,
 				use: [
 					production ? MiniCssExtractPlugin.loader : 'style-loader',
 					{
@@ -64,9 +64,11 @@ module.exports = {
 					},
 					'postcss-loader',
 					{
-						loader: 'sass-loader',
+						loader: 'less-loader',
 						options: {
-							sourceMap: true,
+							lessOptions: {
+								strictMath: true,
+							},
 						},
 					},
 				],

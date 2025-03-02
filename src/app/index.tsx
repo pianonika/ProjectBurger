@@ -1,6 +1,6 @@
 import { clsx } from 'clsx';
 import { useState } from 'react';
-import s from './app.module.scss';
+import s from './app.module.less';
 import reactLogo from './assets/react.svg';
 import { ReactComponent as TypescriptLogo } from './assets/typescript.svg';
 
