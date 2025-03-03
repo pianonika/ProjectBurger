@@ -18,7 +18,7 @@ export const Tabs = ({}) => {
 					Начинки
 				</Tab>
 			</div>
-			<div className={s.content}>
+			<div className={`${s.content} custom-scroll`}>
 				<IngredientsList />
 			</div>
 		</section>

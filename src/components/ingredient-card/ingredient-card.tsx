@@ -1,9 +1,6 @@
 import React from 'react';
 import s from './ingredient-card.module.less';
-import {
-	Counter,
-	CurrencyIcon,
-} from '@ya.praktikum/react-developer-burger-ui-components';
+import {Counter, CurrencyIcon} from '@ya.praktikum/react-developer-burger-ui-components';
 
 // @ts-ignore
 export const IngredientCard = ({ ingredient }) => {
