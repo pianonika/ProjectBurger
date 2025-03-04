@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { FC } from 'react';
 import s from './tabs.module.less';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import IngredientsList from '../ingredients-list/ingredients-list';
+import { IngredientModel } from '../../models/ingredient-model.model';
 
-export const Tabs = ({}) => {
+export const Tabs: FC<IngredientModel[]> = (data) => {
 	const [current, setCurrent] = React.useState('one');
 	return (
 		<section className={s.tabs}>
@@ -19,7 +20,7 @@ export const Tabs = ({}) => {
 				</Tab>
 			</div>
 			<div className={`${s.content} custom-scroll`}>
-				<IngredientsList />
+				<IngredientsList {...data} />
 			</div>
 		</section>
 	);

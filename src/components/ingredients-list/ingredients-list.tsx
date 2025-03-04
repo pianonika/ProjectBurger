@@ -1,35 +1,33 @@
-import React, { useState } from 'react';
+import React, { FC, useState } from 'react';
 import s from './ingredients-list.module.less';
-import { INGREDIENTS } from '@utils/data';
-import IngredientCard from '../ingredient-card/ingredient-card';
 import Modal from '../modal/modal';
+import IngredientCard from '../ingredient-card/ingredient-card';
 import IngredientDetails from '../ingredient-details/ingredient-details';
+import { IngredientModel } from '../../models/ingredient-model.model';
 
-export const IngredientsList = ({}) => {
-	const state: {
-		_id: string;
-		name: string;
-		type: string;
-		proteins: number;
-		fat: number;
-		carbohydrates: number;
-		calories: number;
-		price: number;
-		image: string;
-		image_mobile: string;
-		image_large: string;
-		__v: number;
-	}[] = INGREDIENTS;
+export const IngredientsList: FC<IngredientModel[]> = (data) => {
+	const ingredientArray: IngredientModel[] = Object.values(data);
+	const [isModalVisible, setModalActive] = useState(false);
+	const [modalIngredient, setModalIngredient] = useState<IngredientModel>();
+	const handleIngredientClick = (ingredient: IngredientModel) => {
+		setModalIngredient(ingredient);
+		setModalActive(true);
+	};
 
-	const [isModalVisible, setModalActive] = useState(true);
 	return (
 		<>
 			<div className={s.group}>
 				<h3 className='text text_type_main-medium mt-10 mb-6'>Булки</h3>
 				<div className={s.cardsList}>
-					{state.map((ingredient, i) => (
-						<div onClick={() => setModalActive(true)}>
-							<IngredientCard ingredient={ingredient} key={i} />
+					{ingredientArray.map((ingredient: IngredientModel, key: number) => (
+						<div
+							className='IngredientCardWrapper'
+							onClick={() => handleIngredientClick(ingredient)}
+							key={ingredient._id}>
+							<IngredientCard
+								ingredient={ingredient}
+								key={`${ingredient._id} + ${key}`}
+							/>
 						</div>
 					))}
 				</div>
@@ -38,7 +36,7 @@ export const IngredientsList = ({}) => {
 				isActive={isModalVisible}
 				setActive={setModalActive}
 				title={'Детали ингредиента'}>
-				<IngredientDetails />
+				{modalIngredient && <IngredientDetails ingredient={modalIngredient} />}
 			</Modal>
 		</>
 	);

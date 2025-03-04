@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FC, useState } from 'react';
 import s from './burger-constructor.module.less';
 import {
 	Button,
@@ -6,8 +6,27 @@ import {
 	CurrencyIcon,
 	DragIcon,
 } from '@ya.praktikum/react-developer-burger-ui-components';
+import Modal from '../modal/modal';
+import OrderDetails from '../order-details/order-details';
+import {IngredientModel, IngredientModelData} from '../../models/ingredient-model.model';
 
-export const BurgerConstructor = ({}) => {
+export const BurgerConstructor: FC<IngredientModelData> = ({ data }) => {
+	const availableIngredients: IngredientModel[] = data;
+	const [isModalVisible, setModalActive] = useState(false);
+	const [detailsData, setDetailsData] = useState<string>('000000');
+	const [chosenIngrediensIds, setChosenIngrediensIds] = useState({
+		bread: '643d69a5c3f7b9001cfa093c',
+		filling: ['643d69a5c3f7b9001cfa093e', '643d69a5c3f7b9001cfa0940'],
+	});
+	// const [chosenBread, setChosenBread] = useState(
+	// 	availableIngredients[chosenIngrediensIds.bread]
+	// );
+
+	const handleIngredientClick = () => {
+		setDetailsData(String(Math.ceil(Math.random() * 1000000)));
+		setModalActive(true);
+	};
+
 	return (
 		<section className={s.rightSide}>
 			<div className={s.choosenIngediens}>
@@ -17,11 +36,13 @@ export const BurgerConstructor = ({}) => {
 							type='top'
 							isLocked={true}
 							text='Краторная булка N-200i (верх)'
-							price={200}
+							price={50}
 							thumbnail={'https://code.s3.yandex.net/react/code/bun-02.png'}
 						/>
 					</div>
-					<div className={`${s.constructorItem} ${s.constructorItem__draggable}`}>
+
+					<div
+						className={`${s.constructorItem} ${s.constructorItem__draggable}`}>
 						<div className={s.constructorItemIcon}>
 							<DragIcon type='primary' />
 						</div>
@@ -35,8 +56,8 @@ export const BurgerConstructor = ({}) => {
 						<ConstructorElement
 							type='bottom'
 							isLocked={true}
-							text='Краторная булка N-200i (низ)'
-							price={200}
+							text='Краторная булка N-200i (верх)'
+							price={50}
 							thumbnail={'https://code.s3.yandex.net/react/code/bun-02.png'}
 						/>
 					</div>
@@ -48,10 +69,20 @@ export const BurgerConstructor = ({}) => {
 					<p className='text text_type_digits-medium mr-2'>610</p>
 					<CurrencyIcon type='primary' />
 				</div>
-				<Button htmlType='button' type='primary' size='large'>
+				<Button
+					htmlType='button'
+					type='primary'
+					size='large'
+					onClick={() => handleIngredientClick()}>
 					Нажми на меня
 				</Button>
 			</div>
+			<Modal
+				isActive={isModalVisible}
+				setActive={setModalActive}
+				title={'Детали ингредиента'}>
+				{detailsData && <OrderDetails detailsData={detailsData} />}
+			</Modal>
 		</section>
 	);
 };

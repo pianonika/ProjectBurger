@@ -1,12 +1,12 @@
-import React from 'react';
+import React, { FC } from 'react';
 import s from './burger-ingredients.module.less';
 import Tabs from '../tabs/tabs';
-import {Button, CurrencyIcon} from '@ya.praktikum/react-developer-burger-ui-components';
+import { IngredientModelData } from '../../models/ingredient-model.model';
 
-export const BurgerIngredients = ({}) => {
+export const BurgerIngredients: FC<IngredientModelData> = ({ data }) => {
 	return (
 		<div className={s.ingredients}>
-			<Tabs />
+			<Tabs {...data} />
 		</div>
 	);
 };

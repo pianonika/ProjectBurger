@@ -1,9 +1,14 @@
-import React from 'react';
+import React, { FC } from 'react';
 import s from './ingredient-card.module.less';
-import {Counter, CurrencyIcon} from '@ya.praktikum/react-developer-burger-ui-components';
+import {
+	Counter,
+	CurrencyIcon,
+} from '@ya.praktikum/react-developer-burger-ui-components';
+import { IngredientModel } from '../../models/ingredient-model.model';
 
-// @ts-ignore
-export const IngredientCard = ({ ingredient }) => {
+export const IngredientCard: FC<{ ingredient: IngredientModel }> = ({
+	ingredient,
+}) => {
 	return (
 		<div className={s.card}>
 			<div className={s.counter}>

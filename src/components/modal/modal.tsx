@@ -1,23 +1,45 @@
-import React from 'react';
+import React, { SetStateAction, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import s from './modal.module.less';
 import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+import ModalOverlayEl from '../modal-overlay/modal-overlay';
 
-// @ts-ignore
-export const Modal = ({ isActive, setActive, children, title }) => {
-	return (
-		<div className={isActive ? `${s.modal} ${s.active}` : `${s.modal}`} onClick={() => setActive(false)}>
-			<div className={s.modal_content}
-				 onClick={(event) => event.stopPropagation()}>
-				<div
-					className={s.modal_close}  onClick={() => setActive(false)}>
-					<CloseIcon type='primary'/>
+const modalRoot = document.getElementById('react-modals') as HTMLElement;
+type Props = {
+	isActive?: boolean;
+	setActive: React.Dispatch<SetStateAction<boolean>>;
+	children: React.ReactNode;
+	title: string;
+};
+
+export const Modal = ({ isActive, setActive, children, title }: Props) => {
+	useEffect(() => {
+		document.addEventListener('keydown', () => setActive(false));
+	});
+
+	return createPortal(
+		<div
+			className={isActive ? `${s.modal} ${s.active}` : `${s.modal}`}
+			onClick={() => setActive(false)}>
+			<ModalOverlayEl />
+			<div
+				className={s.modal_content}
+				onClick={(event) => event.stopPropagation()}>
+				<div className='modal_header'>
+					{title && (
+						<title className='text text_type_main-large mb-10'>{title}</title>
+					)}
+					<div
+						role='presentation'
+						className={s.modal_close}
+						onClick={() => setActive(false)}>
+						<CloseIcon type='primary' />
+					</div>
 				</div>
-				<p className="text text_type_main-large mb-10">
-					{title}
-				</p>
-				{children}
+				<div className='modal_body'>{children}</div>
 			</div>
-		</div>
+		</div>,
+		modalRoot
 	);
 };
 
