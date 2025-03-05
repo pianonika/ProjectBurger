@@ -12,12 +12,12 @@ import {
 	IngredientModel,
 	IngredientModelData,
 } from '../../models/ingredient-model.model';
-import IngredientCard from '../ingredient-card/ingredient-card';
 import { FILLINGS } from '@utils/fillings';
 
 export const BurgerConstructor: FC<IngredientModelData> = ({ data }) => {
 	const [isModalVisible, setModalActive] = useState(false);
 	const [detailsData, setDetailsData] = useState<string>('000000');
+	const fillings = FILLINGS.filter((item) => item.type !== 'bun');
 	const [chosenIngredients, setchosenIngredients] = useState({
 		bun: {
 			_id: '643d69a5c3f7b9001cfa093c',
@@ -33,7 +33,7 @@ export const BurgerConstructor: FC<IngredientModelData> = ({ data }) => {
 			image_large: 'https://code.s3.yandex.net/react/code/bun-02-large.png',
 			__v: 0,
 		},
-		filling: FILLINGS,
+		filling: fillings
 	});
 
 	const handleIngredientClick = () => {
@@ -48,7 +48,7 @@ export const BurgerConstructor: FC<IngredientModelData> = ({ data }) => {
 					<ConstructorElement
 						type='top'
 						isLocked={true}
-						text={chosenIngredients.bun.name}
+						text={`${chosenIngredients.bun.name}  (верх)`}
 						price={chosenIngredients.bun.price}
 						thumbnail={chosenIngredients.bun.image}
 					/>
@@ -76,7 +76,7 @@ export const BurgerConstructor: FC<IngredientModelData> = ({ data }) => {
 					<ConstructorElement
 						type='bottom'
 						isLocked={true}
-						text={chosenIngredients.bun.name}
+						text={`${chosenIngredients.bun.name}  (низ)`}
 						price={chosenIngredients.bun.price}
 						thumbnail={chosenIngredients.bun.image}
 					/>
