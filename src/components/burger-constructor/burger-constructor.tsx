@@ -8,19 +8,63 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import Modal from '../modal/modal';
 import OrderDetails from '../order-details/order-details';
-import {IngredientModel, IngredientModelData} from '../../models/ingredient-model.model';
+import {
+	IngredientModel,
+	IngredientModelData,
+} from '../../models/ingredient-model.model';
+import IngredientCard from '../ingredient-card/ingredient-card';
 
 export const BurgerConstructor: FC<IngredientModelData> = ({ data }) => {
-	const availableIngredients: IngredientModel[] = data;
 	const [isModalVisible, setModalActive] = useState(false);
 	const [detailsData, setDetailsData] = useState<string>('000000');
-	const [chosenIngrediensIds, setChosenIngrediensIds] = useState({
-		bread: '643d69a5c3f7b9001cfa093c',
-		filling: ['643d69a5c3f7b9001cfa093e', '643d69a5c3f7b9001cfa0940'],
+	const [chosenIngredients, setchosenIngredients] = useState({
+		bun: {
+			_id: '643d69a5c3f7b9001cfa093c',
+			name: 'Краторная булка N-200i',
+			type: 'bun',
+			proteins: 80,
+			fat: 24,
+			carbohydrates: 53,
+			calories: 420,
+			price: 1255,
+			image: 'https://code.s3.yandex.net/react/code/bun-02.png',
+			image_mobile: 'https://code.s3.yandex.net/react/code/bun-02-mobile.png',
+			image_large: 'https://code.s3.yandex.net/react/code/bun-02-large.png',
+			__v: 0,
+		},
+		filling: [
+			{
+				_id: '643d69a5c3f7b9001cfa093e',
+				name: 'Филе Люминесцентного тетраодонтимформа',
+				type: 'main',
+				proteins: 44,
+				fat: 26,
+				carbohydrates: 85,
+				calories: 643,
+				price: 988,
+				image: 'https://code.s3.yandex.net/react/code/meat-03.png',
+				image_mobile:
+					'https://code.s3.yandex.net/react/code/meat-03-mobile.png',
+				image_large: 'https://code.s3.yandex.net/react/code/meat-03-large.png',
+				__v: 0,
+			},
+			{
+				_id: '643d69a5c3f7b9001cfa0942',
+				name: 'Соус Spicy-X',
+				type: 'sauce',
+				proteins: 30,
+				fat: 20,
+				carbohydrates: 40,
+				calories: 30,
+				price: 90,
+				image: 'https://code.s3.yandex.net/react/code/sauce-02.png',
+				image_mobile:
+					'https://code.s3.yandex.net/react/code/sauce-02-mobile.png',
+				image_large: 'https://code.s3.yandex.net/react/code/sauce-02-large.png',
+				__v: 0,
+			},
+		],
 	});
-	// const [chosenBread, setChosenBread] = useState(
-	// 	availableIngredients[chosenIngrediensIds.bread]
-	// );
 
 	const handleIngredientClick = () => {
 		setDetailsData(String(Math.ceil(Math.random() * 1000000)));
@@ -35,30 +79,35 @@ export const BurgerConstructor: FC<IngredientModelData> = ({ data }) => {
 						<ConstructorElement
 							type='top'
 							isLocked={true}
-							text='Краторная булка N-200i (верх)'
-							price={50}
-							thumbnail={'https://code.s3.yandex.net/react/code/bun-02.png'}
+							text={chosenIngredients.bun.name}
+							price={chosenIngredients.bun.price}
+							thumbnail={chosenIngredients.bun.image}
 						/>
 					</div>
+					{chosenIngredients.filling.map(
+						(ingredient: IngredientModel, key: number) => (
+							<div
+								className={`${s.constructorItem} ${s.constructorItem__draggable}`}
+								key={`${ingredient._id}+${key}`}>
+								<div className={s.constructorItemIcon}>
+									<DragIcon type='primary' />
+								</div>
+								<ConstructorElement
+									text={ingredient.name}
+									price={ingredient.price}
+									thumbnail={ingredient.image}
+								/>
+							</div>
+						)
+					)}
 
-					<div
-						className={`${s.constructorItem} ${s.constructorItem__draggable}`}>
-						<div className={s.constructorItemIcon}>
-							<DragIcon type='primary' />
-						</div>
-						<ConstructorElement
-							text='Краторная булка N-200i (верх)'
-							price={50}
-							thumbnail={'https://code.s3.yandex.net/react/code/bun-02.png'}
-						/>
-					</div>
 					<div className={s.constructorItem}>
 						<ConstructorElement
 							type='bottom'
 							isLocked={true}
-							text='Краторная булка N-200i (верх)'
-							price={50}
-							thumbnail={'https://code.s3.yandex.net/react/code/bun-02.png'}
+							text={chosenIngredients.bun.name}
+							price={chosenIngredients.bun.price}
+							thumbnail={chosenIngredients.bun.image}
 						/>
 					</div>
 				</div>
