@@ -18,19 +18,20 @@ export const IngredientsList: FC<IngredientModel[]> = (data) => {
 		<>
 			<div className={s.group}>
 				<h3 className='text text_type_main-medium mt-10 mb-6'>Булки</h3>
-				<div className={s.cardsList}>
+				<ul className={`${s.cardsList} + pl-4`}>
 					{ingredientArray.map((ingredient: IngredientModel, key: number) => (
-						<div
-							className='IngredientCardWrapper'
+						<li
+							role='presentation'
+							className={s.ingredientCardWrapper}
 							onClick={() => handleIngredientClick(ingredient)}
 							key={ingredient._id}>
 							<IngredientCard
 								ingredient={ingredient}
 								key={`${ingredient._id} + ${key}`}
 							/>
-						</div>
+						</li>
 					))}
-				</div>
+				</ul>
 			</div>
 			<Modal
 				isActive={isModalVisible}
