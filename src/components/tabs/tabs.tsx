@@ -8,7 +8,7 @@ export const Tabs: FC<IngredientModel[]> = (data) => {
 	const [current, setCurrent] = React.useState('one');
 	return (
 		<section className={s.tabs}>
-			<div style={{ display: 'flex' }}>
+			<div className={s.tabs__inner}>
 				<Tab value='one' active={current === 'one'} onClick={setCurrent}>
 					Булки
 				</Tab>
