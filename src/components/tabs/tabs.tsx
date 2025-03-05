@@ -19,7 +19,7 @@ export const Tabs: FC<IngredientModel[]> = (data) => {
 					Начинки
 				</Tab>
 			</div>
-			<div className={`${s.content} custom-scroll`}>
+			<div className={`${s.content} custom-scroll mt-10`}>
 				<IngredientsList {...data} />
 			</div>
 		</section>
