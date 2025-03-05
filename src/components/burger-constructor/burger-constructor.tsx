@@ -13,6 +13,7 @@ import {
 	IngredientModelData,
 } from '../../models/ingredient-model.model';
 import IngredientCard from '../ingredient-card/ingredient-card';
+import { FILLINGS } from '@utils/fillings';
 
 export const BurgerConstructor: FC<IngredientModelData> = ({ data }) => {
 	const [isModalVisible, setModalActive] = useState(false);
@@ -32,38 +33,7 @@ export const BurgerConstructor: FC<IngredientModelData> = ({ data }) => {
 			image_large: 'https://code.s3.yandex.net/react/code/bun-02-large.png',
 			__v: 0,
 		},
-		filling: [
-			{
-				_id: '643d69a5c3f7b9001cfa093e',
-				name: 'Филе Люминесцентного тетраодонтимформа',
-				type: 'main',
-				proteins: 44,
-				fat: 26,
-				carbohydrates: 85,
-				calories: 643,
-				price: 988,
-				image: 'https://code.s3.yandex.net/react/code/meat-03.png',
-				image_mobile:
-					'https://code.s3.yandex.net/react/code/meat-03-mobile.png',
-				image_large: 'https://code.s3.yandex.net/react/code/meat-03-large.png',
-				__v: 0,
-			},
-			{
-				_id: '643d69a5c3f7b9001cfa0942',
-				name: 'Соус Spicy-X',
-				type: 'sauce',
-				proteins: 30,
-				fat: 20,
-				carbohydrates: 40,
-				calories: 30,
-				price: 90,
-				image: 'https://code.s3.yandex.net/react/code/sauce-02.png',
-				image_mobile:
-					'https://code.s3.yandex.net/react/code/sauce-02-mobile.png',
-				image_large: 'https://code.s3.yandex.net/react/code/sauce-02-large.png',
-				__v: 0,
-			},
-		],
+		filling: FILLINGS,
 	});
 
 	const handleIngredientClick = () => {
@@ -72,18 +42,18 @@ export const BurgerConstructor: FC<IngredientModelData> = ({ data }) => {
 	};
 
 	return (
-		<section className={s.rightSide}>
-			<div className={s.choosenIngediens}>
-				<div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-					<div className={s.constructorItem}>
-						<ConstructorElement
-							type='top'
-							isLocked={true}
-							text={chosenIngredients.bun.name}
-							price={chosenIngredients.bun.price}
-							thumbnail={chosenIngredients.bun.image}
-						/>
-					</div>
+		<div className={s.burgerConstructor}>
+			<div className={s.chosenIngredients}>
+				<div className={s.constructorItem}>
+					<ConstructorElement
+						type='top'
+						isLocked={true}
+						text={chosenIngredients.bun.name}
+						price={chosenIngredients.bun.price}
+						thumbnail={chosenIngredients.bun.image}
+					/>
+				</div>
+				<div className={`${s.fillings} pr-4`}>
 					{chosenIngredients.filling.map(
 						(ingredient: IngredientModel, key: number) => (
 							<div
@@ -100,16 +70,16 @@ export const BurgerConstructor: FC<IngredientModelData> = ({ data }) => {
 							</div>
 						)
 					)}
+				</div>
 
-					<div className={s.constructorItem}>
-						<ConstructorElement
-							type='bottom'
-							isLocked={true}
-							text={chosenIngredients.bun.name}
-							price={chosenIngredients.bun.price}
-							thumbnail={chosenIngredients.bun.image}
-						/>
-					</div>
+				<div className={s.constructorItem}>
+					<ConstructorElement
+						type='bottom'
+						isLocked={true}
+						text={chosenIngredients.bun.name}
+						price={chosenIngredients.bun.price}
+						thumbnail={chosenIngredients.bun.image}
+					/>
 				</div>
 			</div>
 
@@ -132,7 +102,7 @@ export const BurgerConstructor: FC<IngredientModelData> = ({ data }) => {
 				title={'Детали ингредиента'}>
 				{detailsData && <OrderDetails detailsData={detailsData} />}
 			</Modal>
-		</section>
+		</div>
 	);
 };
 

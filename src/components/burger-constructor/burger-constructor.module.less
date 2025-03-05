@@ -7,22 +7,21 @@
 	display: flex;
 	align-items: center;
 }
-.rightSide {
+.burgerConstructor {
 	display: flex;
-	height: 100%;
 	flex-direction: column;
+	gap: 10px;
 	align-items: flex-end;
 	justify-content: stretch;
-}
-.choosenIngediens {
-	height: 100%;
-	overflow: auto;
+	height: calc(100vh - 188px);
 }
 .constructorItem {
-	height: 100%;
 	overflow: auto;
 	position: relative;
 	padding-left: 32px;
+	list-style-type: none;
+	flex-shrink: 0;
+
 	&__draggable {
 		cursor: pointer;
 	}
@@ -32,4 +31,16 @@
 	position: absolute;
 	top: 50%;
 	transform: translateY(-50%);
+}
+.chosenIngredients {
+	height: calc(100% - 156px);
+	overflow: auto;
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+}
+.fillings {
+	overflow-y: auto;
+	.chosenIngredients();
+	scrollbar-width: thin;
 }

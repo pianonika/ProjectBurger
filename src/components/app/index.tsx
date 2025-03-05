@@ -44,10 +44,10 @@ export const App = () => {
 					{isLoading && <div>Loading...</div>}
 					{!isLoading && (
 						<>
-							<section className={s.ingredients}>
+							<section className={s.side}>
 								<BurgerIngredientsEl data={productData} />
 							</section>
-							<section className={s.burgerConstructor}>
+							<section className={s.side}>
 								<BurgerConstructorEl data={productData} />
 							</section>
 						</>
