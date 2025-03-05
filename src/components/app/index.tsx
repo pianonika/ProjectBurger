@@ -13,19 +13,18 @@ export const App = () => {
 	useEffect(() => {
 		const getProductData = async () => {
 			setIsLoading(true);
-
-			try {
-				const res = await fetch(`${BASE_URL}/api/ingredients`);
-				const data = (await res.json()) as {
-					status: string;
-					data: IngredientModel[];
-				};
-				setProductData(data.data);
-			} catch (e) {
-				console.error(e);
-			} finally {
-				setIsLoading(false);
-			}
+			fetch(`${BASE_URL}/api/ingredients`)
+				.then((res) => {
+					if (res.ok) {
+						return res.json();
+					}
+					return Promise.reject(`Ошибка ${res.status}`);
+				})
+				.then((data) => setProductData(data.data))
+				.catch((e) => {
+					console.error(e);
+				})
+				.finally(() => setIsLoading(false));
 		};
 
 		getProductData();
