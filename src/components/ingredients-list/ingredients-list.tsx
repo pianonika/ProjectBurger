@@ -1,17 +1,39 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import s from './ingredients-list.module.less';
 import Modal from '../modal/modal';
 import IngredientCard from '../ingredient-card/ingredient-card';
 import IngredientDetails from '../ingredient-details/ingredient-details';
 import { IngredientModel } from '../../models/ingredient-model.model';
+import { useDispatch } from 'react-redux';
+import { SET_CURR_INGREDIENT, REMOVE_CURR_INGREDIENT } from '../../services/chosen-ingredient/action.js';
 
 export const IngredientsList: FC<IngredientModel[]> = (data) => {
+	const dispatch = useDispatch();
 	const ingredientArray: IngredientModel[] = Object.values(data);
 	const [isModalVisible, setModalActive] = useState(false);
-	const [modalIngredient, setModalIngredient] = useState<IngredientModel>();
+	// const [modalIngredient, setModalIngredient] = useState<IngredientModel>();
 	const handleIngredientClick = (ingredient: IngredientModel) => {
-		setModalIngredient(ingredient);
+		// setModalIngredient(ingredient);
 		setModalActive(true);
+		setCurrIngredient(ingredient);
+	};
+	useEffect(() => {
+		if (!isModalVisible) {
+			removeCurrIngredient();
+		}
+	}, [isModalVisible]);
+
+	const setCurrIngredient = (ingredient: IngredientModel) => {
+		dispatch({
+			type: SET_CURR_INGREDIENT,
+			payload: ingredient,
+		});
+	};
+
+	const removeCurrIngredient = () => {
+		dispatch({
+			type: REMOVE_CURR_INGREDIENT,
+		});
 	};
 
 	return (
@@ -33,12 +55,14 @@ export const IngredientsList: FC<IngredientModel[]> = (data) => {
 					))}
 				</ul>
 			</div>
-			<Modal
-				isActive={isModalVisible}
-				setActive={setModalActive}
-				title={'Детали ингредиента'}>
-				{modalIngredient && <IngredientDetails ingredient={modalIngredient} />}
-			</Modal>
+			{isModalVisible && (
+				<Modal
+					isActive={isModalVisible}
+					setActive={setModalActive}
+					title={'Детали ингредиента'}>
+					<IngredientDetails />
+				</Modal>
+			)}
 		</>
 	);
 };
