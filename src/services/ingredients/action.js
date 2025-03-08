@@ -20,7 +20,6 @@ export function getIngredients() {
 						payload: ingredients,
 					});
 				} else {
-					console.log('GET_INGREDIENTS_FAILED');
 					dispatch({
 						type: GET_INGREDIENTS_FAILED,
 					});

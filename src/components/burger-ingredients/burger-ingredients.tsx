@@ -1,27 +1,23 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useState } from 'react';
 import s from './burger-ingredients.module.less';
 import Tabs from '../tabs/tabs';
 import IngredientsList from '../ingredients-list/ingredients-list';
-import { useAppDispatch, useAppSelector } from '../../models/hooks';
-import { getIngredients } from '../../services/ingredients/action';
 
 export const BurgerIngredients = () => {
-	const dispatch = useAppDispatch();
-	const { items, itemsRequest, itemsFailed } = useAppSelector(
-		(state) => state.ingredients
-	);
+	const [currSection, setCurrentSection] = useState('bun');
 
-	useEffect(() => {
-		dispatch(getIngredients());
-	}, []);
+	// @ts-ignore
 	return (
 		<div className={s.ingredients}>
 			<div className='tabs'>
-				<Tabs />
+				<Tabs
+					currSection={currSection}
+					updateCurrentSection={setCurrentSection}
+				/>
 			</div>
-			<div className={`${s.content} custom-scroll mt-10`}>
-				<IngredientsList {...items} />
-			</div>
+
+			<IngredientsList
+				updateCurrentSection={setCurrentSection}/>
 		</div>
 	);
 };

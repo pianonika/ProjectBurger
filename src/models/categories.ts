@@ -5,7 +5,11 @@ export interface Categories {
 }
 
 export interface ingredientceInitialState {
-	items: { [key: string]: IngredientModel[] };
+	items: ingredientceItems;
 	itemsRequest: boolean;
 	itemsFailed: boolean;
+}
+
+export interface ingredientceItems {
+	[key: string]: IngredientModel[]
 }

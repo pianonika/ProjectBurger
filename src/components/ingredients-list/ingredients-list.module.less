@@ -4,7 +4,7 @@
 .cardsList {
 	display: grid;
 	grid-template-columns: repeat(2, 1fr);
-	grid-template-rows: repeat(2, auto 1fr);
+	grid-template-rows: repeat(auto 1fr);
 	grid-column-gap: 24px;
 	grid-row-gap: 20px;
 }
@@ -12,3 +12,9 @@
 	list-style-type: none;
 	cursor: pointer;
 }
+.content {
+	 height: 100%;
+	 overflow-y: scroll;
+	 scrollbar-width: thin;
+	 margin-bottom: 52px;
+ }
