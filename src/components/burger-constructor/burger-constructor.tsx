@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import s from './burger-constructor.module.less';
 import {
 	Button,
@@ -42,6 +42,15 @@ export const BurgerConstructor = () => {
 		setDetailsData(String(Math.ceil(Math.random() * 1000000)));
 		setModalActive(true);
 	};
+
+	const totalPrice = useMemo(
+		() =>
+			chosenIngredients.filling.reduce(
+				(acc: number, curr: IngredientModel) => acc + curr.price,
+				0
+			) + chosenIngredients.bun.price,
+		[chosenIngredients]
+	);
 
 	return (
 		<div className={s.burgerConstructor}>
@@ -87,7 +96,7 @@ export const BurgerConstructor = () => {
 
 			<div className={`${s.total} pt-10`}>
 				<div className={`${s.cost} mr-10`}>
-					<p className='text text_type_digits-medium mr-2'>610</p>
+					<p className='text text_type_digits-medium mr-2'>{totalPrice}</p>
 					<CurrencyIcon type='primary' />
 				</div>
 				<Button
