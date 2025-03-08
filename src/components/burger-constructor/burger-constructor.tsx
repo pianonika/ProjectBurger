@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { useState } from 'react';
 import s from './burger-constructor.module.less';
 import {
 	Button,
@@ -8,13 +8,15 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import Modal from '../modal/modal';
 import OrderDetails from '../order-details/order-details';
-import {
-	IngredientModel,
-	IngredientModelData,
-} from '../../models/ingredient-model.model';
+import { IngredientModel } from '../../models/ingredient-model.model';
 import { FILLINGS } from '@utils/fillings';
+import { useAppSelector } from '../../models/hooks';
 
-export const BurgerConstructor: FC<IngredientModelData> = ({ data }) => {
+export const BurgerConstructor = () => {
+	const { items, itemsRequest, itemsFailed } = useAppSelector(
+		(state) => state.ingredients
+	);
+
 	const [isModalVisible, setModalActive] = useState(false);
 	const [detailsData, setDetailsData] = useState<string>('000000');
 	const fillings = FILLINGS.filter((item) => item.type !== 'bun');
@@ -33,7 +35,7 @@ export const BurgerConstructor: FC<IngredientModelData> = ({ data }) => {
 			image_large: 'https://code.s3.yandex.net/react/code/bun-02-large.png',
 			__v: 0,
 		},
-		filling: fillings
+		filling: fillings,
 	});
 
 	const handleIngredientClick = () => {

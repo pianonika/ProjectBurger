@@ -1,23 +1,49 @@
-export const GET_ITEMS_REQUEST = 'GET_ITEMS_REQUEST';
-export const GET_ITEMS_SUCCESS = 'GET_ITEMS_SUCCESS';
-export const GET_ITEMS_FAILED = 'GET_ITEMS_FAILED';
+import { ingredientsCategories } from '../../services/vars';
 
-export function getItems() {
+export const GET_INGREDIENTS = 'GET_INGREDIENTS';
+export const GET_INGREDIENTS_FAILED = 'GET_INGREDIENTS_FAILED';
+export const GET_INGREDIENTS_SUCCESS = 'GET_INGREDIENTS_SUCCESS';
+
+export function getIngredients() {
 	return function (dispatch) {
 		dispatch({
-			type: GET_ITEMS_REQUEST,
+			type: GET_INGREDIENTS,
 		});
-		getItemsRequest().then((res) => {
-			if (res && res.success) {
+
+		fetch(`${BASE_URL}/api/ingredients`)
+			.then((res) => res.json())
+			.then((res) => {
+				if (res && res.success) {
+					const ingredients = ingredientsConstructor(res);
+					dispatch({
+						type: GET_INGREDIENTS_SUCCESS,
+						payload: ingredients,
+					});
+				} else {
+					console.log('GET_INGREDIENTS_FAILED');
+					dispatch({
+						type: GET_INGREDIENTS_FAILED,
+					});
+				}
+			})
+			.catch((err) => {
 				dispatch({
-					type: GET_ITEMS_SUCCESS,
-					items: res.data,
+					type: GET_INGREDIENTS_FAILED,
 				});
-			} else {
-				dispatch({
-					type: GET_ITEMS_FAILED,
-				});
-			}
-		});
+			});
 	};
 }
+
+const ingredientsConstructor = (res) => {
+	const data = new Object();
+	Object.keys(ingredientsCategories).forEach((key) => {
+		data[key] = [];
+	});
+	res.data.forEach((item) => {
+		data[item.type].push(item);
+	});
+
+	return data;
+};
+
+const BASE_URL = 'https://norma.nomoreparties.space';

@@ -1,32 +1,33 @@
 import {
-	GET_ITEMS_FAILED,
-	GET_ITEMS_REQUEST,
-	GET_ITEMS_SUCCESS,
-} from '@services/ingredients/action';
+	GET_INGREDIENTS,
+	GET_INGREDIENTS_FAILED,
+	GET_INGREDIENTS_SUCCESS,
+} from './action.js';
 
 const initialState = {
-	items: [],
+	items: {},
 	itemsRequest: false,
 	itemsFailed: false,
 };
 
+
 export const ingredientsReducer = (state = initialState, action) => {
 	switch (action.type) {
-		case GET_ITEMS_REQUEST: {
+		case GET_INGREDIENTS: {
 			return {
 				...state,
 				itemsRequest: true,
 			};
 		}
-		case GET_ITEMS_SUCCESS: {
+		case GET_INGREDIENTS_SUCCESS: {
 			return {
 				...state,
-				items: action.items,
+				items: action.payload,
 				itemsRequest: false,
 				itemsFailed: false,
 			};
 		}
-		case GET_ITEMS_FAILED: {
+		case GET_INGREDIENTS_FAILED: {
 			return { ...state, itemsRequest: false, itemsFailed: true };
 		}
 		default: {

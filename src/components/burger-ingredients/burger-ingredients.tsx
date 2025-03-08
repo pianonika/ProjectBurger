@@ -1,12 +1,27 @@
-import React, { FC } from 'react';
+import React, { useEffect, useRef } from 'react';
 import s from './burger-ingredients.module.less';
 import Tabs from '../tabs/tabs';
-import { IngredientModelData } from '../../models/ingredient-model.model';
+import IngredientsList from '../ingredients-list/ingredients-list';
+import { useAppDispatch, useAppSelector } from '../../models/hooks';
+import { getIngredients } from '../../services/ingredients/action';
 
-export const BurgerIngredients: FC<IngredientModelData> = ({ data }) => {
+export const BurgerIngredients = () => {
+	const dispatch = useAppDispatch();
+	const { items, itemsRequest, itemsFailed } = useAppSelector(
+		(state) => state.ingredients
+	);
+
+	useEffect(() => {
+		dispatch(getIngredients());
+	}, []);
 	return (
 		<div className={s.ingredients}>
-			<Tabs {...data} />
+			<div className='tabs'>
+				<Tabs />
+			</div>
+			<div className={`${s.content} custom-scroll mt-10`}>
+				<IngredientsList {...items} />
+			</div>
 		</div>
 	);
 };

@@ -13,6 +13,3 @@ export interface IngredientModel {
 	__v?: number;
 }
 
-export interface IngredientModelData {
-	data: IngredientModel[];
-}

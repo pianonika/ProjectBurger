@@ -1,12 +1,9 @@
 import React from 'react';
 import s from './ingredient-details.module.less';
-import { useSelector } from 'react-redux';
-import { StoreModel } from '../../models/currI-ingredient-state';
+import { useAppSelector } from '../../models/hooks';
 
 export const IngredientDetails = () => {
-	const ingredient = useSelector(
-		(store: StoreModel) => store.currIngredient.ingredient
-	);
+	const ingredient = useAppSelector((store) => store.currIngredient.ingredient);
 
 	return (
 		<>

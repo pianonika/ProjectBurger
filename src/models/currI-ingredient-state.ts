@@ -7,4 +7,3 @@ export interface CurrIngredientState {
 export interface StoreModel {
 	currIngredient: CurrIngredientState;
 }
-
