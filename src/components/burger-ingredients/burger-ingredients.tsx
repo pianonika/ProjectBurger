@@ -5,7 +5,6 @@ import IngredientsList from '../ingredients-list/ingredients-list';
 
 export const BurgerIngredients = () => {
 	const [currSection, setCurrentSection] = useState('bun');
-
 	// @ts-ignore
 	return (
 		<div className={s.ingredients}>

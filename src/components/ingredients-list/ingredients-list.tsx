@@ -10,7 +10,10 @@ import {
 } from '../../services/chosen-ingredient/action.js';
 import { ingredientsCategories } from '../../services/vars';
 import { useAppDispatch, useAppSelector } from '../../models/hooks';
-import { getIngredients, INCREMENT_INGREDIENTS_COUNT} from '../../services/ingredients/action';
+import {
+	getIngredients,
+	INCREMENT_INGREDIENTS_COUNT,
+} from '../../services/ingredients/action';
 import { ingredientsItems } from '../../models/categories';
 import { ADD_FILLINGS_ITEM, SET_BUN } from '../../services/cart/action';
 import uuid from 'react-uuid';
@@ -113,16 +116,11 @@ export const IngredientsList = ({
 								<ul className={`${s.cardsList} pl-4 pr-4`}>
 									{ingredients.length &&
 										ingredients?.map((ingredient, ingredientIndex) => (
-											<li
-												role='presentation'
-												className={s.ingredientCardWrapper}
+											<IngredientCard
+												ingredient={ingredient}
+												key={`${ingredient._id} + ${ingredientIndex}`}
 												onClick={() => handleIngredientClick(ingredient)}
-												key={`${ingredient._id} + ${ingredientIndex}`}>
-												<IngredientCard
-													ingredient={ingredient}
-													key={`${ingredient._id} + ${ingredientIndex}`}
-												/>
-											</li>
+											/>
 										))}
 								</ul>
 							</section>

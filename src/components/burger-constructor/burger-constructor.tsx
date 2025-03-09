@@ -4,22 +4,23 @@ import {
 	Button,
 	ConstructorElement,
 	CurrencyIcon,
-	DragIcon,
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import Modal from '../modal/modal';
 import OrderDetails from '../order-details/order-details';
 import { IngredientModel } from '../../models/ingredient-model.model';
 import { useAppDispatch, useAppSelector } from '../../models/hooks';
 import { CartModel } from '../../models/cart';
-import { REMOVE_FILLINGS_ITEM } from '../../services/cart/action';
+import { ADD_FILLINGS_ITEM, SET_BUN } from '../../services/cart/action';
 import { sendOrder } from '../../services/order/action';
-import { DECREMENT_INGREDIENTS_COUNT } from '../../services/ingredients/action';
+import { INCREMENT_INGREDIENTS_COUNT } from '../../services/ingredients/action';
+import { useDrop } from 'react-dnd';
+import uuid from 'react-uuid';
+import BurgerConstructorItem from './burger-constructor-item/burger-constructor-item';
 
 export const BurgerConstructor = () => {
-	// const dispatch = useAppDispatch();
+	const dispatch = useAppDispatch();
 	const [isModalVisible, setModalActive] = useState(false);
 	const chosenIngredients = useAppSelector((store) => store.cart) as CartModel;
-	const dispatch = useAppDispatch();
 
 	const handleIngredientClick = () => {
 		const isBun = chosenIngredients.bun._id;
@@ -44,17 +45,6 @@ export const BurgerConstructor = () => {
 		return fillingsPrice + bunPrice;
 	}, [chosenIngredients]);
 
-	const deleteIngredient = (deleteIngredient: IngredientModel) => {
-		dispatch({
-			type: REMOVE_FILLINGS_ITEM,
-			payload: deleteIngredient.uuid,
-		});
-		dispatch({
-			type: DECREMENT_INGREDIENTS_COUNT,
-			payload: deleteIngredient,
-		});
-	};
-
 	const calcIngredientsRequestData = () => {
 		const bunId = chosenIngredients.bun._id;
 		const fillingsIds: string[] = chosenIngredients.fillings.map((i) => i._id);
@@ -64,9 +54,44 @@ export const BurgerConstructor = () => {
 		return JSON.stringify({ ingredients: fillingsIds });
 	};
 
+	//DND
+	const [{ isOver }, dropRef] = useDrop({
+		accept: 'ingredientCard',
+		drop(itemId: IngredientModel) {
+			addCurrIngredientToCart(itemId);
+		},
+		collect: (monitor) => ({
+			isOver: monitor.isOver(),
+		}),
+	});
+	const addCurrIngredientToCart = (ingredient: IngredientModel) => {
+		dispatch({
+			type: INCREMENT_INGREDIENTS_COUNT,
+			payload: ingredient,
+		});
+		ingredient = {
+			...ingredient,
+			uuid: uuid(),
+		};
+		if (ingredient.type === 'bun') {
+			dispatch({
+				type: SET_BUN,
+				payload: ingredient,
+			});
+		} else {
+			dispatch({
+				type: ADD_FILLINGS_ITEM,
+				payload: ingredient,
+			});
+		}
+	};
+
 	return (
-		<div className={s.burgerConstructor}>
-			<div className={s.chosenIngredients}>
+		<div className={s.burgerConstructor} ref={dropRef}>
+			<div
+				className={`${s.chosenIngredients} + ${
+					isOver && s.chosenIngredients__active
+				}`}>
 				<div className={`${s.constructorItem} pr-4`}>
 					{chosenIngredients?.bun?.name ? (
 						<ConstructorElement
@@ -86,20 +111,15 @@ export const BurgerConstructor = () => {
 				<div className={`${s.fillings} pr-4`}>
 					{chosenIngredients?.fillings?.length ? (
 						chosenIngredients?.fillings?.map(
-							(ingredient: IngredientModel, key: number) => (
-								<div
-									className={`${s.constructorItem} ${s.constructorItem__draggable}`}
-									key={`${ingredient._id}+${key}`}>
-									<div className={s.constructorItemIcon}>
-										<DragIcon type='primary' />
-									</div>
-									<ConstructorElement
-										text={ingredient.name}
-										price={ingredient.price}
-										thumbnail={ingredient.image}
-										handleClose={() => deleteIngredient(ingredient)}
-									/>
-								</div>
+							(ingredient: IngredientModel, index: number) => (
+								<BurgerConstructorItem
+									index={index}
+									id={ingredient._id}
+									text={ingredient.name}
+									price={ingredient.price}
+									thumbnail={ingredient.image}
+									ingredient={ingredient}
+									key={`${ingredient._id}+${index}`}></BurgerConstructorItem>
 							)
 						)
 					) : (
@@ -112,7 +132,6 @@ export const BurgerConstructor = () => {
 						</div>
 					)}
 				</div>
-
 				<div className={s.constructorItem}>
 					{chosenIngredients?.bun?.name ? (
 						<ConstructorElement

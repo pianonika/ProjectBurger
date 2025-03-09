@@ -3,8 +3,11 @@ import AppHeaderEl from '../app-header/app-header';
 import BurgerIngredientsEl from '../burger-ingredients/burger-ingredients';
 import BurgerConstructorEl from '../burger-constructor/burger-constructor';
 import React from 'react';
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
 
 export const App = () => {
+
 	return (
 		<div className={s.page}>
 			<div className='header'>
@@ -15,12 +18,14 @@ export const App = () => {
 					Соберите бургер
 				</h2>
 				<div className={s.content}>
-					<section className={s.side}>
-						<BurgerIngredientsEl />
-					</section>
-					<section className={s.side}>
-						<BurgerConstructorEl />
-					</section>
+					<DndProvider backend={HTML5Backend}>
+						<section className={s.side}>
+							<BurgerIngredientsEl />
+						</section>
+						<section className={s.side}>
+							<BurgerConstructorEl />
+						</section>
+					</DndProvider>
 				</div>
 			</main>
 		</div>

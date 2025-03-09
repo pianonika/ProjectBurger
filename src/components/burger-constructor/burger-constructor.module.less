@@ -23,8 +23,22 @@
 	flex-shrink: 0;
 
 	&__draggable {
+		position: relative;
+		&::before {
+			content: '';
+			position: absolute;
+			top: 50%;
+			left: 0;
+			transform: translateY(-50%);
+			background-image: url('../../images/dragIcon.svg') ;
+			width: 24px;
+			height: 24px;
+		}
 		cursor: pointer;
 	}
+}
+.isDragging {
+	opacity: 0;
 }
 .constructorItemIcon {
 	left: 0;
@@ -38,6 +52,10 @@
 	display: flex;
 	flex-direction: column;
 	gap: 10px;
+
+	&__active {
+		border: 1px solid #4c4cff;
+	}
 }
 .fillings {
 	overflow-y: auto;

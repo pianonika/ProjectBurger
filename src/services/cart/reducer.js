@@ -1,4 +1,4 @@
-import { ADD_FILLINGS_ITEM, REMOVE_FILLINGS_ITEM, SET_BUN } from './action.js';
+import { ADD_FILLINGS_ITEM, REMOVE_FILLINGS_ITEM, SET_BUN, CHANGE_ITEMS_ORDER } from './action.js';
 
 const initialState = {
 	bun: {},
@@ -19,6 +19,12 @@ export const cartReducer = (state = initialState, action) => {
 				fillings: [
 					...state?.fillings?.filter((i) => i.uuid !== action.payload),
 				],
+			};
+		}
+		case CHANGE_ITEMS_ORDER: {
+			return {
+				...state,
+				fillings: action.payload,
 			};
 		}
 		case SET_BUN: {

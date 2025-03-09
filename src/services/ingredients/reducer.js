@@ -35,9 +35,10 @@ export const ingredientsReducer = (state = initialState, action) => {
 			const newItems = {};
 			Object.entries(state.items).map(([key, items]) => {
 				newItems[key] = items.map((item) => {
+					const isBun = action.payload.type === 'bun';
 					return item._id === action.payload._id
-						? { ...item, count: ++item.count }
-						: item._id !== action.payload._id && action.payload.type === 'bun'
+						? { ...item, count: isBun ? 2 : ++item.count }
+						: item._id !== action.payload._id && isBun
 						? { ...item, count: 0 }
 						: item;
 				});
