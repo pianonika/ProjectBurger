@@ -1,8 +1,10 @@
-import { ingredientsCategories } from '../../services/vars';
+import { BASE_URL, ingredientsCategories } from '../../services/vars';
 
 export const GET_INGREDIENTS = 'GET_INGREDIENTS';
 export const GET_INGREDIENTS_FAILED = 'GET_INGREDIENTS_FAILED';
 export const GET_INGREDIENTS_SUCCESS = 'GET_INGREDIENTS_SUCCESS';
+export const INCREMENT_INGREDIENTS_COUNT = 'INCREMENT_INGREDIENTS_COUNT';
+export const DECREMENT_INGREDIENTS_COUNT = 'DECREMENT_INGREDIENTS_COUNT';
 
 export function getIngredients() {
 	return function (dispatch) {
@@ -39,10 +41,9 @@ const ingredientsConstructor = (res) => {
 		data[key] = [];
 	});
 	res.data.forEach((item) => {
+		item.count = 0;
 		data[item.type].push(item);
 	});
 
 	return data;
 };
-
-const BASE_URL = 'https://norma.nomoreparties.space';

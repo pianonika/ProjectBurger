@@ -11,7 +11,7 @@ export const Tabs = ({
 	updateCurrentSection: any;
 }) => {
 	const setCurrentSection = (key: string) => {
-		return updateCurrentSection(key);
+		updateCurrentSection(key);
 	};
 	const tabs = ingredientsCategories;
 	return (
@@ -23,7 +23,7 @@ export const Tabs = ({
 							<Tab
 								value={key}
 								active={currSection === key}
-								onClick={setCurrentSection(key)}
+								onClick={() => setCurrentSection(key)}
 								key={`${key} + ${index}`}>
 								{value}
 							</Tab>

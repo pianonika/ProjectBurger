@@ -3,7 +3,9 @@ import s from './ingredient-details.module.less';
 import { useAppSelector } from '../../models/hooks';
 
 export const IngredientDetails = () => {
-	const ingredient = useAppSelector((store) => store.currIngredient.ingredient);
+	const ingredient = useAppSelector(
+		(store) => store.chosenIngredient.ingredient
+	);
 
 	return (
 		<>

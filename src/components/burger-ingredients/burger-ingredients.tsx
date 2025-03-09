@@ -17,7 +17,9 @@ export const BurgerIngredients = () => {
 			</div>
 
 			<IngredientsList
-				updateCurrentSection={setCurrentSection}/>
+				currSection={currSection}
+				updateCurrentSection={setCurrentSection}
+			/>
 		</div>
 	);
 };

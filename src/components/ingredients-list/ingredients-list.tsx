@@ -10,28 +10,54 @@ import {
 } from '../../services/chosen-ingredient/action.js';
 import { ingredientsCategories } from '../../services/vars';
 import { useAppDispatch, useAppSelector } from '../../models/hooks';
-import { getIngredients } from '../../services/ingredients/action';
-import { ingredientceItems } from '../../models/categories';
+import { getIngredients, INCREMENT_INGREDIENTS_COUNT} from '../../services/ingredients/action';
+import { ingredientsItems } from '../../models/categories';
+import { ADD_FILLINGS_ITEM, SET_BUN } from '../../services/cart/action';
+import uuid from 'react-uuid';
 
 export const IngredientsList = ({
+	currSection,
 	updateCurrentSection,
 }: {
+	currSection: string;
 	updateCurrentSection: any;
 }) => {
 	const dispatch = useAppDispatch();
 	useEffect(() => {
 		dispatch(getIngredients());
-	}, [dispatch]);
+	}, []);
 
-	const items: ingredientceItems = useAppSelector(
+	const items: ingredientsItems = useAppSelector(
 		(state) => state.ingredients.items
 	);
 	const categories = ingredientsCategories;
 	const [isModalVisible, setModalActive] = useState(false);
 	const handleIngredientClick = (ingredient: IngredientModel) => {
-		// setModalIngredient(ingredient);
-		setModalActive(true);
-		setCurrIngredient(ingredient);
+		// setModalActive(true);
+		// setCurrIngredient(ingredient);
+
+		addCurrIngredientToCart(ingredient);
+	};
+	const addCurrIngredientToCart = (ingredient: IngredientModel) => {
+		dispatch({
+			type: INCREMENT_INGREDIENTS_COUNT,
+			payload: ingredient,
+		});
+		ingredient = {
+			...ingredient,
+			uuid: uuid(),
+		};
+		if (ingredient.type === 'bun') {
+			dispatch({
+				type: SET_BUN,
+				payload: ingredient,
+			});
+		} else {
+			dispatch({
+				type: ADD_FILLINGS_ITEM,
+				payload: ingredient,
+			});
+		}
 	};
 
 	useEffect(() => {
@@ -39,6 +65,7 @@ export const IngredientsList = ({
 			removeCurrIngredient();
 		}
 	}, [isModalVisible]);
+
 	const setCurrIngredient = (ingredient: IngredientModel) => {
 		dispatch({
 			type: SET_CURR_INGREDIENT,
@@ -61,7 +88,9 @@ export const IngredientsList = ({
 		const curEl = myRefs.current.find(
 			(item) => item?.['offsetTop'] > scrollOffset
 		);
-		curEl?.['id'] && updateCurrentSection(curEl?.['id']);
+		curEl?.['id'] &&
+			curEl?.['id'] !== currSection &&
+			updateCurrentSection(curEl?.['id']);
 	};
 
 	return (
@@ -72,7 +101,7 @@ export const IngredientsList = ({
 				{items &&
 					Object.entries(items).map(
 						// 	// @ts-ignore
-						([key, ingredient]: [string, IngredientModel[]], i: number) => (
+						([key, ingredients]: [string, IngredientModel[]], i: number) => (
 							<section
 								key={key}
 								id={key}
@@ -82,8 +111,8 @@ export const IngredientsList = ({
 									{categoriesName(key)}
 								</h3>
 								<ul className={`${s.cardsList} pl-4 pr-4`}>
-									{ingredient &&
-										ingredient.map((ingredient, ingredientIndex) => (
+									{ingredients.length &&
+										ingredients?.map((ingredient, ingredientIndex) => (
 											<li
 												role='presentation'
 												className={s.ingredientCardWrapper}

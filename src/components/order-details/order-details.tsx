@@ -1,11 +1,16 @@
 import React from 'react';
 import s from './order-details.module.less';
 import orderCheckIcon from '../../images/orderCheck.svg';
+import { useAppSelector } from '../../models/hooks';
 
-export const OrderDetails = ({ detailsData }: { detailsData: string }) => {
+export const OrderDetails = () => {
+	const order = useAppSelector((store) => store.order.currentOrder.order);
+
 	return (
 		<div className={s.ingredient__details}>
-			<p className={`${s.number} text text_type_digits-large`}>{detailsData}</p>
+			<p className={`${s.number} text text_type_digits-large`}>
+				{order?.number}
+			</p>
 			<p className='text text_type_main-medium mt-8 '>идентификатор заказа</p>
 			<img
 				className={s.ingredient__icon}

@@ -1,11 +1,11 @@
 import { SET_CURR_INGREDIENT, REMOVE_CURR_INGREDIENT } from './action';
 
-const currIngredientInitialState = {
+const chosenIngredientState = {
 	ingredient: null,
 };
 
-export const currIngredientReducer = (
-	state = currIngredientInitialState,
+export const chosenIngredientReducer = (
+	state = chosenIngredientState,
 	action
 ) => {
 	switch (action.type) {
