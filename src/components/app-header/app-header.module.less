@@ -1,0 +1,45 @@
+.header {
+	width: 100vw;
+	height: 88px;
+	background: var(--background);
+	position: relative;
+	&__inner {
+		width: 1280px;
+		margin: 0 auto;
+		padding: 16px 0;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+	}
+	&__buttons {
+		display: flex;
+		justify-content: flex-start;
+	}
+}
+.link {
+	padding: 16px 20px;
+	color: var(--text-inactive-color);
+	display: flex;
+	align-items: center;
+
+	&:hover {
+		color: var(--text-inactive-color);
+	}
+
+	&__active {
+		color: #fff;
+		&:hover {
+			color: #fff;
+		}
+	}
+
+	&_logo {
+		height: 40px;
+		margin-right: 8px;
+	}
+}
+.logo {
+	position: absolute;
+	left: 50%;
+	transform: translateX(-50%);
+}

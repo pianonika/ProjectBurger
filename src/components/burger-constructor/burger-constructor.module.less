@@ -1,0 +1,46 @@
+.total {
+	display: flex;
+	justify-content: flex-end;
+	padding-bottom: 52px;
+}
+.cost {
+	display: flex;
+	align-items: center;
+}
+.burgerConstructor {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	align-items: flex-end;
+	justify-content: stretch;
+	height: calc(100vh - 188px);
+}
+.constructorItem {
+	overflow: auto;
+	position: relative;
+	padding-left: 32px;
+	list-style-type: none;
+	flex-shrink: 0;
+
+	&__draggable {
+		cursor: pointer;
+	}
+}
+.constructorItemIcon {
+	left: 0;
+	position: absolute;
+	top: 50%;
+	transform: translateY(-50%);
+}
+.chosenIngredients {
+	height: calc(100% - 156px);
+	overflow: auto;
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+}
+.fillings {
+	overflow-y: auto;
+	.chosenIngredients();
+	scrollbar-width: thin;
+}
