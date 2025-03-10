@@ -1,4 +1,5 @@
-import { BASE_URL, ingredientsCategories } from '../../services/vars';
+import {  ingredientsCategories } from '../../services/vars';
+import { checkResponse, request } from '../../utils/checkResponse';
 
 export const GET_INGREDIENTS = 'GET_INGREDIENTS';
 export const GET_INGREDIENTS_FAILED = 'GET_INGREDIENTS_FAILED';
@@ -12,20 +13,13 @@ export function getIngredients() {
 			type: GET_INGREDIENTS,
 		});
 
-		fetch(`${BASE_URL}/api/ingredients`)
-			.then((res) => res.json())
+		request('/api/ingredients')
 			.then((res) => {
-				if (res && res.success) {
-					const ingredients = ingredientsConstructor(res);
-					dispatch({
-						type: GET_INGREDIENTS_SUCCESS,
-						payload: ingredients,
-					});
-				} else {
-					dispatch({
-						type: GET_INGREDIENTS_FAILED,
-					});
-				}
+				const ingredients = ingredientsConstructor(res);
+				dispatch({
+					type: GET_INGREDIENTS_SUCCESS,
+					payload: ingredients,
+				});
 			})
 			.catch((err) => {
 				dispatch({
