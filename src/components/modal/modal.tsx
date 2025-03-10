@@ -13,18 +13,18 @@ type Props = {
 };
 
 export const Modal = ({ isActive, setActive, children, title }: Props) => {
-	const handleKeydown = (event: KeyboardEvent) => {
-		if (event.key === 'Escape') {
-			setActive(false);
-		}
-	};
-	console.log( isActive, setActive, children, title);
 	useEffect(() => {
-		document.addEventListener('keydown', handleKeydown);
+		const handleKeydown = (event: KeyboardEvent) => {
+			if (event.key === 'Escape') {
+				setActive(false);
+			}
+		};
+		window.addEventListener('keydown', handleKeydown);
+
 		return () => {
 			window.removeEventListener('keydown', handleKeydown);
 		};
-	}, [handleKeydown]);
+	}, []);
 
 	return createPortal(
 		<div
