@@ -7,7 +7,10 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import Modal from '../modal/modal';
 import OrderDetails from '../order-details/order-details';
-import { IngredientModel } from '../../models/ingredient-model.model';
+import {
+	IngredientModel,
+	IngredientModelUnic,
+} from '../../models/ingredient-model.model';
 import { useAppDispatch, useAppSelector } from '../../models/hooks';
 import { CartModel } from '../../models/cart';
 import { ADD_FILLINGS_ITEM, SET_BUN } from '../../services/cart/action';
@@ -69,19 +72,19 @@ export const BurgerConstructor = () => {
 			type: INCREMENT_INGREDIENTS_COUNT,
 			payload: ingredient,
 		});
-		ingredient = {
+		const newIngredient = {
 			...ingredient,
-			uuid: uuid(),
+			uniqueId: uuid(),
 		};
 		if (ingredient.type === 'bun') {
 			dispatch({
 				type: SET_BUN,
-				payload: ingredient,
+				payload: newIngredient,
 			});
 		} else {
 			dispatch({
 				type: ADD_FILLINGS_ITEM,
-				payload: ingredient,
+				payload: newIngredient,
 			});
 		}
 	};
@@ -111,7 +114,7 @@ export const BurgerConstructor = () => {
 				<div className={`${s.fillings} pr-4`}>
 					{chosenIngredients?.fillings?.length ? (
 						chosenIngredients?.fillings?.map(
-							(ingredient: IngredientModel, index: number) => (
+							(ingredient: IngredientModelUnic, index: number) => (
 								<BurgerConstructorItem
 									index={index}
 									id={ingredient._id}
@@ -119,7 +122,7 @@ export const BurgerConstructor = () => {
 									price={ingredient.price}
 									thumbnail={ingredient.image}
 									ingredient={ingredient}
-									key={`${ingredient._id}+${index}`}></BurgerConstructorItem>
+									key={ingredient.uniqueId}></BurgerConstructorItem>
 							)
 						)
 					) : (
@@ -167,7 +170,7 @@ export const BurgerConstructor = () => {
 				isActive={isModalVisible}
 				setActive={setModalActive}
 				title={'Детали ингредиента'}>
-				<OrderDetails />
+				{isModalVisible && <OrderDetails />}
 			</Modal>
 		</div>
 	);

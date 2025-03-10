@@ -14,3 +14,6 @@ export interface IngredientModel {
 	uuid?: string;
 	count: number;
 }
+export interface IngredientModelUnic extends IngredientModel {
+	uniqueId: string;
+}
