@@ -18,6 +18,7 @@ export const Modal = ({ isActive, setActive, children, title }: Props) => {
 			setActive(false);
 		}
 	};
+	console.log( isActive, setActive, children, title);
 	useEffect(() => {
 		document.addEventListener('keydown', handleKeydown);
 		return () => {
@@ -35,7 +36,7 @@ export const Modal = ({ isActive, setActive, children, title }: Props) => {
 				onClick={(event) => event.stopPropagation()}>
 				<div className='modal_header'>
 					{title && (
-						<title className='text text_type_main-large mb-10'>{title}</title>
+						<div className='text text_type_main-large mb-10'>{title}</div>
 					)}
 					<div
 						role='presentation'
