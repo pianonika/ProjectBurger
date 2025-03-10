@@ -7,16 +7,16 @@ import ModalOverlayEl from '../modal-overlay/modal-overlay';
 const modalRoot = document.getElementById('react-modals') as HTMLElement;
 type Props = {
 	isActive?: boolean;
-	setActive: React.Dispatch<SetStateAction<boolean>>;
+	closeModal: any;
 	children: React.ReactNode;
 	title: string;
 };
 
-export const Modal = ({ isActive, setActive, children, title }: Props) => {
+export const Modal = ({ isActive, closeModal, children, title }: Props) => {
 	useEffect(() => {
 		const handleKeydown = (event: KeyboardEvent) => {
 			if (event.key === 'Escape') {
-				setActive(false);
+				closeModal();
 			}
 		};
 		window.addEventListener('keydown', handleKeydown);
@@ -29,7 +29,7 @@ export const Modal = ({ isActive, setActive, children, title }: Props) => {
 	return createPortal(
 		<div
 			className={isActive ? `${s.modal} ${s.active}` : `${s.modal}`}
-			onClick={() => setActive(false)}>
+			onClick={() => closeModal()}>
 			<ModalOverlayEl />
 			<div
 				className={s.modal_content}
@@ -41,7 +41,7 @@ export const Modal = ({ isActive, setActive, children, title }: Props) => {
 					<div
 						role='presentation'
 						className={s.modal_close}
-						onClick={() => setActive(false)}>
+						onClick={() => closeModal()}>
 						<CloseIcon type='primary' />
 					</div>
 				</div>

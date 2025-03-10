@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import s from './burger-constructor.module.less';
 import {
 	Button,
@@ -14,7 +14,7 @@ import {
 import { useAppDispatch, useAppSelector } from '../../models/hooks';
 import { CartModel } from '../../models/cart';
 import { ADD_FILLINGS_ITEM, SET_BUN } from '../../services/cart/action';
-import { sendOrder } from '../../services/order/action';
+import { CLEAR_ORDER_INFO, sendOrder } from '../../services/order/action';
 import { INCREMENT_INGREDIENTS_COUNT } from '../../services/ingredients/action';
 import { useDrop } from 'react-dnd';
 import uuid from 'react-uuid';
@@ -22,7 +22,14 @@ import BurgerConstructorItem from './burger-constructor-item/burger-constructor-
 
 export const BurgerConstructor = () => {
 	const dispatch = useAppDispatch();
-	const [isModalVisible, setModalActive] = useState(false);
+	const order = useAppSelector((store) => store.order.currentOrder.order);
+	const closeOrderDetails = () => {
+		dispatch({
+			type: CLEAR_ORDER_INFO,
+		});
+		console.log(order);
+	};
+	// const [isModalVisible, setModalActive] = useState(false);
 	const chosenIngredients = useAppSelector((store) => store.cart) as CartModel;
 
 	const handleIngredientClick = () => {
@@ -31,7 +38,7 @@ export const BurgerConstructor = () => {
 		if (isBun && isFillings) {
 			const requestData = calcIngredientsRequestData();
 			dispatch(sendOrder(requestData));
-			setModalActive(true);
+			// setModalActive(true);
 		}
 		!isBun && alert('Нужно выбрать булку');
 		isBun && !isFillings && alert('Нужно выбрать начинку');
@@ -166,12 +173,14 @@ export const BurgerConstructor = () => {
 					Нажми на меня
 				</Button>
 			</div>
-			<Modal
-				isActive={isModalVisible}
-				setActive={setModalActive}
-				title={'Детали ингредиента'}>
-				{isModalVisible && <OrderDetails />}
-			</Modal>
+			{order.number && (
+				<Modal
+					isActive={!!order.number}
+					closeModal={closeOrderDetails}
+					title={'Детали ингредиента'}>
+					<OrderDetails />
+				</Modal>
+			)}
 		</div>
 	);
 };

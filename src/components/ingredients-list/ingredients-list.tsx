@@ -109,7 +109,7 @@ export const IngredientsList = ({
 			{!!modalIngredient && (
 				<Modal
 					isActive={!!modalIngredient}
-					setActive={removeCurrIngredient}
+					closeModal={removeCurrIngredient}
 					title={'Детали ингредиента'}>
 					<IngredientDetails />
 				</Modal>
