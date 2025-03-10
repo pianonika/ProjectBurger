@@ -1,13 +1,10 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import s from './ingredients-list.module.less';
 import Modal from '../modal/modal';
 import IngredientCard from '../ingredient-card/ingredient-card';
 import IngredientDetails from '../ingredient-details/ingredient-details';
 import { IngredientModel } from '../../models/ingredient-model.model';
-import {
-	REMOVE_CURR_INGREDIENT,
-	SET_CURR_INGREDIENT,
-} from '../../services/chosen-ingredient/action.js';
+import { REMOVE_CURR_INGREDIENT } from '../../services/chosen-ingredient/action.js';
 import { ingredientsCategories } from '../../services/vars';
 import { useAppDispatch, useAppSelector } from '../../models/hooks';
 import {
@@ -34,13 +31,6 @@ export const IngredientsList = ({
 		(state) => state.ingredients.items
 	);
 	const categories = ingredientsCategories;
-	const [isModalVisible, setModalActive] = useState(false);
-	const handleIngredientClick = (ingredient: IngredientModel) => {
-		// setModalActive(true);
-		// setCurrIngredient(ingredient);
-
-		addCurrIngredientToCart(ingredient);
-	};
 	const addCurrIngredientToCart = (ingredient: IngredientModel) => {
 		dispatch({
 			type: INCREMENT_INGREDIENTS_COUNT,
@@ -62,19 +52,9 @@ export const IngredientsList = ({
 			});
 		}
 	};
-
-	useEffect(() => {
-		if (!isModalVisible) {
-			removeCurrIngredient();
-		}
-	}, [isModalVisible]);
-
-	const setCurrIngredient = (ingredient: IngredientModel) => {
-		dispatch({
-			type: SET_CURR_INGREDIENT,
-			payload: ingredient,
-		});
-	};
+	const modalIngredient = useAppSelector(
+		(store) => store.chosenIngredient.ingredient
+	);
 
 	const removeCurrIngredient = () => {
 		dispatch({
@@ -119,7 +99,6 @@ export const IngredientsList = ({
 											<IngredientCard
 												ingredient={ingredient}
 												key={`${ingredient._id} + ${ingredientIndex}`}
-												onClick={() => handleIngredientClick(ingredient)}
 											/>
 										))}
 								</ul>
@@ -127,10 +106,10 @@ export const IngredientsList = ({
 						)
 					)}
 			</div>
-			{isModalVisible && (
+			{!!modalIngredient && (
 				<Modal
-					isActive={isModalVisible}
-					setActive={setModalActive}
+					isActive={!!modalIngredient}
+					setActive={removeCurrIngredient}
 					title={'Детали ингредиента'}>
 					<IngredientDetails />
 				</Modal>

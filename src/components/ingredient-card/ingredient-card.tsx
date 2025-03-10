@@ -6,11 +6,13 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import { IngredientModel } from '../../models/ingredient-model.model';
 import { useDrag } from 'react-dnd';
+import { SET_CURR_INGREDIENT } from '../../services/chosen-ingredient/action';
+import { useAppDispatch } from '../../models/hooks';
 
 export const IngredientCard: FC<{
 	ingredient: IngredientModel;
-	onClick: any;
-}> = ({ ingredient, onClick }) => {
+}> = ({ ingredient }) => {
+	const dispatch = useAppDispatch();
 	const [{ isDrag }, dragRef] = useDrag({
 		type: 'ingredientCard',
 		item: ingredient,
@@ -18,10 +20,23 @@ export const IngredientCard: FC<{
 			isDrag: monitor.isDragging(),
 		}),
 	});
+	const handleIngredientClick = () => {
+		setCurrIngredient(ingredient);
+	};
+	const setCurrIngredient = (ingredient: IngredientModel) => {
+		dispatch({
+			type: SET_CURR_INGREDIENT,
+			payload: ingredient,
+		});
+	};
 
 	return (
 		!isDrag && (
-			<li role='presentation' className={s.ingredientCardWrapper} ref={dragRef}>
+			<li
+				role='presentation'
+				className={s.ingredientCardWrapper}
+				ref={dragRef}
+				onClick={() => handleIngredientClick()}>
 				<div className={s.card}>
 					<div className={s.counter}>
 						<Counter count={ingredient.count} size='small' />
