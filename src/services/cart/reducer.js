@@ -17,7 +17,7 @@ export const cartReducer = (state = initialState, action) => {
 			return {
 				...state,
 				fillings: [
-					...state?.fillings?.filter((i) => i.uuid !== action.payload),
+					...state?.fillings?.filter((i) => i.uniqueId !== action.payload),
 				],
 			};
 		}

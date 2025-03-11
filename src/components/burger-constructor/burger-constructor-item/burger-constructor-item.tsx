@@ -1,6 +1,6 @@
 import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
 import s from '../burger-constructor.module.less';
-import { IngredientModel } from '../../../models/ingredient-model.model';
+import {IngredientModel, IngredientModelUnic} from '../../../models/ingredient-model.model';
 import {
 	CHANGE_ITEMS_ORDER,
 	REMOVE_FILLINGS_ITEM,
@@ -24,15 +24,15 @@ export const BurgerConstructorItem = ({
 	text: string;
 	price: number;
 	thumbnail: string;
-	ingredient: IngredientModel;
+	ingredient: IngredientModelUnic;
 	key: string;
 }) => {
 	const dispatch = useAppDispatch();
 	const fillings = useAppSelector((store) => store.cart.fillings);
-	const deleteIngredient = (deleteIngredient: IngredientModel) => {
+	const deleteIngredient = (deleteIngredient: IngredientModelUnic) => {
 		dispatch({
 			type: REMOVE_FILLINGS_ITEM,
-			payload: deleteIngredient.uuid,
+			payload: deleteIngredient.uniqueId,
 		});
 		dispatch({
 			type: DECREMENT_INGREDIENTS_COUNT,
