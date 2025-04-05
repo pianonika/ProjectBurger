@@ -73,3 +73,22 @@ button:focus-visible {
 		background-color: #f9f9f9;
 	}
 }
+
+.page_header {
+	text-align: center;
+}
+.page_content {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	grid-template-rows: repeat(auto 1fr);
+	grid-column-gap: 24px;
+	grid-row-gap: 20px;
+}
+
+.page_wrapper {
+	overflow: hidden;
+	text-align: center;
+	text-overflow: ellipsis;
+	width: 100%;
+	margin: auto;
+}

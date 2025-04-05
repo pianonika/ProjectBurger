@@ -1,4 +1,4 @@
-import { BASE_URL } from '../services/vars';
+import { BASE_URL } from '../store/vars';
 import Dispatcher from 'undici-types/dispatcher';
 import {
 	BodyInit,
