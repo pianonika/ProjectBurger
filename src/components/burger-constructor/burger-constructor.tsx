@@ -13,9 +13,9 @@ import {
 } from '../../models/ingredient-model.model';
 import { useAppDispatch, useAppSelector } from '../../models/hooks';
 import { CartModel } from '../../models/cart';
-import { ADD_FILLINGS_ITEM, SET_BUN } from '../../services/cart/action';
-import { CLEAR_ORDER_INFO, sendOrder } from '../../services/order/action';
-import { INCREMENT_INGREDIENTS_COUNT } from '../../services/ingredients/action';
+import { ADD_FILLINGS_ITEM, SET_BUN } from '../../store/cart/action';
+import { CLEAR_ORDER_INFO, sendOrder } from '../../store/order/action';
+import { INCREMENT_INGREDIENTS_COUNT } from '../../store/ingredients/action';
 import { useDrop } from 'react-dnd';
 import uuid from 'react-uuid';
 import BurgerConstructorItem from './burger-constructor-item/burger-constructor-item';

@@ -6,6 +6,7 @@ export default {
 		'\\.(css|less|less)$': 'identity-obj-proxy',
 		'^@pages/(.*)$': '<rootDir>/src/pages/$1',
 		'^@components/(.*)$': '<rootDir>/src/components/$1',
+		'^@store/(.*)$': '<rootDir>/src/store/$1',
 		'^@services/(.*)$': '<rootDir>/src/services/$1',
 		'^@utils/(.*)$': '<rootDir>/src/utils/$1',
 	},

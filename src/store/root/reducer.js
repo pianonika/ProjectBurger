@@ -1,0 +1,12 @@
+import { combineReducers } from '@reduxjs/toolkit';
+import { chosenIngredientReducer } from '../../store/chosen-ingredient/reducer.js';
+import { ingredientsReducer } from '../../store/ingredients/reducer';
+import { cartReducer } from '../../store/cart/reducer';
+import { orderReducer } from '../../store/order/reducer';
+
+export const rootReducer = combineReducers({
+	chosenIngredient: chosenIngredientReducer,
+	ingredients: ingredientsReducer,
+	cart: cartReducer,
+	order: orderReducer,
+});

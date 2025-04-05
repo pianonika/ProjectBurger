@@ -1,4 +1,4 @@
-import { request } from '../../utils/checkResponse';
+import { request } from '@utils/checkResponse';
 
 export const SEND_ORDER = 'SEND_ORDER';
 export const SEND_ORDER_FAILED = 'SEND_ORDER_FAILED';

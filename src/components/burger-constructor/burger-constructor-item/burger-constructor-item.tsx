@@ -4,8 +4,8 @@ import {IngredientModel, IngredientModelUnic} from '../../../models/ingredient-m
 import {
 	CHANGE_ITEMS_ORDER,
 	REMOVE_FILLINGS_ITEM,
-} from '../../../services/cart/action';
-import { DECREMENT_INGREDIENTS_COUNT } from '../../../services/ingredients/action';
+} from '../../../store/cart/action';
+import { DECREMENT_INGREDIENTS_COUNT } from '../../../store/ingredients/action';
 import { useAppDispatch, useAppSelector } from '../../../models/hooks';
 import { useDrag, useDrop } from 'react-dnd';
 import React, { useRef } from 'react';

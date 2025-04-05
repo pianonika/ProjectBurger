@@ -4,15 +4,15 @@ import Modal from '../modal/modal';
 import IngredientCard from '../ingredient-card/ingredient-card';
 import IngredientDetails from '../ingredient-details/ingredient-details';
 import { IngredientModel } from '../../models/ingredient-model.model';
-import { REMOVE_CURR_INGREDIENT } from '../../services/chosen-ingredient/action.js';
-import { ingredientsCategories } from '../../services/vars';
+import { REMOVE_CURR_INGREDIENT } from '../../store/chosen-ingredient/action.js';
+import { ingredientsCategories } from '@store/vars';
 import { useAppDispatch, useAppSelector } from '../../models/hooks';
 import {
 	getIngredients,
 	INCREMENT_INGREDIENTS_COUNT,
-} from '../../services/ingredients/action';
+} from '../../store/ingredients/action';
 import { ingredientsItems } from '../../models/categories';
-import { ADD_FILLINGS_ITEM, SET_BUN } from '../../services/cart/action';
+import { ADD_FILLINGS_ITEM, SET_BUN } from '../../store/cart/action';
 import uuid from 'react-uuid';
 
 export const IngredientsList = ({

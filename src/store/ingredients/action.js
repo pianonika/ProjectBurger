@@ -1,5 +1,5 @@
-import {  ingredientsCategories } from '../../services/vars';
-import { checkResponse, request } from '../../utils/checkResponse';
+import {  ingredientsCategories } from '../../store/vars';
+import { checkResponse, request } from '@utils/checkResponse';
 
 export const GET_INGREDIENTS = 'GET_INGREDIENTS';
 export const GET_INGREDIENTS_FAILED = 'GET_INGREDIENTS_FAILED';

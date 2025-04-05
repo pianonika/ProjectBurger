@@ -6,7 +6,7 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import { IngredientModel } from '../../models/ingredient-model.model';
 import { useDrag } from 'react-dnd';
-import { SET_CURR_INGREDIENT } from '../../services/chosen-ingredient/action';
+import { SET_CURR_INGREDIENT } from '../../store/chosen-ingredient/action';
 import { useAppDispatch } from '../../models/hooks';
 
 export const IngredientCard: FC<{

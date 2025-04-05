@@ -1,9 +1,9 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import './styles.css';
-import { App } from './components/app';
+import { App } from './components/app/app';
 import { Provider } from 'react-redux';
-import { configureStore } from './services/root/store.js';
+import { configureStore } from './store/root/store.js';
 
 const store = configureStore();
 
