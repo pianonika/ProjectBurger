@@ -16,10 +16,10 @@ export function ForgotPasswordPage() {
 		setValue({ ...form, [e.target.name]: e.target.value });
 	};
 
-	let login = useCallback(
+	let restore = useCallback(
 		(e) => {
 			e.preventDefault();
-			auth.signIn(form);
+			auth.restore(form);
 		},
 		[auth, form]
 	);
@@ -54,8 +54,8 @@ export function ForgotPasswordPage() {
 							/>
 						</div>
 						<div className={s.form_field}>
-							<Button onClick={login} primary={true}>
-								Войти
+							<Button onClick={restore} primary={true}>
+								Восстановить
 							</Button>
 						</div>
 					</form>
