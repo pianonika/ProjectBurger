@@ -1,18 +1,16 @@
 import React, { useEffect, useRef } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import s from './ingredients-list.module.less';
-import Modal from '../modal/modal';
 import IngredientCard from '../ingredient-card/ingredient-card';
-import IngredientDetails from '../ingredient-details/ingredient-details';
-import { IngredientModel } from '../../models/ingredient-model.model';
-import { REMOVE_CURR_INGREDIENT } from '../../store/chosen-ingredient/action.js';
+import { IngredientModel } from '@models/ingredient-model.model';
 import { ingredientsCategories } from '@store/vars';
-import { useAppDispatch, useAppSelector } from '../../models/hooks';
+import { useAppDispatch, useAppSelector } from '@models/hooks';
 import {
 	getIngredients,
 	INCREMENT_INGREDIENTS_COUNT,
-} from '../../store/ingredients/action';
-import { ingredientsItems } from '../../models/categories';
-import { ADD_FILLINGS_ITEM, SET_BUN } from '../../store/cart/action';
+} from '@store/ingredients/action';
+import { ingredientsItems } from '@models/categories';
+import { ADD_FILLINGS_ITEM, SET_BUN } from '@store/cart/action';
 import uuid from 'react-uuid';
 
 export const IngredientsList = ({
@@ -23,6 +21,8 @@ export const IngredientsList = ({
 	updateCurrentSection: any;
 }) => {
 	const dispatch = useAppDispatch();
+	const location = useLocation();
+	// let state = modalLocation.state as { modalLocation: location };
 	useEffect(() => {
 		dispatch(getIngredients());
 	}, []);
@@ -55,12 +55,6 @@ export const IngredientsList = ({
 	const modalIngredient = useAppSelector(
 		(store) => store.chosenIngredient.ingredient
 	);
-
-	const removeCurrIngredient = () => {
-		dispatch({
-			type: REMOVE_CURR_INGREDIENT,
-		});
-	};
 	const categoriesName = (el: string) => categories[el];
 
 	const sectionRef = useRef(null);
@@ -96,24 +90,22 @@ export const IngredientsList = ({
 								<ul className={`${s.cardsList} pl-4 pr-4`}>
 									{ingredients.length &&
 										ingredients?.map((ingredient, ingredientIndex) => (
-											<IngredientCard
-												ingredient={ingredient}
-												key={`${ingredient._id} + ${ingredientIndex}`}
-											/>
+											<Link
+												key={`${ingredient._id}`}
+												to={`/ingredients/${ingredient._id}`}
+												state={{ modalLocation: location }}
+											className={s.cardLink}>
+												<IngredientCard
+													ingredient={ingredient}
+													key={`${ingredient._id} + ${ingredientIndex}`}
+												/>
+											</Link>
 										))}
 								</ul>
 							</section>
 						)
 					)}
 			</div>
-			{!!modalIngredient && (
-				<Modal
-					isActive={!!modalIngredient}
-					closeModal={removeCurrIngredient}
-					title={'Детали ингредиента'}>
-					<IngredientDetails />
-				</Modal>
-			)}
 		</div>
 	);
 };

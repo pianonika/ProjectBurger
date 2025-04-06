@@ -1,4 +1,4 @@
-import {  ingredientsCategories } from '../../store/vars';
+import { ingredientsCategories } from '../../store/vars';
 import { checkResponse, request } from '@utils/checkResponse';
 
 export const GET_INGREDIENTS = 'GET_INGREDIENTS';
@@ -18,7 +18,7 @@ export function getIngredients() {
 				const ingredients = ingredientsConstructor(res);
 				dispatch({
 					type: GET_INGREDIENTS_SUCCESS,
-					payload: ingredients,
+					payload: { filtred: ingredients, defaultList: res.data },
 				});
 			})
 			.catch((err) => {
