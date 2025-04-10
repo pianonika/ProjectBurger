@@ -8,7 +8,7 @@ import {
 	PasswordInput,
 } from '@ya.praktikum/react-developer-burger-ui-components';
 
-export function LoginPage() {
+export function ProfilePage() {
 	let auth = useAuth();
 	const [form, setValue] = useState({ email: '', password: '' });
 
@@ -32,7 +32,22 @@ export function LoginPage() {
 		<div className='page_wrapper'>
 			<h1 className='text text_type_main-medium page_header'>Вход</h1>
 			<div className='page_content'>
-				<div className='page_content__left'></div>
+				<div className='page_content__left'>
+					<ul className={s.profile_menu}>
+						<li
+							className={`${s.profile_menu__item} ${s.active} text text_type_main-medium`}>
+							Профиль
+						</li>
+						<li
+							className={`${s.profile_menu__item} text text_type_main-medium`}>
+							История заказов
+						</li>
+						<li
+							className={`${s.profile_menu__item} text text_type_main-medium`}>
+							Выход
+						</li>
+					</ul>
+				</div>
 				<div className='page_content__center'>
 					<form className={s.form}>
 						<div className={s.form_field}>
