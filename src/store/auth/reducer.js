@@ -1,41 +1,41 @@
-import { LOGIN_REQUEST, LOGIN_FAILED, LOGIN_SUCCESS, CLEAR_USER_INFO } from './action.js';
+import {
+	GET_USER_SUCCESS,
+	LOGIN_SUCCESS,
+	LOGOUT_SUCCESS,
+	SET_AUTH_FLAG,
+	SET_USER,
+} from '@store/auth/action';
 
 const initialState = {
-	currentOrder: {
-		name: '',
-		order: { number: null },
-		success: null,
-	},
-	requestInProgress: false,
-	sendOrderFailed: false,
+	user: null,
+	isAuthChecked: false,
 };
 
-export const orderReducer = (state = initialState, action) => {
+export const authorizationReducer = (state = initialState, action) => {
 	switch (action.type) {
-		case SEND_ORDER: {
+		case SET_USER: {
 			return {
 				...state,
-				requestInProgress: true,
+				user: { ...state.user, ...action.payload },
 			};
 		}
-		case SEND_ORDER_SUCCESS: {
+		case LOGIN_SUCCESS: {
 			return {
-				...state,
-				currentOrder: action.payload,
-				requestInProgress: false,
-				sendOrderFailed: false,
+				user: { ...state.user, ...action.payload },
+				isAuthChecked: true,
 			};
 		}
-		case SEND_ORDER_FAILED: {
-			return { ...state, requestInProgress: false, sendOrderFailed: true };
-		}
-		case CLEAR_ORDER_INFO: {
+		case LOGOUT_SUCCESS: {
 			return {
 				...state,
-				currentOrder: {
-					...initialState.currentOrder,
-					order: { ...initialState.currentOrder.order },
-				},
+				user: null,
+				isAuthChecked: false,
+			};
+		}
+		case SET_AUTH_FLAG: {
+			return {
+				...state,
+				isAuthChecked: action.payload,
 			};
 		}
 		default: {
@@ -43,3 +43,10 @@ export const orderReducer = (state = initialState, action) => {
 		}
 	}
 };
+
+function selectIsAuthChecked(state) {
+	return state.isAuthChecked;
+}
+function selectUser(state) {
+	return state.user;
+}
