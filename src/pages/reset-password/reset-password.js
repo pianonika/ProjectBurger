@@ -1,32 +1,30 @@
-import React, { useCallback, useState } from 'react';
-import { Link, Navigate } from 'react-router-dom';
-import { useAuth } from '../../services/auth';
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import s from './reset-password.module.less';
 import {
 	Button,
 	Input,
 	PasswordInput,
 } from '@ya.praktikum/react-developer-burger-ui-components';
+import { forgotRequest, resetPassword } from '@store/auth/action';
+import {useAppDispatch} from "@models/hooks";
 
 export function ResetPasswordPage() {
-	let auth = useAuth();
 	const [form, setValue] = useState({ email: '', password: '' });
+	const dispatch = useAppDispatch();
 
 	const onChange = (e) => {
 		setValue({ ...form, [e.target.name]: e.target.value });
 	};
 
-	let save = useCallback(
-		(e) => {
-			e.preventDefault();
-			auth.restore(form);
-		},
-		[auth, form]
-	);
-
-	if (auth.user) {
-		return <Navigate to={'/'} />;
-	}
+	const save = (e) => {
+		e.preventDefault();
+		dispatch(
+			resetPassword(
+				JSON.stringify({ password: form.password, token: form.token })
+			)
+		);
+	};
 
 	return (
 		<div className='page_wrapper'>
@@ -48,8 +46,8 @@ export function ResetPasswordPage() {
 						<div className={s.form_field}>
 							<Input
 								placeholder='Введите код из письма'
-								value={form.email}
-								name='code'
+								value={form.token}
+								name='token'
 								onChange={onChange}
 							/>
 						</div>

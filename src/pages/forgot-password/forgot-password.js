@@ -1,32 +1,27 @@
-import React, { useCallback, useState } from 'react';
-import { Link, Navigate } from 'react-router-dom';
-import { useAuth } from '../../services/auth';
+import React, { useState } from 'react';
+import {Link, useNavigate} from 'react-router-dom';
 import s from './forgot-password.module.less';
 import {
 	Button,
 	Input,
 	PasswordInput,
 } from '@ya.praktikum/react-developer-burger-ui-components';
+import { useAppDispatch } from '@models/hooks';
+import { forgotRequest } from '@store/auth/action';
 
 export function ForgotPasswordPage() {
-	let auth = useAuth();
+	const dispatch = useAppDispatch();
+	const navigate = useNavigate();
 	const [form, setValue] = useState({ email: '', password: '' });
-
+	//
 	const onChange = (e) => {
 		setValue({ ...form, [e.target.name]: e.target.value });
 	};
-
-	let restore = useCallback(
-		(e) => {
-			e.preventDefault();
-			auth.restore(form);
-		},
-		[auth, form]
-	);
-
-	if (auth.user) {
-		return <Navigate to={'/'} />;
-	}
+	const checkEmail = (e) => {
+		e.preventDefault();
+		dispatch(forgotRequest(JSON.stringify({ email: form.email })));
+		navigate('/reset-password');
+	};
 
 	return (
 		<div className='page_wrapper'>
@@ -39,22 +34,14 @@ export function ForgotPasswordPage() {
 					<form className={s.form}>
 						<div className={s.form_field}>
 							<Input
-								placeholder='Email'
+								placeholder='Укажите e-mail'
 								value={form.email}
 								name='email'
 								onChange={onChange}
 							/>
 						</div>
 						<div className={s.form_field}>
-							<PasswordInput
-								placeholder='Password'
-								value={form.password}
-								name='password'
-								onChange={onChange}
-							/>
-						</div>
-						<div className={s.form_field}>
-							<Button onClick={restore} primary={true}>
+							<Button onClick={checkEmail} primary={true}>
 								Восстановить
 							</Button>
 						</div>

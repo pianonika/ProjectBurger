@@ -1,35 +1,48 @@
-import React, { useCallback, useState } from 'react';
+import React, { useState } from 'react';
 import { Link, Navigate } from 'react-router-dom';
-import { useAuth } from '../../services/auth';
 import s from './register.module.less';
 import {
 	Button,
 	Input,
 	PasswordInput,
 } from '@ya.praktikum/react-developer-burger-ui-components';
+import { useAppDispatch } from '@models/hooks';
+import { register } from '@store/auth/action';
 
 export function RegisterPage() {
-	let auth = useAuth();
-	const [form, setValue] = useState({ email: '', password: '' });
+	const dispatch = useAppDispatch();
+	const [form, setValue] = useState({
+		data: {
+			email: '',
+			password: '',
+			name: '',
+			passwordRepeat: '',
+		},
+		errors: {},
+		isValid: true,
+	});
 
 	const onChange = (e) => {
 		setValue({ ...form, [e.target.name]: e.target.value });
 	};
 
-	let login = useCallback(
-		(e) => {
-			e.preventDefault();
-			auth.signIn(form);
-		},
-		[auth, form]
-	);
+	const submit = (e) => {
+		const data = {
+			email: form.email,
+			password: form.password,
+			name: form.name,
+		};
+		e.preventDefault();
+		dispatch(register(data));
+	};
 
-	if (auth.user) {
-		return <Navigate to={'/'} />;
-	}
+	const checkValidPasswordRepeat = () => {
+		return form.password === form.passwordRepeat;
+	};
 
 	return (
 		<div className='page_wrapper'>
+			<h1 className='text text_type_main-medium page_header'>Регистрация</h1>
 			<div className='page_content'>
 				<div className='page_content__left'></div>
 				<div className='page_content__center'>
@@ -37,7 +50,7 @@ export function RegisterPage() {
 						<div className={s.form_field}>
 							<Input
 								placeholder='Имя'
-								value={form.email}
+								value={form.name}
 								name='name'
 								onChange={onChange}
 							/>
@@ -52,22 +65,25 @@ export function RegisterPage() {
 						</div>
 						<div className={s.form_field}>
 							<Input
-								placeholder='Логин'
-								value={form.email}
-								name='login'
+								placeholder='Пароль'
+								value={form.password}
+								name='password'
 								onChange={onChange}
+								checkValid={checkValidPasswordRepeat}
 							/>
 						</div>
 						<div className={s.form_field}>
 							<PasswordInput
 								placeholder='Пароль'
-								value={form.password}
-								name='password'
+								value={form.passwordRepeat}
+								name='passwordRepeat'
 								onChange={onChange}
+								checkValid={checkValidPasswordRepeat}
+								errorText='Пароли не совпадают'
 							/>
 						</div>
 						<div className={s.form_field}>
-							<Button onClick={login} primary={true}>
+							<Button onClick={submit} primary={true}>
 								Зарегистрироваться
 							</Button>
 						</div>
