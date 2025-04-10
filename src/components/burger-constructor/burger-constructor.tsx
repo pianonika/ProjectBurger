@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useMemo } from 'react';
 import s from './burger-constructor.module.less';
 import {
 	Button,
@@ -10,32 +10,38 @@ import OrderDetails from '../order-details/order-details';
 import {
 	IngredientModel,
 	IngredientModelUnic,
-} from '../../models/ingredient-model.model';
-import { useAppDispatch, useAppSelector } from '../../models/hooks';
-import { CartModel } from '../../models/cart';
-import { ADD_FILLINGS_ITEM, SET_BUN } from '../../store/cart/action';
-import { CLEAR_ORDER_INFO, sendOrder } from '../../store/order/action';
-import { INCREMENT_INGREDIENTS_COUNT } from '../../store/ingredients/action';
+} from '@models/ingredient-model.model';
+import { useAppDispatch, useAppSelector } from '@models/hooks';
+import { CartModel } from '@models/cart';
+import { ADD_FILLINGS_ITEM, SET_BUN } from '@store/cart/action';
+import { CLEAR_ORDER_INFO, sendOrder } from '@store/order/action';
+import { INCREMENT_INGREDIENTS_COUNT } from '@store/ingredients/action';
 import { useDrop } from 'react-dnd';
 import uuid from 'react-uuid';
 import BurgerConstructorItem from './burger-constructor-item/burger-constructor-item';
+import {Navigate, useNavigate} from 'react-router-dom';
 
 export const BurgerConstructor = () => {
 	const dispatch = useAppDispatch();
+	const navigate = useNavigate();
+	const isAuth = localStorage.getItem('accessToken');
 	const order = useAppSelector((store) => store.order.currentOrder.order);
 	const closeOrderDetails = () => {
 		dispatch({
 			type: CLEAR_ORDER_INFO,
 		});
-		console.log(order);
 	};
 	// const [isModalVisible, setModalActive] = useState(false);
 	const chosenIngredients = useAppSelector((store) => store.cart) as CartModel;
 
 	const handleIngredientClick = () => {
+		if (!isAuth) {
+			return navigate('/login');
+			// return <Navigate to={'/login'} />;
+		}
 		const isBun = chosenIngredients.bun._id;
 		const isFillings = !!chosenIngredients.fillings.length;
-		if (isBun && isFillings) {
+		if (isBun && isFillings && !isAuth) {
 			const requestData = calcIngredientsRequestData();
 			dispatch(sendOrder(requestData));
 			// setModalActive(true);
@@ -170,7 +176,7 @@ export const BurgerConstructor = () => {
 					type='primary'
 					size='large'
 					onClick={() => handleIngredientClick()}>
-					Нажми на меня
+					Оформить заказ
 				</Button>
 			</div>
 			{order.number && (
