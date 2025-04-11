@@ -191,7 +191,9 @@ export function resetPassword(data) {
 					type: RESET_PASSWORD_SUCCESS,
 					payload: res,
 				});
-				localStorage.removeItem('forgotPage');
+				if (res.success) {
+					localStorage.removeItem('forgotPage');
+				}
 			})
 			.catch((err) => {
 				alert(err.message);

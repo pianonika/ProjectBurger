@@ -34,9 +34,9 @@ export const ProfileMenu = ({}) => {
 					</NavLink>
 				</li>
 				<li className={`${s.profile_menu__item} text text_type_main-medium`}>
-					<div className={s.link} onClick={logout} role='button' tabIndex={0}>
+					<button className={s.button_link} onClick={logout} tabIndex={0}>
 						Выход
-					</div>
+					</button>
 				</li>
 			</ul>
 		</>

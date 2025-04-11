@@ -8,16 +8,22 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import { resetPassword } from '@store/auth/action';
 import { useAppDispatch } from '@models/hooks';
+import {useSelector} from "react-redux";
 
 export function ResetPasswordPage() {
 	const [form, setValue] = useState({ email: '', password: '' });
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
 	const isFromForgotPage = !!localStorage.getItem('forgotPage');
+	const isRequestInProgress = useSelector((state) => state.authorization.requestInProgress);
+
 
 	useEffect(() => {
 		!isFromForgotPage && navigate(-1);
 	}, []);
+	useEffect(() => {
+		!isFromForgotPage && !isRequestInProgress && navigate('/login');
+	}, [isRequestInProgress]);
 
 	const onChange = (e) => {
 		setValue({ ...form, [e.target.name]: e.target.value });
@@ -30,9 +36,6 @@ export function ResetPasswordPage() {
 				JSON.stringify({ password: form.password, token: form.token })
 			)
 		);
-		if (!localStorage.getItem('forgotPage')) {
-			navigate('/login');
-		}
 	};
 
 	return (

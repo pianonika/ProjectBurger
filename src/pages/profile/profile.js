@@ -57,7 +57,7 @@ export function ProfilePage() {
 						name='name'
 						onChange={onChange}
 					/>
-					<EditIcon className={s.form_field__editIcon} type='primary'/>
+					<EditIcon className={s.form_field__editIcon} type='primary' />
 				</div>
 				<div className={s.form_field}>
 					<Input
@@ -98,7 +98,7 @@ export function ProfilePage() {
 			</form>
 			<div
 				className={`${s.profile_comment} text text_type_main-default text_color_inactive`}>
-				В этом разделе вы можете <br/>
+				В этом разделе вы можете <br />
 				изменить свои персональные данные
 			</div>
 		</Profile>

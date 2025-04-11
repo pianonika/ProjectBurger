@@ -1,6 +1,8 @@
 import {
+	FORGOT_FAILED,
+	FORGOT_REQUEST, FORGOT_SUCCESS,
 	LOGIN_SUCCESS,
-	LOGOUT_SUCCESS,
+	LOGOUT_SUCCESS, RESET_PASSWORD_REQUEST, RESET_PASSWORD_SUCCESS,
 	SET_AUTH_FLAG,
 	SET_USER,
 } from '@store/auth/action';
@@ -8,6 +10,7 @@ import {
 const initialState = {
 	user: null,
 	isAuthChecked: false,
+	requestInProgress: false,
 };
 
 export const authorizationReducer = (state = initialState, action) => {
@@ -35,6 +38,30 @@ export const authorizationReducer = (state = initialState, action) => {
 			return {
 				...state,
 				isAuthChecked: action.payload,
+			};
+		}
+		case FORGOT_REQUEST: {
+			return {
+				...state,
+				requestInProgress: true,
+			};
+		}
+		case FORGOT_SUCCESS: {
+			return {
+				...state,
+				requestInProgress: false,
+			};
+		}
+		case RESET_PASSWORD_REQUEST: {
+			return {
+				...state,
+				requestInProgress: true,
+			};
+		}
+		case RESET_PASSWORD_SUCCESS: {
+			return {
+				...state,
+				requestInProgress: false,
 			};
 		}
 		default: {
