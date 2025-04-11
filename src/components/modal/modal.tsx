@@ -1,4 +1,4 @@
-import React, { SetStateAction, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import s from './modal.module.less';
 import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components';

@@ -94,7 +94,7 @@ export const IngredientsList = ({
 												key={`${ingredient._id}`}
 												to={`/ingredients/${ingredient._id}`}
 												state={{ modalLocation: location }}
-											className={s.cardLink}>
+												className={s.cardLink}>
 												<IngredientCard
 													ingredient={ingredient}
 													key={`${ingredient._id} + ${ingredientIndex}`}
