@@ -6,8 +6,7 @@ import {
 	Logo,
 	ProfileIcon,
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import { NavLink } from 'react-router-dom';
-import burgerIcon from '../../images/burgerIcon.svg';
+import { NavLink, Link } from 'react-router-dom';
 
 export const AppHeader = ({}) => {
 	return (
@@ -36,7 +35,9 @@ export const AppHeader = ({}) => {
 						Лента заказов
 					</NavLink>
 				</div>
-				<Logo className={s.logo} />
+				<Link to='/'  className={s.logo}>
+					<Logo />
+				</Link>
 				<div className={s.header__buttons}>
 					<NavLink
 						className={({ isActive }) =>
