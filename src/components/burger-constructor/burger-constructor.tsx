@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import s from './burger-constructor.module.less';
 import {
 	Button,
@@ -25,13 +25,15 @@ export const BurgerConstructor = () => {
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
 	const isAuth = useAppSelector((store) => store.authorization.user);
-	const order = useAppSelector((store) => store.order.currentOrder.order);
+	const order = useAppSelector((store) => store.order);
+	const [isActiveModal, setIsActiveModal] = useState(false);
 	const closeOrderDetails = () => {
 		dispatch({
 			type: CLEAR_ORDER_INFO,
 		});
+		setIsActiveModal(false);
 	};
-	// const [isModalVisible, setModalActive] = useState(false);
+
 	const chosenIngredients = useAppSelector((store) => store.cart) as CartModel;
 
 	const handleIngredientClick = () => {
@@ -43,6 +45,7 @@ export const BurgerConstructor = () => {
 		if (isBun && isFillings && isAuth) {
 			const requestData = calcIngredientsRequestData();
 			dispatch(sendOrder(requestData));
+			setIsActiveModal(true);
 		}
 		!isBun && alert('Нужно выбрать булку');
 		isBun && !isFillings && alert('Нужно выбрать начинку');
@@ -176,9 +179,10 @@ export const BurgerConstructor = () => {
 					onClick={() => handleIngredientClick()}>
 					Оформить заказ
 				</Button>
+				sss{order.requestInProgress}
 			</div>
-			{order.number && (
-				<Modal isActive={!!order.number} closeModal={closeOrderDetails}>
+			{isActiveModal && (
+				<Modal isActive={isActiveModal} closeModal={closeOrderDetails}>
 					<OrderDetails />
 				</Modal>
 			)}

@@ -5,8 +5,11 @@ import { useAppSelector } from '@models/hooks';
 
 export const OrderDetails = () => {
 	const order = useAppSelector((store) => store.order.currentOrder.order);
+	const isRequestInProgress = useAppSelector(
+		(store) => store.order.requestInProgress
+	);
 
-	return order.number ? (
+	return !isRequestInProgress ? (
 		<div className={s.ingredient__details}>
 			<p className={`${s.number} text text_type_digits-large`}>
 				{order?.number}

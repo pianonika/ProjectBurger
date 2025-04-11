@@ -1,4 +1,4 @@
-import { request } from '@utils/checkResponse';
+import { fetchWithRefresh } from '@utils/checkResponse';
 
 export const SEND_ORDER = 'SEND_ORDER';
 export const SEND_ORDER_FAILED = 'SEND_ORDER_FAILED';
@@ -11,7 +11,7 @@ export function sendOrder(productsIds) {
 			type: SEND_ORDER,
 		});
 
-		request('/api/orders', {
+		fetchWithRefresh('/api/orders', {
 			method: 'POST',
 			body: productsIds,
 			headers: {

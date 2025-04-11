@@ -27,10 +27,6 @@ export function loginRequest(data) {
 		dispatch({
 			type: LOGIN_REQUEST,
 		});
-		dispatch({
-			type: SET_USER,
-			payload: data,
-		});
 
 		fetchWithRefresh('/api/auth/login', {
 			method: 'POST',
@@ -44,11 +40,12 @@ export function loginRequest(data) {
 					type: LOGIN_SUCCESS,
 					payload: res.user,
 				});
-
 				localStorage.setItem('refreshToken', res.refreshToken);
 				localStorage.setItem('accessToken', res.accessToken);
 			})
 			.catch((err) => {
+				console.log(err);
+				alert(err.message);
 				dispatch({
 					type: LOGIN_FAILED,
 					payload: err,
@@ -160,12 +157,14 @@ export function forgotRequest(data) {
 			},
 		})
 			.then((res) => {
+				localStorage.setItem('forgotPage', true);
 				dispatch({
 					type: FORGOT_SUCCESS,
 					payload: res,
 				});
 			})
 			.catch((err) => {
+				alert(err.message);
 				dispatch({
 					type: FORGOT_FAILED,
 					payload: err,
@@ -192,8 +191,10 @@ export function resetPassword(data) {
 					type: RESET_PASSWORD_SUCCESS,
 					payload: res,
 				});
+				localStorage.removeItem('forgotPage');
 			})
 			.catch((err) => {
+				alert(err.message);
 				dispatch({
 					type: RESET_PASSWORD_FAILED,
 					payload: err,
@@ -219,6 +220,7 @@ export function updateUser(data) {
 					type: SET_USER,
 					payload: res.user,
 				});
+				alert('Данные успешно сохранены')
 			})
 			.catch((err) => {
 				dispatch({
