@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import s from './reset-password.module.less';
 import {
 	Button,
@@ -12,6 +12,13 @@ import { useAppDispatch } from '@models/hooks';
 export function ResetPasswordPage() {
 	const [form, setValue] = useState({ email: '', password: '' });
 	const dispatch = useAppDispatch();
+	const location = useLocation();
+	const navigate = useNavigate();
+	const isFromForgotPage = !!location.state?.forgot;
+
+	useEffect(() => {
+		!isFromForgotPage && navigate(-1);
+	}, []);
 
 	const onChange = (e) => {
 		setValue({ ...form, [e.target.name]: e.target.value });

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import s from './profile.module.less';
 import {
+	Button,
 	EditIcon,
 	Input,
 	PasswordInput,
@@ -15,18 +16,20 @@ export function ProfilePage() {
 	const user = useSelector((state) => state.authorization.user);
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
+	const [isFormChanged, setIsFormChanged] = useState(false);
 
 	const [form, setValue] = useState({
-		password: user.password,
+		password: '',
 		name: user.name,
 		email: user.email,
 	});
 
 	const onChange = (e) => {
-		const previousValue = form[e.target.name];
+		const previousValue = user[e.target.name];
 		setValue({ ...form, [e.target.name]: e.target.value });
-		if (previousValue === e.target.value) {
-			saveData(e);
+		if (previousValue !== e.target.value) {
+			setIsFormChanged(true);
+			console.log('isFormChanged', isFormChanged);
 		}
 	};
 
@@ -35,7 +38,13 @@ export function ProfilePage() {
 	}
 
 	const saveData = (e) => {
-		dispatch(updateUser(JSON.stringify({ [e.target.name]: e.target.value })));
+		e.preventDefault();
+		dispatch(updateUser(JSON.stringify(form)));
+	};
+	const rollback = (e) => {
+		e.preventDefault();
+		setValue({ ...user });
+		setIsFormChanged(false);
 	};
 
 	return (
@@ -47,7 +56,6 @@ export function ProfilePage() {
 						value={form.name}
 						name='name'
 						onChange={onChange}
-						onBlur={saveData}
 					/>
 					<EditIcon className={s.form_field__editIcon} type='primary' />
 				</div>
@@ -57,7 +65,6 @@ export function ProfilePage() {
 						value={form.email}
 						name='email'
 						onChange={onChange}
-						onBlur={saveData}
 						icon={'EditIcon'}
 					/>
 				</div>
@@ -67,10 +74,27 @@ export function ProfilePage() {
 						value={form.password}
 						name='password'
 						onChange={onChange}
-						onBlur={saveData}
 						icon={'EditIcon'}
 					/>
 				</div>
+				{isFormChanged && (
+					<div className={`${s.form_field} ${s.form_buttons}`}>
+						<Button
+							htmlType='button'
+							type='secondary'
+							size='medium'
+							onClick={rollback}>
+							Отмена
+						</Button>
+						<Button
+							htmlType='button'
+							type='primary'
+							size='medium'
+							onClick={saveData}>
+							Сохранить
+						</Button>
+					</div>
+				)}
 			</form>
 		</Profile>
 	);
