@@ -1,8 +1,7 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import s from './order-details.module.less';
 import orderCheckIcon from '../../images/orderCheck.svg';
-import { useAppDispatch, useAppSelector } from '../../models/hooks';
-import { CLEAR_ORDER_INFO } from '../../store/order/action';
+import { useAppSelector } from '@models/hooks';
 
 export const OrderDetails = () => {
 	const order = useAppSelector((store) => store.order.currentOrder.order);

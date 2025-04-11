@@ -20,6 +20,7 @@ export function LoginPage() {
 		e.preventDefault();
 		dispatch(loginRequest(form));
 	};
+	const checkValid = (e) => !!e.target.value;
 
 	return (
 		<div className='page_wrapper'>
@@ -41,6 +42,7 @@ export function LoginPage() {
 								placeholder='Password'
 								value={form.password}
 								name='password'
+								checkValid={checkValid}
 								onChange={onChange}
 							/>
 						</div>

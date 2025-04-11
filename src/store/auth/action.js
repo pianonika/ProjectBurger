@@ -30,6 +30,10 @@ export function loginRequest(data) {
 		dispatch({
 			type: LOGIN_REQUEST,
 		});
+		dispatch({
+			type: SET_USER,
+			payload: data,
+		});
 
 		fetchWithRefresh('/api/auth/login', {
 			method: 'POST',
@@ -87,6 +91,9 @@ export function logoutRequest() {
 		dispatch({
 			type: LOGOUT_REQUEST,
 		});
+		// dispatch({
+		// 	type: LOGOUT_SUCCESS,
+		// });
 
 		fetchWithRefresh('/api/auth/logout', {
 			method: 'POST',
@@ -98,10 +105,10 @@ export function logoutRequest() {
 			.then((res) => {
 				dispatch({
 					type: LOGOUT_SUCCESS,
-					payload: res,
 				});
 				localStorage.removeItem('refreshToken');
 				localStorage.removeItem('accessToken');
+				dispatch(checkUserAuth());
 			})
 			.catch((err) => {
 				dispatch({

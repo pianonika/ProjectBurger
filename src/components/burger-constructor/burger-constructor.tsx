@@ -19,12 +19,12 @@ import { INCREMENT_INGREDIENTS_COUNT } from '@store/ingredients/action';
 import { useDrop } from 'react-dnd';
 import uuid from 'react-uuid';
 import BurgerConstructorItem from './burger-constructor-item/burger-constructor-item';
-import {Navigate, useNavigate} from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 export const BurgerConstructor = () => {
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
-	const isAuth = localStorage.getItem('accessToken');
+	const isAuth = useAppSelector((store) => store.authorization.user);
 	const order = useAppSelector((store) => store.order.currentOrder.order);
 	const closeOrderDetails = () => {
 		dispatch({
@@ -37,14 +37,12 @@ export const BurgerConstructor = () => {
 	const handleIngredientClick = () => {
 		if (!isAuth) {
 			return navigate('/login');
-			// return <Navigate to={'/login'} />;
 		}
 		const isBun = chosenIngredients.bun._id;
 		const isFillings = !!chosenIngredients.fillings.length;
-		if (isBun && isFillings && !isAuth) {
+		if (isBun && isFillings && isAuth) {
 			const requestData = calcIngredientsRequestData();
 			dispatch(sendOrder(requestData));
-			// setModalActive(true);
 		}
 		!isBun && alert('Нужно выбрать булку');
 		isBun && !isFillings && alert('Нужно выбрать начинку');
@@ -142,7 +140,7 @@ export const BurgerConstructor = () => {
 						<div className={`${s.constructorItem}  ${s.emptyFillings}`}>
 							<div className={`constructor-element ${s.emptyFillings__inner}`}>
 								<span className='constructor-element__row'>
-									Добавь ингридиенты{' '}
+									Добавь ингредиенты{' '}
 								</span>
 							</div>
 						</div>
@@ -180,10 +178,7 @@ export const BurgerConstructor = () => {
 				</Button>
 			</div>
 			{order.number && (
-				<Modal
-					isActive={!!order.number}
-					closeModal={closeOrderDetails}
-					title={'Детали ингредиента'}>
+				<Modal isActive={!!order.number} closeModal={closeOrderDetails}>
 					<OrderDetails />
 				</Modal>
 			)}

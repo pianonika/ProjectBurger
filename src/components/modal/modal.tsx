@@ -9,7 +9,7 @@ type Props = {
 	isActive?: boolean;
 	closeModal: any;
 	children: React.ReactNode;
-	title: string;
+	title?: string;
 };
 
 export const Modal = ({ isActive, closeModal, children, title }: Props) => {

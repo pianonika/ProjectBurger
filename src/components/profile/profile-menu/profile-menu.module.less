@@ -1,0 +1,45 @@
+.profile_menu {
+	padding-inline-start: 0;
+	&__item {
+		height: 64px;
+		width: 320px;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		color: #8585AD;
+		text-align: left;
+		size: 24px;
+		cursor: pointer;
+
+		&.active {
+			color: #fff;
+		}
+	}
+}
+
+
+.link {
+	padding: 16px 20px;
+	color: var(--text-inactive-color);
+	display: flex;
+	align-items: center;
+
+	&:hover {
+		color: var(--text-inactive-color);
+	}
+
+	&__active {
+		.link_logo {
+			fill: #fff;
+		}
+		color: #fff;
+		&:hover {
+			color: #fff;
+		}
+	}
+
+	&_logo {
+		height: 40px;
+		margin-right: 8px;
+		fill: var(--text-inactive-color);
+	}
+}
