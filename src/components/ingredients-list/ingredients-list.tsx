@@ -1,11 +1,10 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import s from './ingredients-list.module.less';
 import IngredientCard from '../ingredient-card/ingredient-card';
 import { IngredientModel } from '@models/ingredient-model.model';
 import { ingredientsCategories } from '@store/vars';
-import { useAppDispatch, useAppSelector } from '@models/hooks';
-import { getIngredients } from '@store/ingredients/action';
+import { useAppSelector } from '@models/hooks';
 import { ingredientsItems } from '@models/categories';
 
 export const IngredientsList = ({
@@ -15,41 +14,12 @@ export const IngredientsList = ({
 	currSection: string;
 	updateCurrentSection: any;
 }) => {
-	const dispatch = useAppDispatch();
 	const location = useLocation();
-	// let state = modalLocation.state as { modalLocation: location };
-	useEffect(() => {
-		dispatch(getIngredients());
-	}, []);
 
 	const items: ingredientsItems = useAppSelector(
 		(state) => state.ingredients.items
 	);
 	const categories = ingredientsCategories;
-	// const addCurrIngredientToCart = (ingredient: IngredientModel) => {
-	// 	dispatch({
-	// 		type: INCREMENT_INGREDIENTS_COUNT,
-	// 		payload: ingredient,
-	// 	});
-	// 	ingredient = {
-	// 		...ingredient,
-	// 		uuid: uuid(),
-	// 	};
-	// 	if (ingredient.type === 'bun') {
-	// 		dispatch({
-	// 			type: SET_BUN,
-	// 			payload: ingredient,
-	// 		});
-	// 	} else {
-	// 		dispatch({
-	// 			type: ADD_FILLINGS_ITEM,
-	// 			payload: ingredient,
-	// 		});
-	// 	}
-	// };
-	// const modalIngredient = useAppSelector(
-	// 	(store) => store.chosenIngredient.ingredient
-	// );
 	const categoriesName = (el: string) => categories[el];
 
 	const sectionRef = useRef(null);

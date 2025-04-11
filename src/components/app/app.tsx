@@ -17,6 +17,7 @@ import { useAppDispatch } from '@models/hooks';
 import { checkUserAuth } from '@store/auth/action';
 import { OrderListPage } from '@pages/orders-list/orders-list';
 import { OrderPage } from '@pages/order/order';
+import { getIngredients } from '@store/ingredients/action';
 
 export const App = () => {
 	const location = useLocation();
@@ -29,6 +30,7 @@ export const App = () => {
 
 	useEffect(() => {
 		dispatch(checkUserAuth());
+		dispatch(getIngredients());
 	}, []);
 
 	return (
