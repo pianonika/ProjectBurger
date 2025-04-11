@@ -35,7 +35,7 @@ export const AppHeader = ({}) => {
 						Лента заказов
 					</NavLink>
 				</div>
-				<Link to='/'  className={s.logo}>
+				<Link to='/' className={s.logo}>
 					<Logo />
 				</Link>
 				<div className={s.header__buttons}>

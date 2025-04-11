@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
-import {Link, useNavigate} from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import s from './forgot-password.module.less';
 import {
 	Button,
 	Input,
-	PasswordInput,
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useAppDispatch } from '@models/hooks';
 import { forgotRequest } from '@store/auth/action';

@@ -1,7 +1,13 @@
 import React from 'react';
 import ProfileMenu from '@components/profile/profile-menu/profile-menu';
 
-export const Profile = ({ children, title }: { children: React.ReactNode, title: string }) => {
+export const Profile = ({
+	children,
+	title,
+}: {
+	children: React.ReactNode;
+	title: string;
+}) => {
 	return (
 		<div className='page_wrapper'>
 			<h1 className='text text_type_main-medium page_header'>{title}</h1>

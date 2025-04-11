@@ -77,18 +77,18 @@ button:focus-visible {
 .page_header {
 	text-align: center;
 }
+
 .page_content {
 	display: grid;
-	grid-template-columns: repeat(3, 1fr);
 	grid-template-rows: repeat(auto 1fr);
-	grid-column-gap: 24px;
-	grid-row-gap: 20px;
+	grid-template-columns: repeat(3, 1fr);
+	grid-gap: 20px 24px;
 }
 
 .page_wrapper {
+	width: 100%;
+	margin: 120px auto;
 	overflow: hidden;
 	text-align: center;
 	text-overflow: ellipsis;
-	width: 100%;
-	margin: 120px auto;
 }

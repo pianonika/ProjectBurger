@@ -1,12 +1,11 @@
 import React from 'react';
 import s from './profile-menu.module.less';
-import { Link, NavLink, useNavigate } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { useAppDispatch } from '@models/hooks';
 import { logoutRequest } from '@store/auth/action';
 
 export const ProfileMenu = ({}) => {
 	const dispatch = useAppDispatch();
-	const navigate = useNavigate();
 
 	const logout = (e: any) => {
 		e.preventDefault();
@@ -34,7 +33,7 @@ export const ProfileMenu = ({}) => {
 				</NavLink>
 			</li>
 			<li className={`${s.profile_menu__item} text text_type_main-medium`}>
-				<div className={s.link} onClick={logout} role='button'>
+				<div className={s.link} onClick={logout} role='button' tabIndex={0}>
 					Выход
 				</div>
 			</li>

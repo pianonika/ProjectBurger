@@ -1,6 +1,4 @@
 import { fetchWithRefresh } from '@utils/checkResponse';
-import { Navigate, useNavigate } from 'react-router-dom';
-import React from 'react';
 
 export const LOGIN_REQUEST = 'LOGIN_REQUEST';
 export const LOGIN_FAILED = 'LOGIN_FAILED';
@@ -20,7 +18,6 @@ export const RESET_PASSWORD_REQUEST = 'RESET_PASSWORD_REQUEST';
 export const RESET_PASSWORD_SUCCESS = 'RESET_PASSWORD_SUCCESS';
 export const RESET_PASSWORD_FAILED = 'RESET_PASSWORD_FAILED';
 export const GET_USER_REQUEST = 'GET_USER_REQUEST';
-export const GET_USER_SUCCESS = 'GET_USER_SUCCESS';
 export const GET_USER_FAILED = 'GET_USER_FAILED';
 export const SET_AUTH_FLAG = 'SET_AUTH_FLAG';
 export const SET_USER = 'SET_USER';
@@ -54,6 +51,7 @@ export function loginRequest(data) {
 			.catch((err) => {
 				dispatch({
 					type: LOGIN_FAILED,
+					payload: err,
 				});
 			});
 	};
@@ -81,6 +79,7 @@ export function refreshToken(data) {
 			.catch((err) => {
 				dispatch({
 					type: LOGIN_FAILED,
+					payload: err,
 				});
 			});
 	};
@@ -102,7 +101,7 @@ export function logoutRequest() {
 				'Content-Type': 'application/json;charset=utf-8',
 			},
 		})
-			.then((res) => {
+			.then(() => {
 				dispatch({
 					type: LOGOUT_SUCCESS,
 				});
@@ -113,6 +112,7 @@ export function logoutRequest() {
 			.catch((err) => {
 				dispatch({
 					type: LOGOUT_FAILED,
+					payload: err,
 				});
 			});
 	};
@@ -140,6 +140,7 @@ export function register(data) {
 			.catch((err) => {
 				dispatch({
 					type: REGISTER_FAILED,
+					payload: err,
 				});
 			});
 	};
@@ -167,6 +168,7 @@ export function forgotRequest(data) {
 			.catch((err) => {
 				dispatch({
 					type: FORGOT_FAILED,
+					payload: err,
 				});
 			});
 	};
@@ -194,6 +196,7 @@ export function resetPassword(data) {
 			.catch((err) => {
 				dispatch({
 					type: RESET_PASSWORD_FAILED,
+					payload: err,
 				});
 			});
 	};
@@ -220,6 +223,7 @@ export function updateUser(data) {
 			.catch((err) => {
 				dispatch({
 					type: REFRESH_USER_FAILED,
+					payload: err,
 				});
 			});
 	};
@@ -246,6 +250,7 @@ export function getUser() {
 			.catch((err) => {
 				dispatch({
 					type: GET_USER_FAILED,
+					payload: err,
 				});
 			})
 			.finally(() => {
@@ -257,7 +262,7 @@ export function getUser() {
 	};
 }
 
-export function checkUserAuth(data) {
+export function checkUserAuth() {
 	return function (dispatch) {
 		if (localStorage.getItem('accessToken')) {
 			dispatch(getUser());

@@ -1,5 +1,4 @@
 import {
-	GET_USER_SUCCESS,
 	LOGIN_SUCCESS,
 	LOGOUT_SUCCESS,
 	SET_AUTH_FLAG,
@@ -43,10 +42,3 @@ export const authorizationReducer = (state = initialState, action) => {
 		}
 	}
 };
-
-function selectIsAuthChecked(state) {
-	return state.isAuthChecked;
-}
-function selectUser(state) {
-	return state.user;
-}

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import s from './login.module.less';
 import {
@@ -20,7 +20,6 @@ export function LoginPage() {
 		e.preventDefault();
 		dispatch(loginRequest(form));
 	};
-	const checkValid = (e) => !!e.target.value;
 
 	return (
 		<div className='page_wrapper'>
@@ -42,7 +41,6 @@ export function LoginPage() {
 								placeholder='Password'
 								value={form.password}
 								name='password'
-								checkValid={checkValid}
 								onChange={onChange}
 							/>
 						</div>

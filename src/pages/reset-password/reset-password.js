@@ -6,8 +6,8 @@ import {
 	Input,
 	PasswordInput,
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import { forgotRequest, resetPassword } from '@store/auth/action';
-import {useAppDispatch} from "@models/hooks";
+import { resetPassword } from '@store/auth/action';
+import { useAppDispatch } from '@models/hooks';
 
 export function ResetPasswordPage() {
 	const [form, setValue] = useState({ email: '', password: '' });
