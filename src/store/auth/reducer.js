@@ -1,8 +1,10 @@
 import {
-	FORGOT_FAILED,
-	FORGOT_REQUEST, FORGOT_SUCCESS,
+	FORGOT_REQUEST,
+	FORGOT_SUCCESS,
 	LOGIN_SUCCESS,
-	LOGOUT_SUCCESS, RESET_PASSWORD_REQUEST, RESET_PASSWORD_SUCCESS,
+	LOGOUT_SUCCESS, REGISTER_REQUEST, REGISTER_SUCCESS,
+	RESET_PASSWORD_REQUEST,
+	RESET_PASSWORD_SUCCESS,
 	SET_AUTH_FLAG,
 	SET_USER,
 } from '@store/auth/action';
@@ -59,6 +61,18 @@ export const authorizationReducer = (state = initialState, action) => {
 			};
 		}
 		case RESET_PASSWORD_SUCCESS: {
+			return {
+				...state,
+				requestInProgress: false,
+			};
+		}
+		case REGISTER_REQUEST: {
+			return {
+				...state,
+				requestInProgress: true,
+			};
+		}
+		case REGISTER_SUCCESS: {
 			return {
 				...state,
 				requestInProgress: false,

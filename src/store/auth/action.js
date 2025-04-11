@@ -135,6 +135,7 @@ export function register(data) {
 				});
 			})
 			.catch((err) => {
+				alert(err.message);
 				dispatch({
 					type: REGISTER_FAILED,
 					payload: err,
@@ -157,7 +158,6 @@ export function forgotRequest(data) {
 			},
 		})
 			.then((res) => {
-				localStorage.setItem('forgotPage', true);
 				dispatch({
 					type: FORGOT_SUCCESS,
 					payload: res,

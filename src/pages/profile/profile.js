@@ -11,25 +11,25 @@ import { useSelector } from 'react-redux';
 import { updateUser } from '@store/auth/action';
 import { useAppDispatch } from '@models/hooks';
 import Profile from '@components/profile/profile';
+import { useForm } from '../../hooks/useForm';
 
 export function ProfilePage() {
 	const user = useSelector((state) => state.authorization.user);
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
 	const [isFormChanged, setIsFormChanged] = useState(false);
-
-	const [form, setValue] = useState({
+	const { values, setValues } = useForm({
 		password: '',
 		name: user.name,
 		email: user.email,
+		isFormChanged: false,
 	});
 
 	const onChange = (e) => {
 		const previousValue = user[e.target.name];
-		setValue({ ...form, [e.target.name]: e.target.value });
+		setValues({ ...values, [e.target.name]: e.target.value });
 		if (previousValue !== e.target.value) {
 			setIsFormChanged(true);
-			console.log('isFormChanged', isFormChanged);
 		}
 	};
 
@@ -39,21 +39,22 @@ export function ProfilePage() {
 
 	const saveData = (e) => {
 		e.preventDefault();
-		dispatch(updateUser(JSON.stringify(form)));
+		dispatch(updateUser(JSON.stringify(values)));
+		setIsFormChanged(false);
 	};
 	const rollback = (e) => {
 		e.preventDefault();
-		setValue({ ...user });
+		setValues({ ...user });
 		setIsFormChanged(false);
 	};
 
 	return (
 		<Profile title={'Вход'}>
-			<form className={s.form}>
+			<form className={s.form} onSubmit={saveData}>
 				<div className={s.form_field}>
 					<Input
 						placeholder='Имя'
-						value={form.name}
+						value={values.name}
 						name='name'
 						onChange={onChange}
 					/>
@@ -62,7 +63,7 @@ export function ProfilePage() {
 				<div className={s.form_field}>
 					<Input
 						placeholder='Логин'
-						value={form.email}
+						value={values.email}
 						name='email'
 						onChange={onChange}
 						icon={'EditIcon'}
@@ -71,7 +72,7 @@ export function ProfilePage() {
 				<div className={s.form_field}>
 					<PasswordInput
 						placeholder='Пароль'
-						value={form.password}
+						value={values.password}
 						name='password'
 						onChange={onChange}
 						icon={'EditIcon'}
@@ -86,11 +87,7 @@ export function ProfilePage() {
 							onClick={rollback}>
 							Отмена
 						</Button>
-						<Button
-							htmlType='button'
-							type='primary'
-							size='medium'
-							onClick={saveData}>
+						<Button type='primary' size='medium' htmlType={'submit'}>
 							Сохранить
 						</Button>
 					</div>

@@ -8,15 +8,17 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import { resetPassword } from '@store/auth/action';
 import { useAppDispatch } from '@models/hooks';
-import {useSelector} from "react-redux";
+import { useSelector } from 'react-redux';
+import { useForm } from '../../hooks/useForm';
 
 export function ResetPasswordPage() {
-	const [form, setValue] = useState({ email: '', password: '' });
+	const { values, handleChange } = useForm({ email: '', password: '' });
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
 	const isFromForgotPage = !!localStorage.getItem('forgotPage');
-	const isRequestInProgress = useSelector((state) => state.authorization.requestInProgress);
-
+	const isRequestInProgress = useSelector(
+		(state) => state.authorization.requestInProgress
+	);
 
 	useEffect(() => {
 		!isFromForgotPage && navigate(-1);
@@ -25,15 +27,11 @@ export function ResetPasswordPage() {
 		!isFromForgotPage && !isRequestInProgress && navigate('/login');
 	}, [isRequestInProgress]);
 
-	const onChange = (e) => {
-		setValue({ ...form, [e.target.name]: e.target.value });
-	};
-
-	const save = (e) => {
+	const submitForm = (e) => {
 		e.preventDefault();
 		dispatch(
 			resetPassword(
-				JSON.stringify({ password: form.password, token: form.token })
+				JSON.stringify({ password: values.password, token: values.token })
 			)
 		);
 	};
@@ -47,25 +45,25 @@ export function ResetPasswordPage() {
 				<div className='page_content'>
 					<div className='page_content__left'></div>
 					<div className='page_content__center'>
-						<form className={s.form}>
+						<form className={s.form} onSubmit={submitForm}>
 							<div className={s.form_field}>
 								<PasswordInput
 									placeholder='Введите новый пароль'
-									value={form.password}
+									value={values.password}
 									name='password'
-									onChange={onChange}
+									onChange={handleChange}
 								/>
 							</div>
 							<div className={s.form_field}>
 								<Input
 									placeholder='Введите код из письма'
-									value={form.token}
+									value={values.token}
 									name='token'
-									onChange={onChange}
+									onChange={handleChange}
 								/>
 							</div>
 							<div className={s.form_field}>
-								<Button onClick={save} primary={true}>
+								<Button htmlType={'submit'} primary={true}>
 									Сохранить
 								</Button>
 							</div>

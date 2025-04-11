@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import s from './login.module.less';
 import {
@@ -8,17 +8,15 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useAppDispatch } from '@models/hooks';
 import { loginRequest } from '@store/auth/action';
+import { useForm } from '../../hooks/useForm';
 
 export function LoginPage() {
-	const [form, setValue] = useState({ email: '', password: '' });
 	const dispatch = useAppDispatch();
+	const { values, handleChange } = useForm({ email: '', password: '' });
 
-	const onChange = (e) => {
-		setValue({ ...form, [e.target.name]: e.target.value });
-	};
 	const login = (e) => {
 		e.preventDefault();
-		dispatch(loginRequest(form));
+		dispatch(loginRequest(values));
 	};
 
 	return (
@@ -27,25 +25,25 @@ export function LoginPage() {
 			<div className='page_content'>
 				<div className='page_content__left'></div>
 				<div className='page_content__center'>
-					<form className={s.form}>
+					<form className={s.form} onSubmit={login}>
 						<div className={s.form_field}>
 							<Input
 								placeholder='Email'
-								value={form.email}
+								value={values.email}
 								name='email'
-								onChange={onChange}
+								onChange={handleChange}
 							/>
 						</div>
 						<div className={s.form_field}>
 							<PasswordInput
 								placeholder='Password'
-								value={form.password}
+								value={values.password}
 								name='password'
-								onChange={onChange}
+								onChange={handleChange}
 							/>
 						</div>
 						<div className={s.form_field}>
-							<Button onClick={login} primary={true}>
+							<Button htmlType={'submit'} primary={true}>
 								Войти
 							</Button>
 						</div>

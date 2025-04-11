@@ -82,7 +82,7 @@ button:hover {
 
 .page_wrapper {
 	width: 100%;
-	margin: 120px auto;
+	margin: 120px auto 20px;
 	overflow: hidden;
 	text-align: center;
 	text-overflow: ellipsis;
