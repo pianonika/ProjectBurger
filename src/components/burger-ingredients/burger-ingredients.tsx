@@ -1,12 +1,24 @@
-import React, { FC } from 'react';
+import React, { useState } from 'react';
 import s from './burger-ingredients.module.less';
 import Tabs from '../tabs/tabs';
-import { IngredientModelData } from '../../models/ingredient-model.model';
+import IngredientsList from '../ingredients-list/ingredients-list';
 
-export const BurgerIngredients: FC<IngredientModelData> = ({ data }) => {
+export const BurgerIngredients = () => {
+	const [currSection, setCurrentSection] = useState('bun');
+	// @ts-ignore
 	return (
 		<div className={s.ingredients}>
-			<Tabs {...data} />
+			<div className='tabs'>
+				<Tabs
+					currSection={currSection}
+					updateCurrentSection={setCurrentSection}
+				/>
+			</div>
+
+			<IngredientsList
+				currSection={currSection}
+				updateCurrentSection={setCurrentSection}
+			/>
 		</div>
 	);
 };

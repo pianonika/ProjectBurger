@@ -7,40 +7,41 @@ import ModalOverlayEl from '../modal-overlay/modal-overlay';
 const modalRoot = document.getElementById('react-modals') as HTMLElement;
 type Props = {
 	isActive?: boolean;
-	setActive: React.Dispatch<SetStateAction<boolean>>;
+	closeModal: any;
 	children: React.ReactNode;
 	title: string;
 };
 
-export const Modal = ({ isActive, setActive, children, title }: Props) => {
-	const handleKeydown = (event: KeyboardEvent) => {
-		if (event.key === 'Escape') {
-			setActive(false);
-		}
-	};
+export const Modal = ({ isActive, closeModal, children, title }: Props) => {
 	useEffect(() => {
-		document.addEventListener('keydown', handleKeydown);
+		const handleKeydown = (event: KeyboardEvent) => {
+			if (event.key === 'Escape') {
+				closeModal();
+			}
+		};
+		window.addEventListener('keydown', handleKeydown);
+
 		return () => {
 			window.removeEventListener('keydown', handleKeydown);
 		};
-	}, [handleKeydown]);
+	}, []);
 
 	return createPortal(
 		<div
 			className={isActive ? `${s.modal} ${s.active}` : `${s.modal}`}
-			onClick={() => setActive(false)}>
+			onClick={() => closeModal()}>
 			<ModalOverlayEl />
 			<div
 				className={s.modal_content}
 				onClick={(event) => event.stopPropagation()}>
 				<div className='modal_header'>
 					{title && (
-						<title className='text text_type_main-large mb-10'>{title}</title>
+						<div className='text text_type_main-large mb-10'>{title}</div>
 					)}
 					<div
 						role='presentation'
 						className={s.modal_close}
-						onClick={() => setActive(false)}>
+						onClick={() => closeModal()}>
 						<CloseIcon type='primary' />
 					</div>
 				</div>

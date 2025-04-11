@@ -9,7 +9,7 @@ import {
 
 export const AppHeader = ({}) => {
 	return (
-		<div className={s.header}>
+		<header className={s.header}>
 			<nav className={s.header__inner}>
 				<div className={s.header__buttons}>
 					<a className={`${s.link__active} ${s.link} `} href='/'>
@@ -28,7 +28,7 @@ export const AppHeader = ({}) => {
 					</a>
 				</div>
 			</nav>
-		</div>
+		</header>
 	);
 };
 

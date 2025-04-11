@@ -11,8 +11,9 @@ export interface IngredientModel {
 	image_mobile?: string;
 	image_large?: string;
 	__v?: number;
+	uuid?: string;
+	count: number;
 }
-
-export interface IngredientModelData {
-	data: IngredientModel[];
+export interface IngredientModelUnic extends IngredientModel {
+	uniqueId: string;
 }

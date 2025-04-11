@@ -1,91 +1,168 @@
-import React, { FC, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import s from './burger-constructor.module.less';
 import {
 	Button,
 	ConstructorElement,
 	CurrencyIcon,
-	DragIcon,
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import Modal from '../modal/modal';
 import OrderDetails from '../order-details/order-details';
 import {
 	IngredientModel,
-	IngredientModelData,
+	IngredientModelUnic,
 } from '../../models/ingredient-model.model';
-import { FILLINGS } from '@utils/fillings';
+import { useAppDispatch, useAppSelector } from '../../models/hooks';
+import { CartModel } from '../../models/cart';
+import { ADD_FILLINGS_ITEM, SET_BUN } from '../../services/cart/action';
+import { CLEAR_ORDER_INFO, sendOrder } from '../../services/order/action';
+import { INCREMENT_INGREDIENTS_COUNT } from '../../services/ingredients/action';
+import { useDrop } from 'react-dnd';
+import uuid from 'react-uuid';
+import BurgerConstructorItem from './burger-constructor-item/burger-constructor-item';
 
-export const BurgerConstructor: FC<IngredientModelData> = ({ data }) => {
-	const [isModalVisible, setModalActive] = useState(false);
-	const [detailsData, setDetailsData] = useState<string>('000000');
-	const fillings = FILLINGS.filter((item) => item.type !== 'bun');
-	const [chosenIngredients, setchosenIngredients] = useState({
-		bun: {
-			_id: '643d69a5c3f7b9001cfa093c',
-			name: 'Краторная булка N-200i',
-			type: 'bun',
-			proteins: 80,
-			fat: 24,
-			carbohydrates: 53,
-			calories: 420,
-			price: 1255,
-			image: 'https://code.s3.yandex.net/react/code/bun-02.png',
-			image_mobile: 'https://code.s3.yandex.net/react/code/bun-02-mobile.png',
-			image_large: 'https://code.s3.yandex.net/react/code/bun-02-large.png',
-			__v: 0,
-		},
-		filling: fillings
-	});
+export const BurgerConstructor = () => {
+	const dispatch = useAppDispatch();
+	const order = useAppSelector((store) => store.order.currentOrder.order);
+	const closeOrderDetails = () => {
+		dispatch({
+			type: CLEAR_ORDER_INFO,
+		});
+		console.log(order);
+	};
+	// const [isModalVisible, setModalActive] = useState(false);
+	const chosenIngredients = useAppSelector((store) => store.cart) as CartModel;
 
 	const handleIngredientClick = () => {
-		setDetailsData(String(Math.ceil(Math.random() * 1000000)));
-		setModalActive(true);
+		const isBun = chosenIngredients.bun._id;
+		const isFillings = !!chosenIngredients.fillings.length;
+		if (isBun && isFillings) {
+			const requestData = calcIngredientsRequestData();
+			dispatch(sendOrder(requestData));
+			// setModalActive(true);
+		}
+		!isBun && alert('Нужно выбрать булку');
+		isBun && !isFillings && alert('Нужно выбрать начинку');
+	};
+
+	const totalPrice = useMemo(() => {
+		const fillingsPrice = chosenIngredients?.fillings?.[0]?.price
+			? chosenIngredients?.fillings?.reduce(
+					(acc: number, curr: IngredientModel) => acc + curr.price,
+					0
+			  )
+			: 0;
+		const bunPrice = chosenIngredients?.bun?.price ?? 0;
+		return fillingsPrice + bunPrice;
+	}, [chosenIngredients]);
+
+	const calcIngredientsRequestData = () => {
+		const bunId = chosenIngredients.bun._id;
+		const fillingsIds: string[] = chosenIngredients.fillings.map((i) => i._id);
+
+		fillingsIds.unshift(bunId);
+		fillingsIds.push(bunId);
+		return JSON.stringify({ ingredients: fillingsIds });
+	};
+
+	//DND
+	const [{ isOver }, dropRef] = useDrop({
+		accept: 'ingredientCard',
+		drop(itemId: IngredientModel) {
+			addCurrIngredientToCart(itemId);
+		},
+		collect: (monitor) => ({
+			isOver: monitor.isOver(),
+		}),
+	});
+	const addCurrIngredientToCart = (ingredient: IngredientModel) => {
+		dispatch({
+			type: INCREMENT_INGREDIENTS_COUNT,
+			payload: ingredient,
+		});
+		const newIngredient = {
+			...ingredient,
+			uniqueId: uuid(),
+		};
+		if (ingredient.type === 'bun') {
+			dispatch({
+				type: SET_BUN,
+				payload: newIngredient,
+			});
+		} else {
+			dispatch({
+				type: ADD_FILLINGS_ITEM,
+				payload: newIngredient,
+			});
+		}
 	};
 
 	return (
-		<div className={s.burgerConstructor}>
-			<div className={s.chosenIngredients}>
-				<div className={s.constructorItem}>
-					<ConstructorElement
-						type='top'
-						isLocked={true}
-						text={`${chosenIngredients.bun.name}  (верх)`}
-						price={chosenIngredients.bun.price}
-						thumbnail={chosenIngredients.bun.image}
-					/>
+		<div className={s.burgerConstructor} ref={dropRef}>
+			<div
+				className={`${s.chosenIngredients} + ${
+					isOver && s.chosenIngredients__active
+				}`}>
+				<div className={`${s.constructorItem} pr-4`}>
+					{chosenIngredients?.bun?.name ? (
+						<ConstructorElement
+							type='top'
+							isLocked={true}
+							text={`${chosenIngredients.bun.name}  (верх)`}
+							price={chosenIngredients.bun.price}
+							thumbnail={chosenIngredients.bun.image}
+						/>
+					) : (
+						<div
+							className={`constructor-element constructor-element_pos_top ${s.emptyIngredient}`}>
+							<span className={'constructor-element__row'}>Выберите булку</span>
+						</div>
+					)}
 				</div>
 				<div className={`${s.fillings} pr-4`}>
-					{chosenIngredients.filling.map(
-						(ingredient: IngredientModel, key: number) => (
-							<div
-								className={`${s.constructorItem} ${s.constructorItem__draggable}`}
-								key={`${ingredient._id}+${key}`}>
-								<div className={s.constructorItemIcon}>
-									<DragIcon type='primary' />
-								</div>
-								<ConstructorElement
+					{chosenIngredients?.fillings?.length ? (
+						chosenIngredients?.fillings?.map(
+							(ingredient: IngredientModelUnic, index: number) => (
+								<BurgerConstructorItem
+									index={index}
+									id={ingredient._id}
 									text={ingredient.name}
 									price={ingredient.price}
 									thumbnail={ingredient.image}
-								/>
-							</div>
+									ingredient={ingredient}
+									key={ingredient.uniqueId}></BurgerConstructorItem>
+							)
 						)
+					) : (
+						<div className={`${s.constructorItem}  ${s.emptyFillings}`}>
+							<div className={`constructor-element ${s.emptyFillings__inner}`}>
+								<span className='constructor-element__row'>
+									Добавь ингридиенты{' '}
+								</span>
+							</div>
+						</div>
 					)}
 				</div>
-
 				<div className={s.constructorItem}>
-					<ConstructorElement
-						type='bottom'
-						isLocked={true}
-						text={`${chosenIngredients.bun.name}  (низ)`}
-						price={chosenIngredients.bun.price}
-						thumbnail={chosenIngredients.bun.image}
-					/>
+					{chosenIngredients?.bun?.name ? (
+						<ConstructorElement
+							type='bottom'
+							isLocked={true}
+							text={`${chosenIngredients.bun.name}  (низ)`}
+							price={chosenIngredients.bun.price}
+							thumbnail={chosenIngredients.bun.image}
+						/>
+					) : (
+						<div
+							className={`constructor-element constructor-element_pos_bottom ${s.emptyIngredient}`}>
+							<span className={'constructor-element__row'}>Выберите булку</span>
+						</div>
+					)}
 				</div>
 			</div>
 
 			<div className={`${s.total} pt-10`}>
 				<div className={`${s.cost} mr-10`}>
-					<p className='text text_type_digits-medium mr-2'>610</p>
+					<p className='text text_type_digits-medium mr-2'>{totalPrice}</p>
 					<CurrencyIcon type='primary' />
 				</div>
 				<Button
@@ -96,12 +173,14 @@ export const BurgerConstructor: FC<IngredientModelData> = ({ data }) => {
 					Нажми на меня
 				</Button>
 			</div>
-			<Modal
-				isActive={isModalVisible}
-				setActive={setModalActive}
-				title={'Детали ингредиента'}>
-				{detailsData && <OrderDetails detailsData={detailsData} />}
-			</Modal>
+			{order.number && (
+				<Modal
+					isActive={!!order.number}
+					closeModal={closeOrderDetails}
+					title={'Детали ингредиента'}>
+					<OrderDetails />
+				</Modal>
+			)}
 		</div>
 	);
 };
