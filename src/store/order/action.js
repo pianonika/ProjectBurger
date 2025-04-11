@@ -1,4 +1,5 @@
 import { fetchWithRefresh } from '@utils/checkResponse';
+import {CLEAR_CART} from "@store/cart/action";
 
 export const SEND_ORDER = 'SEND_ORDER';
 export const SEND_ORDER_FAILED = 'SEND_ORDER_FAILED';
@@ -22,6 +23,9 @@ export function sendOrder(productsIds) {
 				dispatch({
 					type: SEND_ORDER_SUCCESS,
 					payload: res,
+				});
+				dispatch({
+					type: CLEAR_CART,
 				});
 			})
 			.catch((err) => {
