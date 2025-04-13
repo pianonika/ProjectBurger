@@ -29,6 +29,6 @@
 		}
 	},
 	"outDir": "./dist/",
-	"include": ["src/**/*"],
-//	"exclude": ["src/utils/*"]
+	"include": ["src/**/*", "models/*"]
+	//	"exclude": ["src/utils/*"]
 }

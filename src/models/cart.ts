@@ -1,6 +1,6 @@
 import { IngredientModelUnic } from './ingredient-model.model';
 
 export interface ICartModel {
-	bun: IngredientModelUnic;
-	fillings: IngredientModelUnic[];
+	bun: IngredientModelUnic | null;
+	fillings: IngredientModelUnic[] | [];
 }
