@@ -1,4 +1,4 @@
-import React, { FC, MouseEventHandler, useEffect } from 'react';
+import React, { FC, SyntheticEvent, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import s from './modal.module.less';
 import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components';
@@ -40,7 +40,7 @@ export const Modal: FC<TProps> = ({
 			<div
 				role='presentation'
 				className={s.modal_content}
-				onClick={(event: MouseEventHandler<HTMLDivElement>) =>
+				onClick={(event: SyntheticEvent<HTMLDivElement>) =>
 					event.stopPropagation()
 				}>
 				<div className='modal_header'>

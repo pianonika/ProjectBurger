@@ -12,7 +12,7 @@ import {
 	IngredientModelUnic,
 } from '@models/ingredient-model.model';
 import { useAppDispatch, useAppSelector } from '@models/hooks';
-import { CartModel } from '@models/cart';
+import { ICartModel } from '@models/cart';
 import { ADD_FILLINGS_ITEM, SET_BUN } from '@store/cart/action';
 import { CLEAR_ORDER_INFO, sendOrder } from '@store/order/action';
 import { INCREMENT_INGREDIENTS_COUNT } from '@store/ingredients/action';
@@ -35,7 +35,7 @@ export const BurgerConstructor = () => {
 		setIsActiveModal(false);
 	};
 
-	const chosenIngredients: CartModel = useAppSelector((store) => store.cart);
+	const chosenIngredients: ICartModel = useAppSelector((store) => store.cart);
 
 	const handleIngredientClick = () => {
 		if (!isAuth) {
@@ -73,7 +73,11 @@ export const BurgerConstructor = () => {
 	};
 
 	//DND
-	const [{ isOver }, dropRef] = useDrop<IngredientModel, unknown, boolean>({
+	const [{ isOver }, dropRef] = useDrop<
+		IngredientModel,
+		unknown,
+		{ isOver: boolean }
+	>({
 		accept: 'ingredientCard',
 		drop(itemId: IngredientModel) {
 			addCurrIngredientToCart(itemId);
