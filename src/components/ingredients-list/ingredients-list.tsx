@@ -4,23 +4,21 @@ import s from './ingredients-list.module.less';
 import IngredientCard from '../ingredient-card/ingredient-card';
 import { IngredientModel } from '@models/ingredient-model.model';
 import { useAppSelector } from '@models/hooks';
-import { ingredientsItems, ITabsProps } from '@models/categories';
+import { Categories, ingredientsItems, ITabsProps } from '@models/categories';
 import { ingredientsCategories } from '@store/vars';
+import { e as Location } from 'react-router/dist/development/route-data-CGHGzi13';
 
 export const IngredientsList: FunctionComponent<ITabsProps> = ({
 	currSection,
 	updateCurrentSection,
 }) => {
-	const location = useLocation();
-
+	const location: Location = useLocation();
 	const items: ingredientsItems = useAppSelector(
 		(state) => state.ingredients.items
 	);
-	const categories = ingredientsCategories;
-	const categoriesName = (el: string) => categories[el];
-
+	const categories: Categories = ingredientsCategories;
+	const categoriesName: string = (el: string) => categories[el];
 	const sectionRef = useRef<HTMLDivElement>(null);
-	// const myRefs = useRef(new Array(3).fill(createRef()));
 	const inputRefs: HTMLElement[] = [];
 	const myRefs = (ref: HTMLElement) => {
 		inputRefs.push(ref);
@@ -43,7 +41,6 @@ export const IngredientsList: FunctionComponent<ITabsProps> = ({
 			<div className={s.group} ref={sectionRef}>
 				{items &&
 					Object.entries(items).map(
-						// 	// @ts-ignore
 						([key, ingredients]: [string, IngredientModel[]]) => (
 							<section key={key} id={key} ref={myRefs}>
 								<h3 className='text text_type_main-medium mb-6'>

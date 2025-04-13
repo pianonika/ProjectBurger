@@ -5,13 +5,14 @@ import {
 	REMOVE_FILLINGS_ITEM,
 	SET_BUN,
 } from './action.js';
+import { CartModel } from '@models/cart';
 
 const initialState = {
 	bun: {},
 	fillings: [],
 };
 
-export const cartReducer = (state = initialState, action) => {
+export const cartReducer = (state: CartModel = initialState, action) => {
 	switch (action.type) {
 		case ADD_FILLINGS_ITEM: {
 			return {

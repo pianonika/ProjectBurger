@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { MouseEventHandler } from 'react';
 import s from './profile-menu.module.less';
 import { NavLink } from 'react-router-dom';
 import { useAppDispatch } from '@models/hooks';
@@ -6,8 +6,7 @@ import { logoutRequest } from '@store/auth/action';
 
 export const ProfileMenu = ({}) => {
 	const dispatch = useAppDispatch();
-
-	const logout = (e: any) => {
+	const logout: (e: MouseEventHandler<HTMLButtonElementElement>) => void = (e) => {
 		e.preventDefault();
 		dispatch(logoutRequest());
 	};

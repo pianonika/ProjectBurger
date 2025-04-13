@@ -20,13 +20,14 @@ import { useDrop } from 'react-dnd';
 import uuid from 'react-uuid';
 import BurgerConstructorItem from './burger-constructor-item/burger-constructor-item';
 import { useNavigate } from 'react-router-dom';
+import { NavigateFunction } from 'react-router/dist/development';
 
 export const BurgerConstructor = () => {
 	const dispatch = useAppDispatch();
-	const navigate = useNavigate();
+	const navigate: NavigateFunction = useNavigate();
 	const isAuth = useAppSelector((store) => store.authorization.user);
 	const order = useAppSelector((store) => store.order);
-	const [isActiveModal, setIsActiveModal] = useState(false);
+	const [isActiveModal, setIsActiveModal] = useState<boolean>(false);
 	const closeOrderDetails = () => {
 		dispatch({
 			type: CLEAR_ORDER_INFO,
@@ -34,13 +35,13 @@ export const BurgerConstructor = () => {
 		setIsActiveModal(false);
 	};
 
-	const chosenIngredients = useAppSelector((store) => store.cart) as CartModel;
+	const chosenIngredients: CartModel = useAppSelector((store) => store.cart);
 
 	const handleIngredientClick = () => {
 		if (!isAuth) {
 			return navigate('/login');
 		}
-		const isBun = chosenIngredients.bun._id;
+		const isBun: string = chosenIngredients.bun._id;
 		const isFillings = !!chosenIngredients.fillings.length;
 		if (isBun && isFillings && isAuth) {
 			const requestData = calcIngredientsRequestData();
@@ -51,19 +52,19 @@ export const BurgerConstructor = () => {
 		isBun && !isFillings && alert('Нужно выбрать начинку');
 	};
 
-	const totalPrice = useMemo(() => {
+	const totalPrice: number = useMemo<number>(() => {
 		const fillingsPrice = chosenIngredients?.fillings?.[0]?.price
 			? chosenIngredients?.fillings?.reduce(
 					(acc: number, curr: IngredientModel) => acc + curr.price,
 					0
 			  )
 			: 0;
-		const bunPrice = chosenIngredients?.bun?.price ?? 0;
+		const bunPrice: number = chosenIngredients?.bun?.price ?? 0;
 		return fillingsPrice + bunPrice;
 	}, [chosenIngredients]);
 
 	const calcIngredientsRequestData = () => {
-		const bunId = chosenIngredients.bun._id;
+		const bunId: string = chosenIngredients.bun._id;
 		const fillingsIds: string[] = chosenIngredients.fillings.map((i) => i._id);
 
 		fillingsIds.unshift(bunId);
@@ -72,7 +73,7 @@ export const BurgerConstructor = () => {
 	};
 
 	//DND
-	const [{ isOver }, dropRef] = useDrop({
+	const [{ isOver }, dropRef] = useDrop<IngredientModel, unknown, boolean>({
 		accept: 'ingredientCard',
 		drop(itemId: IngredientModel) {
 			addCurrIngredientToCart(itemId);
