@@ -29,6 +29,7 @@ export const authorizationReducer = (state = initialState, action) => {
 			return {
 				user: { ...state.user, ...action.payload },
 				isAuthChecked: true,
+				requestInProgress: state.requestInProgress,
 			};
 		}
 		case LOGOUT_SUCCESS: {

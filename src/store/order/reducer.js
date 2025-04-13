@@ -42,6 +42,7 @@ export const orderReducer = (state = initialState, action) => {
 		case CLEAR_ORDER_INFO: {
 			return {
 				...state,
+				requestInProgress: false,
 				currentOrder: {
 					...initialState.currentOrder,
 					order: { ...initialState.currentOrder.order },

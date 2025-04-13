@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {SyntheticEvent} from 'react';
 import { Link } from 'react-router-dom';
 import s from './login.module.less';
 import {
@@ -14,7 +14,7 @@ export function LoginPage() {
 	const dispatch = useAppDispatch();
 	const { values, handleChange } = useForm({ email: '', password: '' });
 
-	const login = (e) => {
+	const login = (e: SyntheticEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		dispatch(loginRequest(values));
 	};
@@ -43,7 +43,7 @@ export function LoginPage() {
 							/>
 						</div>
 						<div className={s.form_field}>
-							<Button htmlType={'submit'} primary={true}>
+							<Button htmlType={'submit'} type={'primary'}>
 								Войти
 							</Button>
 						</div>

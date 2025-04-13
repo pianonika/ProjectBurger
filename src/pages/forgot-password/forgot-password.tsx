@@ -1,25 +1,24 @@
-import React from 'react';
+import React, { SyntheticEvent } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import s from './forgot-password.module.less';
 import {
 	Button,
 	Input,
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import { useAppDispatch } from '@models/hooks';
+import { useAppDispatch, useAppSelector } from '@models/hooks';
 import { forgotRequest } from '@store/auth/action';
-import { useSelector } from 'react-redux';
 import { useForm } from '../../hooks/useForm';
 
 export function ForgotPasswordPage() {
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
-	const isRequestInProgress = useSelector(
-		(state) => state.authorization.requestInProgress
+	const isRequestInProgress = useAppSelector(
+		(state) => state.authorization?.requestInProgress
 	);
 	const { values, handleChange } = useForm({ email: '' });
-	const checkEmail = (e) => {
+	const checkEmail = (e: SyntheticEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		localStorage.setItem('forgotPage', true);
+		localStorage.setItem('forgotPage', 'true');
 		dispatch(forgotRequest(JSON.stringify({ email: values.email })));
 		!isRequestInProgress && navigate('/reset-password');
 	};
@@ -42,7 +41,7 @@ export function ForgotPasswordPage() {
 							/>
 						</div>
 						<div className={s.form_field}>
-							<Button htmlType={'submit'} primary={true}>
+							<Button htmlType={'submit'} type={'primary'}>
 								Восстановить
 							</Button>
 						</div>

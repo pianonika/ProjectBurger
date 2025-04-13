@@ -20,7 +20,7 @@ export function RegisterPage() {
 		isValid: true,
 	});
 
-	const submitForm = (e: SyntheticEvent<Element>) => {
+	const submitForm = (e: SyntheticEvent<HTMLFormElement>) => {
 		const data = {
 			email: values.email,
 			password: values.password,
@@ -30,7 +30,7 @@ export function RegisterPage() {
 		dispatch(register(data));
 	};
 
-	const checkValidPasswordRepeat = () => {
+	const checkValidPasswordRepeat: () => boolean = () => {
 		return values.password === values.passwordRepeat;
 	};
 
