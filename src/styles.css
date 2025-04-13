@@ -54,11 +54,6 @@ button:hover {
 	border-color: #646cff;
 }
 
-button:focus,
-button:focus-visible {
-	outline: 4px auto -webkit-focus-ring-color;
-}
-
 @media (prefers-color-scheme: light) {
 	:root {
 		color: #213547;
@@ -72,4 +67,24 @@ button:focus-visible {
 	button {
 		background-color: #f9f9f9;
 	}
+}
+
+.page_header {
+	text-align: center;
+}
+
+.page_content {
+	display: grid;
+	grid-template-rows: repeat(auto 1fr);
+	grid-template-columns: repeat(3, 1fr);
+	grid-gap: 20px 24px;
+}
+
+.page_wrapper {
+	width: 100%;
+	margin: 120px auto 20px;
+	overflow: hidden;
+	text-align: center;
+	text-overflow: ellipsis;
+	position: relative;
 }

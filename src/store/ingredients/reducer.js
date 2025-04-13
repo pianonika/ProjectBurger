@@ -8,6 +8,7 @@ import {
 
 const initialState = {
 	items: {},
+	defaultList: [],
 	itemsRequest: false,
 	itemsFailed: false,
 };
@@ -23,7 +24,8 @@ export const ingredientsReducer = (state = initialState, action) => {
 		case GET_INGREDIENTS_SUCCESS: {
 			return {
 				...state,
-				items: action.payload,
+				items: action.payload.filtred,
+				defaultList: action.payload.defaultList,
 				itemsRequest: false,
 				itemsFailed: false,
 			};

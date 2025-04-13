@@ -1,4 +1,4 @@
-import { Categories } from '../models/categories';
+import { Categories } from '@models/categories';
 
 export const BASE_URL = 'https://norma.nomoreparties.space';
 

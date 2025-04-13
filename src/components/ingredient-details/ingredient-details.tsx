@@ -1,11 +1,30 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import s from './ingredient-details.module.less';
-import { useAppSelector } from '../../models/hooks';
+import { useAppDispatch, useAppSelector } from '@models/hooks';
+import { REMOVE_CURR_INGREDIENT } from '@store/chosen-ingredient/action';
+import { useParams } from 'react-router-dom';
+import { IngredientModel } from '@models/ingredient-model.model';
 
 export const IngredientDetails = () => {
-	const ingredient = useAppSelector(
+	const dispatch = useAppDispatch();
+	const { id } = useParams<'id'>();
+	const chosenIngredient = useAppSelector(
 		(store) => store.chosenIngredient.ingredient
 	);
+	const items: IngredientModel[] = useAppSelector(
+		(state) => state.ingredients.defaultList
+	);
+	const ingredient =
+		chosenIngredient ?? items?.find((item: IngredientModel) => item._id === id);
+	const removeCurrIngredient = () => {
+		dispatch({
+			type: REMOVE_CURR_INGREDIENT,
+		});
+	};
+
+	useEffect(() => {
+		return removeCurrIngredient();
+	}, []);
 
 	return (
 		<>

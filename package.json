@@ -90,8 +90,9 @@
 		"react-dnd-html5-backend": "^16.0.1",
 		"react-dom": "^18.2.0",
 		"react-redux": "^9.2.0",
-		"react-router-dom": "^7.1.5",
-		"react-uuid": "^2.0.0"
+		"react-router-dom": "^7.4.0",
+		"react-uuid": "^2.0.0",
+		"undici-types": "^7.8.0"
 	},
 	"lint-staged": {
 		"*.{css,less}": "npm run stylelint:fix",

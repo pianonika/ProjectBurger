@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import s from './tabs.module.less';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
-import { ingredientsCategories } from '../../services/vars';
+import { ingredientsCategories } from '../../store/vars';
 // @ts-ignore
 export const Tabs = ({
 	currSection,

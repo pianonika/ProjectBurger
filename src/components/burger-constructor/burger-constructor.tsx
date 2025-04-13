@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import s from './burger-constructor.module.less';
 import {
 	Button,
@@ -10,35 +10,42 @@ import OrderDetails from '../order-details/order-details';
 import {
 	IngredientModel,
 	IngredientModelUnic,
-} from '../../models/ingredient-model.model';
-import { useAppDispatch, useAppSelector } from '../../models/hooks';
-import { CartModel } from '../../models/cart';
-import { ADD_FILLINGS_ITEM, SET_BUN } from '../../services/cart/action';
-import { CLEAR_ORDER_INFO, sendOrder } from '../../services/order/action';
-import { INCREMENT_INGREDIENTS_COUNT } from '../../services/ingredients/action';
+} from '@models/ingredient-model.model';
+import { useAppDispatch, useAppSelector } from '@models/hooks';
+import { CartModel } from '@models/cart';
+import { ADD_FILLINGS_ITEM, SET_BUN } from '@store/cart/action';
+import { CLEAR_ORDER_INFO, sendOrder } from '@store/order/action';
+import { INCREMENT_INGREDIENTS_COUNT } from '@store/ingredients/action';
 import { useDrop } from 'react-dnd';
 import uuid from 'react-uuid';
 import BurgerConstructorItem from './burger-constructor-item/burger-constructor-item';
+import { useNavigate } from 'react-router-dom';
 
 export const BurgerConstructor = () => {
 	const dispatch = useAppDispatch();
-	const order = useAppSelector((store) => store.order.currentOrder.order);
+	const navigate = useNavigate();
+	const isAuth = useAppSelector((store) => store.authorization.user);
+	const order = useAppSelector((store) => store.order);
+	const [isActiveModal, setIsActiveModal] = useState(false);
 	const closeOrderDetails = () => {
 		dispatch({
 			type: CLEAR_ORDER_INFO,
 		});
-		console.log(order);
+		setIsActiveModal(false);
 	};
-	// const [isModalVisible, setModalActive] = useState(false);
+
 	const chosenIngredients = useAppSelector((store) => store.cart) as CartModel;
 
 	const handleIngredientClick = () => {
+		if (!isAuth) {
+			return navigate('/login');
+		}
 		const isBun = chosenIngredients.bun._id;
 		const isFillings = !!chosenIngredients.fillings.length;
-		if (isBun && isFillings) {
+		if (isBun && isFillings && isAuth) {
 			const requestData = calcIngredientsRequestData();
 			dispatch(sendOrder(requestData));
-			// setModalActive(true);
+			setIsActiveModal(true);
 		}
 		!isBun && alert('Нужно выбрать булку');
 		isBun && !isFillings && alert('Нужно выбрать начинку');
@@ -136,7 +143,7 @@ export const BurgerConstructor = () => {
 						<div className={`${s.constructorItem}  ${s.emptyFillings}`}>
 							<div className={`constructor-element ${s.emptyFillings__inner}`}>
 								<span className='constructor-element__row'>
-									Добавь ингридиенты{' '}
+									Добавь ингредиенты{' '}
 								</span>
 							</div>
 						</div>
@@ -170,14 +177,12 @@ export const BurgerConstructor = () => {
 					type='primary'
 					size='large'
 					onClick={() => handleIngredientClick()}>
-					Нажми на меня
+					Оформить заказ
 				</Button>
+				sss{order.requestInProgress}
 			</div>
-			{order.number && (
-				<Modal
-					isActive={!!order.number}
-					closeModal={closeOrderDetails}
-					title={'Детали ингредиента'}>
+			{isActiveModal && (
+				<Modal isActive={isActiveModal} closeModal={closeOrderDetails}>
 					<OrderDetails />
 				</Modal>
 			)}
