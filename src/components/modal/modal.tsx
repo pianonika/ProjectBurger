@@ -1,18 +1,23 @@
-import React, { useEffect } from 'react';
+import React, { FC, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import s from './modal.module.less';
 import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import ModalOverlayEl from '../modal-overlay/modal-overlay';
 
 const modalRoot = document.getElementById('react-modals') as HTMLElement;
-type Props = {
+type TProps = {
 	isActive?: boolean;
-	closeModal: any;
+	closeModal: () => void;
 	children: React.ReactNode;
 	title?: string;
 };
 
-export const Modal = ({ isActive, closeModal, children, title }: Props) => {
+export const Modal: FC<TProps> = ({
+	isActive,
+	closeModal,
+	children,
+	title,
+}) => {
 	useEffect(() => {
 		const handleKeydown = (event: KeyboardEvent) => {
 			if (event.key === 'Escape') {
@@ -28,10 +33,12 @@ export const Modal = ({ isActive, closeModal, children, title }: Props) => {
 
 	return createPortal(
 		<div
+			role='presentation'
 			className={isActive ? `${s.modal} ${s.active}` : `${s.modal}`}
 			onClick={() => closeModal()}>
 			<ModalOverlayEl />
 			<div
+				role='presentation'
 				className={s.modal_content}
 				onClick={(event) => event.stopPropagation()}>
 				<div className='modal_header'>

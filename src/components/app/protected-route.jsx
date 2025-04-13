@@ -5,7 +5,9 @@ const Protected = ({ onlyUnAuth = false, component }) => {
 	// isAuthChecked это флаг, показывающий что проверка токена произведена
 	// при этом результат этой проверки не имеет значения, важно только,
 	// что сам факт проверки имел место.
-	const isAuthChecked = useSelector((store) => store.authorization.isAuthChecked);
+	const isAuthChecked = useSelector(
+		(store) => store.authorization.isAuthChecked
+	);
 	const user = useSelector((store) => store.authorization.user);
 	const location = useLocation();
 
