@@ -1,22 +1,21 @@
-import React, { useEffect, useState } from 'react';
+import { SyntheticEvent, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import s from './reset-password.module.less';
 import {
 	Button,
 	Input,
 	PasswordInput,
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import { resetPassword } from '@store/auth/action';
-import { useAppDispatch } from '@models/hooks';
-import { useSelector } from 'react-redux';
+import { useAppDispatch, useAppSelector } from '@models/hooks';
 import { useForm } from '../../hooks/useForm';
+import s from './reset-password.module.less';
 
 export function ResetPasswordPage() {
 	const { values, handleChange } = useForm({ email: '', password: '' });
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
 	const isFromForgotPage = !!localStorage.getItem('forgotPage');
-	const isRequestInProgress = useSelector(
+	const isRequestInProgress = useAppSelector(
 		(state) => state.authorization.requestInProgress
 	);
 
@@ -27,7 +26,7 @@ export function ResetPasswordPage() {
 		!isFromForgotPage && !isRequestInProgress && navigate('/login');
 	}, [isRequestInProgress]);
 
-	const submitForm = (e) => {
+	const submitForm = (e: SyntheticEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		dispatch(
 			resetPassword(
@@ -63,7 +62,7 @@ export function ResetPasswordPage() {
 								/>
 							</div>
 							<div className={s.form_field}>
-								<Button htmlType={'submit'} primary={true}>
+								<Button htmlType={'submit'} type={'primary'}>
 									Сохранить
 								</Button>
 							</div>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { ChangeEvent, SyntheticEvent, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import s from './profile.module.less';
 import {
@@ -7,25 +7,24 @@ import {
 	Input,
 	PasswordInput,
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import { useSelector } from 'react-redux';
 import { updateUser } from '@store/auth/action';
-import { useAppDispatch } from '@models/hooks';
+import { useAppDispatch, useAppSelector } from '@models/hooks';
 import Profile from '@components/profile/profile';
 import { useForm } from '../../hooks/useForm';
 
 export function ProfilePage() {
-	const user = useSelector((state) => state.authorization.user);
+	const user = useAppSelector((state) => state.authorization?.user);
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
-	const [isFormChanged, setIsFormChanged] = useState(false);
+	const [isFormChanged, setIsFormChanged] = useState<boolean>(false);
 	const { values, setValues } = useForm({
 		password: '',
 		name: user.name,
 		email: user.email,
-		isFormChanged: false,
+		isFormChanged: 'false',
 	});
 
-	const onChange = (e) => {
+	const onChange: (e: ChangeEvent<HTMLInputElement>) => void = (e) => {
 		const previousValue = user[e.target.name];
 		setValues({ ...values, [e.target.name]: e.target.value });
 		if (previousValue !== e.target.value) {
@@ -37,12 +36,12 @@ export function ProfilePage() {
 		navigate('/login');
 	}
 
-	const saveData = (e) => {
+	const saveData = (e: SyntheticEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		dispatch(updateUser(JSON.stringify(values)));
 		setIsFormChanged(false);
 	};
-	const rollback = (e) => {
+	const rollback: (e: SyntheticEvent<Element, Event>) => void = (e) => {
 		e.preventDefault();
 		setValues({ ...user });
 		setIsFormChanged(false);
