@@ -5,7 +5,7 @@ export interface LocationState {
 	from: {
 		pathname: string;
 	};
-	state: any;
+	state: LocationState;
 }
 const Protected = ({
 	onlyUnAuth = false,
