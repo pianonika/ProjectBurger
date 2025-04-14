@@ -40,15 +40,17 @@ export const BurgerConstructor = () => {
 		if (!isAuth) {
 			return navigate('/login');
 		}
-		const isBun: string = chosenIngredients.bun._id;
-		const isFillings = !!chosenIngredients.fillings.length;
-		if (isBun && isFillings && isAuth) {
-			const requestData = calcIngredientsRequestData();
-			dispatch(sendOrder(requestData));
-			setIsActiveModal(true);
+		if ('_id' in chosenIngredients.bun) {
+			const isFillings: number = chosenIngredients.fillings.length;
+			const isBun: string = chosenIngredients.bun._id;
+			if (isBun && isFillings && isAuth) {
+				const requestData: string = calcIngredientsRequestData();
+				dispatch(sendOrder(requestData));
+				setIsActiveModal(true);
+			}
+			!isBun && alert('Нужно выбрать булку');
+			isBun && !isFillings && alert('Нужно выбрать начинку');
 		}
-		!isBun && alert('Нужно выбрать булку');
-		isBun && !isFillings && alert('Нужно выбрать начинку');
 	};
 
 	const totalPrice: number = useMemo<number>(() => {
@@ -58,16 +60,26 @@ export const BurgerConstructor = () => {
 					0
 			  )
 			: 0;
-		const bunPrice: number = chosenIngredients?.bun?.price ?? 0;
+		let bunPrice = 0;
+		if ('_id' in chosenIngredients?.bun) {
+			bunPrice = chosenIngredients?.bun?.price ?? 0;
+		}
 		return fillingsPrice + bunPrice;
 	}, [chosenIngredients]);
 
 	const calcIngredientsRequestData = () => {
-		const bunId: string = chosenIngredients.bun._id;
-		const fillingsIds: string[] = chosenIngredients.fillings.map((i) => i._id);
+		let bunId: string;
+		let fillingsIds: string[] = [];
+		if ('_id' in chosenIngredients?.bun) {
+			bunId = chosenIngredients.bun._id;
+			fillingsIds = chosenIngredients.fillings?.map(
+				(i: IngredientModel) => i['_id']
+			);
 
-		fillingsIds.unshift(bunId);
-		fillingsIds.push(bunId);
+			fillingsIds.unshift(bunId);
+			fillingsIds.push(bunId);
+		}
+
 		return JSON.stringify({ ingredients: fillingsIds });
 	};
 
