@@ -1,4 +1,4 @@
-import React, {SyntheticEvent} from 'react';
+import React, { SyntheticEvent } from 'react';
 import { Link } from 'react-router-dom';
 import s from './login.module.less';
 import {

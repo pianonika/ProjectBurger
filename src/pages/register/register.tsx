@@ -17,7 +17,7 @@ export function RegisterPage() {
 		password: '',
 		name: '',
 		passwordRepeat: '',
-		isValid: true,
+		isValid: 'true',
 	});
 
 	const submitForm = (e: SyntheticEvent<HTMLFormElement>) => {

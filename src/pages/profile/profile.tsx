@@ -21,7 +21,7 @@ export function ProfilePage() {
 		password: '',
 		name: user.name,
 		email: user.email,
-		isFormChanged: false,
+		isFormChanged: 'false',
 	});
 
 	const onChange: (e: ChangeEvent<HTMLInputElement>) => void = (e) => {
