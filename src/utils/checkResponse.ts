@@ -1,55 +1,32 @@
 import { BASE_URL } from '@store/vars';
-import Dispatcher from 'undici-types/dispatcher';
-import {
-	BodyInit,
-	HeadersInit,
-	ReferrerPolicy,
-	RequestCredentials,
-	RequestDuplex,
-	RequestMode,
-	RequestRedirect,
-} from 'undici-types/fetch';
-export interface RequestInit {
-	method?: string;
-	keepalive?: boolean;
-	headers?: HeadersInit;
-	body?: BodyInit;
-	redirect?: RequestRedirect;
-	integrity?: string;
-	signal?: AbortSignal;
-	credentials?: RequestCredentials;
-	mode?: RequestMode;
-	referrer?: string;
-	referrerPolicy?: ReferrerPolicy;
-	window?: null;
-	dispatcher?: Dispatcher;
-	duplex?: RequestDuplex;
-}
 
-export const checkResponse = (res: any) => {
+export const checkResponse = (res: Response) => {
 	if (res.ok) {
 		return res.json();
 	}
 	return Promise.reject(`Ошибка ${res.status}`);
 };
 
-export const checkSuccess = (res: any) => {
+export const checkSuccess = (res: any & { success: boolean }) => {
 	if (res && res.success) {
 		return res;
 	}
 	return Promise.reject(`Ответ не success: ${res}`);
 };
 
-export const request = (endpoint: string | URL | Request, options: any) => {
+export const request = (
+	endpoint: string | URL | Request,
+	options: RequestInit
+) => {
 	return fetch(`${BASE_URL}${endpoint}`, options)
 		.then(checkResponse)
 		.then(checkSuccess);
 };
 
-const checkReponse = (res: any) => {
+const checkReponse = (res: Response) => {
 	return res.ok
 		? res.json()
-		: res.json().then((err: any) => Promise.reject(err));
+		: res.json().then((err: any & { message: string }) => Promise.reject(err));
 };
 
 export const refreshToken = () => {
@@ -77,16 +54,23 @@ export const refreshToken = () => {
 	);
 };
 
-export const fetchWithRefresh = async (url: any, options: any) => {
+export const fetchWithRefresh: (
+	url: string,
+	options: RequestInit & { headers?: { authorization?: string } }
+) => Promise<Response> = async (url, options) => {
 	const accessToken = localStorage.getItem('accessToken');
-	options.headers.authorization = `${accessToken}`;
+	if (options && options.headers) {
+		options.headers.authorization = `${accessToken}`;
+	}
 	try {
 		const res = await fetch(`${BASE_URL}${url}`, options);
 		return await checkReponse(res);
-	} catch (err: any) {
+	} catch (err: any & { message: string }) {
 		if (err.message === 'jwt expired') {
 			const refreshData = await refreshToken(); //обновляем токен
-			options.headers.authorization = refreshData.accessToken;
+			if (options && options.headers) {
+				options.headers.authorization = refreshData.accessToken;
+			}
 			const res = await fetch(url, options); //повторяем запрос
 			return await checkReponse(res);
 		} else {

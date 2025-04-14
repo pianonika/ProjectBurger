@@ -1,4 +1,4 @@
-import { SET_CURR_INGREDIENT, REMOVE_CURR_INGREDIENT } from './action';
+import { REMOVE_CURR_INGREDIENT, SET_CURR_INGREDIENT } from './action';
 
 const chosenIngredientState = {
 	ingredient: null,

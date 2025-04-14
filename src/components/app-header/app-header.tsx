@@ -6,18 +6,13 @@ import {
 	Logo,
 	ProfileIcon,
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import { NavLink, Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 
 export const AppHeader = ({}) => {
 	return (
 		<header className={s.header}>
 			<nav className={s.header__inner}>
 				<div className={s.header__buttons}>
-					{/*<a className={`${s.link__active} ${s.link} `} href='/'>*/}
-					{/*	<BurgerIcon type='primary' className={s.link_logo} />*/}
-					{/*	Конструктор*/}
-					{/*</a>*/}
-
 					<NavLink
 						className={({ isActive }) =>
 							isActive ? `${s.link__active} ${s.link}` : `${s.link}`

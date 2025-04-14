@@ -222,7 +222,7 @@ export function updateUser(data) {
 					type: SET_USER,
 					payload: res.user,
 				});
-				alert('Данные успешно сохранены')
+				alert('Данные успешно сохранены');
 			})
 			.catch((err) => {
 				dispatch({

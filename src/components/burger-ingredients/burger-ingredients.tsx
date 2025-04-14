@@ -4,8 +4,7 @@ import Tabs from '../tabs/tabs';
 import IngredientsList from '../ingredients-list/ingredients-list';
 
 export const BurgerIngredients = () => {
-	const [currSection, setCurrentSection] = useState('bun');
-	// @ts-ignore
+	const [currSection, setCurrentSection] = useState<string>('bun');
 	return (
 		<div className={s.ingredients}>
 			<div className='tabs'>

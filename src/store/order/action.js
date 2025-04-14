@@ -1,5 +1,5 @@
 import { fetchWithRefresh } from '@utils/checkResponse';
-import {CLEAR_CART} from "@store/cart/action";
+import { CLEAR_CART } from '@store/cart/action';
 
 export const SEND_ORDER = 'SEND_ORDER';
 export const SEND_ORDER_FAILED = 'SEND_ORDER_FAILED';
