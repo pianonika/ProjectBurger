@@ -2,7 +2,9 @@ import {
 	FORGOT_REQUEST,
 	FORGOT_SUCCESS,
 	LOGIN_SUCCESS,
-	LOGOUT_SUCCESS, REGISTER_REQUEST, REGISTER_SUCCESS,
+	LOGOUT_SUCCESS,
+	REGISTER_REQUEST,
+	REGISTER_SUCCESS,
 	RESET_PASSWORD_REQUEST,
 	RESET_PASSWORD_SUCCESS,
 	SET_AUTH_FLAG,
@@ -27,6 +29,7 @@ export const authorizationReducer = (state = initialState, action) => {
 			return {
 				user: { ...state.user, ...action.payload },
 				isAuthChecked: true,
+				requestInProgress: state.requestInProgress,
 			};
 		}
 		case LOGOUT_SUCCESS: {

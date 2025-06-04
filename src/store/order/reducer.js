@@ -1,4 +1,9 @@
-import { SEND_ORDER, SEND_ORDER_FAILED, SEND_ORDER_SUCCESS, CLEAR_ORDER_INFO } from './action.js';
+import {
+	CLEAR_ORDER_INFO,
+	SEND_ORDER,
+	SEND_ORDER_FAILED,
+	SEND_ORDER_SUCCESS,
+} from './action.js';
 
 const initialState = {
 	currentOrder: {
@@ -37,6 +42,7 @@ export const orderReducer = (state = initialState, action) => {
 		case CLEAR_ORDER_INFO: {
 			return {
 				...state,
+				requestInProgress: false,
 				currentOrder: {
 					...initialState.currentOrder,
 					order: { ...initialState.currentOrder.order },

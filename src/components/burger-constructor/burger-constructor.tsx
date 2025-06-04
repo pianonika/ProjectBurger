@@ -12,7 +12,6 @@ import {
 	IngredientModelUnic,
 } from '@models/ingredient-model.model';
 import { useAppDispatch, useAppSelector } from '@models/hooks';
-import { CartModel } from '@models/cart';
 import { ADD_FILLINGS_ITEM, SET_BUN } from '@store/cart/action';
 import { CLEAR_ORDER_INFO, sendOrder } from '@store/order/action';
 import { INCREMENT_INGREDIENTS_COUNT } from '@store/ingredients/action';
@@ -20,13 +19,14 @@ import { useDrop } from 'react-dnd';
 import uuid from 'react-uuid';
 import BurgerConstructorItem from './burger-constructor-item/burger-constructor-item';
 import { useNavigate } from 'react-router-dom';
+import { NavigateFunction } from 'react-router/dist/development';
 
 export const BurgerConstructor = () => {
 	const dispatch = useAppDispatch();
-	const navigate = useNavigate();
+	const navigate: NavigateFunction = useNavigate();
 	const isAuth = useAppSelector((store) => store.authorization.user);
 	const order = useAppSelector((store) => store.order);
-	const [isActiveModal, setIsActiveModal] = useState(false);
+	const [isActiveModal, setIsActiveModal] = useState<boolean>(false);
 	const closeOrderDetails = () => {
 		dispatch({
 			type: CLEAR_ORDER_INFO,
@@ -34,45 +34,61 @@ export const BurgerConstructor = () => {
 		setIsActiveModal(false);
 	};
 
-	const chosenIngredients = useAppSelector((store) => store.cart) as CartModel;
+	const chosenIngredients = useAppSelector((store) => store.cart);
 
 	const handleIngredientClick = () => {
 		if (!isAuth) {
 			return navigate('/login');
 		}
-		const isBun = chosenIngredients.bun._id;
-		const isFillings = !!chosenIngredients.fillings.length;
-		if (isBun && isFillings && isAuth) {
-			const requestData = calcIngredientsRequestData();
-			dispatch(sendOrder(requestData));
-			setIsActiveModal(true);
+		if ('_id' in chosenIngredients.bun) {
+			const isFillings: number = chosenIngredients.fillings.length;
+			const isBun: string = chosenIngredients.bun._id;
+			if (isBun && isFillings && isAuth) {
+				const requestData: string = calcIngredientsRequestData();
+				dispatch(sendOrder(requestData));
+				setIsActiveModal(true);
+			}
+			!isBun && alert('Нужно выбрать булку');
+			isBun && !isFillings && alert('Нужно выбрать начинку');
 		}
-		!isBun && alert('Нужно выбрать булку');
-		isBun && !isFillings && alert('Нужно выбрать начинку');
 	};
 
-	const totalPrice = useMemo(() => {
+	const totalPrice: number = useMemo<number>(() => {
 		const fillingsPrice = chosenIngredients?.fillings?.[0]?.price
 			? chosenIngredients?.fillings?.reduce(
 					(acc: number, curr: IngredientModel) => acc + curr.price,
 					0
 			  )
 			: 0;
-		const bunPrice = chosenIngredients?.bun?.price ?? 0;
+		let bunPrice = 0;
+		if ('_id' in chosenIngredients?.bun) {
+			bunPrice = chosenIngredients?.bun?.price ?? 0;
+		}
 		return fillingsPrice + bunPrice;
 	}, [chosenIngredients]);
 
 	const calcIngredientsRequestData = () => {
-		const bunId = chosenIngredients.bun._id;
-		const fillingsIds: string[] = chosenIngredients.fillings.map((i) => i._id);
+		let bunId: string;
+		let fillingsIds: string[] = [];
+		if ('_id' in chosenIngredients?.bun) {
+			bunId = chosenIngredients.bun._id;
+			fillingsIds = chosenIngredients.fillings?.map(
+				(i: IngredientModel) => i['_id']
+			);
 
-		fillingsIds.unshift(bunId);
-		fillingsIds.push(bunId);
+			fillingsIds.unshift(bunId);
+			fillingsIds.push(bunId);
+		}
+
 		return JSON.stringify({ ingredients: fillingsIds });
 	};
 
 	//DND
-	const [{ isOver }, dropRef] = useDrop({
+	const [{ isOver }, dropRef] = useDrop<
+		IngredientModel,
+		unknown,
+		{ isOver: boolean }
+	>({
 		accept: 'ingredientCard',
 		drop(itemId: IngredientModel) {
 			addCurrIngredientToCart(itemId);

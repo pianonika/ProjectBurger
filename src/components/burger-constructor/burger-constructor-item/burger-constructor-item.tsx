@@ -1,24 +1,20 @@
 import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
 import s from '../burger-constructor.module.less';
-import {IngredientModel, IngredientModelUnic} from '../../../models/ingredient-model.model';
-import {
-	CHANGE_ITEMS_ORDER,
-	REMOVE_FILLINGS_ITEM,
-} from '../../../store/cart/action';
-import { DECREMENT_INGREDIENTS_COUNT } from '../../../store/ingredients/action';
-import { useAppDispatch, useAppSelector } from '../../../models/hooks';
+import { IngredientModelUnic } from '@models/ingredient-model.model';
+import { CHANGE_ITEMS_ORDER, REMOVE_FILLINGS_ITEM } from '@store/cart/action';
+import { DECREMENT_INGREDIENTS_COUNT } from '@store/ingredients/action';
+import { useAppDispatch, useAppSelector } from '@models/hooks';
 import { useDrag, useDrop } from 'react-dnd';
-import React, { useRef } from 'react';
+import React, { FC, useRef } from 'react';
 import { XYCoord } from 'react-dnd/src/types/monitors';
+import type { DropTargetMonitor } from 'react-dnd/src/types';
 
-export const BurgerConstructorItem = ({
-	index,
-	id,
-	text,
-	price,
-	thumbnail,
-	ingredient,
-}: {
+type DragObject = {
+	id: string;
+	index: number;
+};
+type DragCollectedProps = { isDragging: boolean };
+type BurgerConstructorItem = {
 	index: number;
 	id: string;
 	text: string;
@@ -26,6 +22,15 @@ export const BurgerConstructorItem = ({
 	thumbnail: string;
 	ingredient: IngredientModelUnic;
 	key: string;
+};
+
+export const BurgerConstructorItem: FC<BurgerConstructorItem> = ({
+	index,
+	id,
+	text,
+	price,
+	thumbnail,
+	ingredient,
 }) => {
 	const dispatch = useAppDispatch();
 	const fillings = useAppSelector((store) => store.cart.fillings);
@@ -41,11 +46,13 @@ export const BurgerConstructorItem = ({
 	};
 	//DND
 
-	// @ts-nocheck
-	const ref = useRef<HTMLInputElement>(null);
-	const [, drop] = useDrop({
+	const ref = useRef<HTMLInputElement | null>(null);
+	const [, drop] = useDrop<DragObject, HTMLElement, unknown>({
 		accept: 'constructorItem',
-		hover: (item: { id: IngredientModel; index: number }, monitor) => {
+		hover: (
+			item: DragObject,
+			monitor: DropTargetMonitor<DragObject, HTMLElement>
+		) => {
 			if (!ref.current) {
 				return;
 			}
@@ -74,7 +81,11 @@ export const BurgerConstructorItem = ({
 			item.index = hoverIndex;
 		},
 	});
-	const [{ isDragging }, drag] = useDrag({
+	const [{ isDragging }, drag] = useDrag<
+		DragObject,
+		unknown,
+		DragCollectedProps
+	>({
 		type: 'constructorItem',
 		item: () => {
 			return { id, index };

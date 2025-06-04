@@ -18,11 +18,12 @@ import { checkUserAuth } from '@store/auth/action';
 import { OrderListPage } from '@pages/orders-list/orders-list';
 import { OrderPage } from '@pages/order/order';
 import { getIngredients } from '@store/ingredients/action';
+import { NavigateFunction } from 'react-router/dist/development';
 
 export const App = () => {
 	const location = useLocation();
-	const navigate = useNavigate();
-	const modalLocation = location.state?.modalLocation;
+	const navigate: NavigateFunction = useNavigate();
+	const modalLocation: Location = location.state?.modalLocation;
 	const handleModalClose = () => {
 		navigate(-1);
 	};

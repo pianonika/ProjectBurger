@@ -1,14 +1,15 @@
-import React, { FC } from 'react';
+import React, { Dispatch, FC, SetStateAction } from 'react';
 import s from './tabs.module.less';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
-import { ingredientsCategories } from '../../store/vars';
-// @ts-ignore
-export const Tabs = ({
+import { ingredientsCategories } from '@store/vars';
+import { ITabsProps } from '@models/categories';
+
+export const Tabs: FC<ITabsProps> = ({
 	currSection,
 	updateCurrentSection,
 }: {
 	currSection: string;
-	updateCurrentSection: any;
+	updateCurrentSection: Dispatch<SetStateAction<string>>;
 }) => {
 	const setCurrentSection = (key: string) => {
 		updateCurrentSection(key);

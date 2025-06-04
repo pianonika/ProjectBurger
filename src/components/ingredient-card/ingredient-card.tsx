@@ -20,10 +20,12 @@ export const IngredientCard: FC<{
 			isDrag: monitor.isDragging(),
 		}),
 	});
-	const handleIngredientClick = () => {
+	const handleIngredientClick: () => void = () => {
 		setCurrIngredient(ingredient);
 	};
-	const setCurrIngredient = (ingredient: IngredientModel) => {
+	const setCurrIngredient: (ingredient: IngredientModel) => void = (
+		ingredient
+	) => {
 		dispatch({
 			type: SET_CURR_INGREDIENT,
 			payload: ingredient,
