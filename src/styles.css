@@ -75,16 +75,17 @@ button:hover {
 
 .page_content {
 	display: grid;
-	grid-template-rows: repeat(auto 1fr);
-	grid-template-columns: repeat(3, 1fr);
+	grid-template-columns: 1fr 2fr;
 	grid-gap: 20px 24px;
 }
 
 .page_wrapper {
-	width: 100%;
+	position: relative;
+	box-sizing: border-box;
+	width: 1280px;
 	margin: 120px auto 20px;
+	padding: 0 20px;
 	overflow: hidden;
 	text-align: center;
 	text-overflow: ellipsis;
-	position: relative;
 }

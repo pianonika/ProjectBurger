@@ -1,0 +1,59 @@
+.orderCard {
+	text-align: left;
+	grid-column: 2 / 3;
+	padding: 24px;
+	background: #1c1c21;
+	border-radius: 40px;
+	width: 100%;
+	//width: 844px;
+	box-sizing: border-box;
+
+	&_header {
+		display: flex;
+		justify-content: space-between;
+	}
+	&_id {
+	}
+	&_name {
+		margin-top: 24px;
+	}
+	&_status {
+		margin-top: 8px;
+	}
+	&_ingredients {
+		margin-top: 24px;
+		display: flex;
+		&_item {
+			border: 2px solid #4C4CFF ;
+			border-radius: 100px;
+			//border-image-source: linear-gradient(63.18deg, #801AB3 0%, #4C4CFF 100%);
+			width: 64px;
+			height: 64px;
+			position: relative;
+			overflow: hidden;
+			background: #1C1C21;
+			box-sizing: border-box;
+
+			&+& {
+				margin-left: -18px;
+			}
+
+		}
+		&_img {
+			position: absolute;
+			transform: translate(-50%, -50%) scale(0.8);
+			top: 50%;
+			left: 50%;
+		}
+	}
+	&_footer {
+		display: flex;
+		justify-content: space-between;
+	}
+	&_price {
+		display: flex;
+		align-items: center;
+	}
+	&_time {
+	}
+}

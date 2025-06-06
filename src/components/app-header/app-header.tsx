@@ -25,7 +25,7 @@ export const AppHeader = ({}) => {
 						className={({ isActive }) =>
 							isActive ? `${s.link__active} ${s.link}` : `${s.link}`
 						}
-						to='/profile/orders'>
+						to='/profile/feed'>
 						<ListIcon type='secondary' className={s.link_logo} />
 						Лента заказов
 					</NavLink>

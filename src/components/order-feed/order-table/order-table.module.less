@@ -1,0 +1,28 @@
+.readiness {
+	display: flex;
+	&_column {
+		width: 50%;
+		&+& {
+			margin-left: 36px;
+		}
+	}
+	&_list {
+		padding-inline-start: 0;
+		margin-top: 24px;
+		&_item {
+			overflow: hidden;
+			text-overflow: ellipsis;
+			text-align: left;
+			font-size: 24px;
+			&+&{
+				margin-top: 8px;
+			}
+			&.ready {
+				color: #00CCCC;
+			}
+		}
+	}
+}
+.counter {
+	margin-top: 60px;
+}

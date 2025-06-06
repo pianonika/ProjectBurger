@@ -7,3 +7,13 @@ export interface OrderStore {
 	order: Order;
 	success: boolean;
 }
+
+export interface OrderCard {
+	ingredients: Array<string>;
+	_id: string;
+	status: string;
+	number: number;
+	name: string;
+	createdAt: string;
+	updatedAt: string;
+}

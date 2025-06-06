@@ -8,7 +8,7 @@ import {
 
 const initialState = {
 	items: {},
-	defaultList: [],
+	defaultList: {},
 	itemsRequest: false,
 	itemsFailed: false,
 };

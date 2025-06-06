@@ -13,9 +13,10 @@ import Modal from '@components/modal/modal';
 import { IngredientDetailsPage } from '@pages/ingredient-details-page/ingredient-details-page';
 import { ProfilePage } from '@pages/profile/profile';
 import { OnlyAuth, OnlyUnAuth } from '@components/app/protected-route';
+import { OrderFeedPage } from '@pages/orders-feed/orders-feed';
+import { OrderHistoryPage } from '@pages/orders-history/orders-history';
 import { useAppDispatch } from '@models/hooks';
 import { checkUserAuth } from '@store/auth/action';
-import { OrderListPage } from '@pages/orders-list/orders-list';
 import { OrderPage } from '@pages/order/order';
 import { getIngredients } from '@store/ingredients/action';
 import { NavigateFunction } from 'react-router/dist/development';
@@ -63,11 +64,15 @@ export const App = () => {
 						element={<OnlyAuth component={<ProfilePage />} />}
 					/>
 					<Route
-						path='/profile/orders'
-						element={<OnlyAuth component={<OrderListPage />} />}
+						path='/profile/feed'
+						element={<OnlyAuth component={<OrderFeedPage />} />}
 					/>
 					<Route
-						path='/profile/orders/:number'
+						path='/profile/orders'
+						element={<OnlyAuth component={<OrderHistoryPage />} />}
+					/>
+					<Route
+						path='/profile/orders/:id'
 						element={<OnlyAuth component={<OrderPage />} />}
 					/>
 					<Route path='/ingredients/:id' element={<IngredientDetailsPage />} />
@@ -78,6 +83,22 @@ export const App = () => {
 					<Routes>
 						<Route
 							path='/ingredients/:id'
+							element={
+								<Modal
+									isActive={true}
+									closeModal={handleModalClose}
+									title={'Детали ингредиента'}>
+									<IngredientDetails />
+								</Modal>
+							}
+						/>
+					</Routes>
+				)}
+
+				{modalLocation && (
+					<Routes>
+						<Route
+							path='/profile/orders/:id'
 							element={
 								<Modal
 									isActive={true}

@@ -195,7 +195,7 @@ export const BurgerConstructor = () => {
 					onClick={() => handleIngredientClick()}>
 					Оформить заказ
 				</Button>
-				sss{order.requestInProgress}
+				{order.requestInProgress}
 			</div>
 			{isActiveModal && (
 				<Modal isActive={isActiveModal} closeModal={closeOrderDetails}>
