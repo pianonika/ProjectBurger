@@ -20,11 +20,13 @@ import { checkUserAuth } from '@store/auth/action';
 import { OrderPage } from '@pages/order/order';
 import { getIngredients } from '@store/ingredients/action';
 import { NavigateFunction } from 'react-router/dist/development';
+import OrderDetails from '@components/order-details/order-details';
 
 export const App = () => {
 	const location = useLocation();
 	const navigate: NavigateFunction = useNavigate();
 	const modalLocation: Location = location.state?.modalLocation;
+	console.log(location);
 	const handleModalClose = () => {
 		navigate(-1);
 	};
@@ -72,14 +74,14 @@ export const App = () => {
 						element={<OnlyAuth component={<OrderHistoryPage />} />}
 					/>
 					<Route
-						path='/profile/orders/:id'
+						path='/orders/:id'
 						element={<OnlyAuth component={<OrderPage />} />}
 					/>
 					<Route path='/ingredients/:id' element={<IngredientDetailsPage />} />
 					<Route path='*' element={<NotFound404 />} />
 				</Routes>
 
-				{modalLocation && (
+				{modalLocation && location.pathname.includes('/ingredients/') && (
 					<Routes>
 						<Route
 							path='/ingredients/:id'
@@ -95,16 +97,13 @@ export const App = () => {
 					</Routes>
 				)}
 
-				{modalLocation && (
+				{modalLocation && location.pathname.includes('/orders/') && (
 					<Routes>
 						<Route
-							path='/profile/orders/:id'
+							path='/orders/:id'
 							element={
-								<Modal
-									isActive={true}
-									closeModal={handleModalClose}
-									title={'Детали ингредиента'}>
-									<IngredientDetails />
+								<Modal isActive={true} closeModal={handleModalClose}>
+									<OrderDetails />
 								</Modal>
 							}
 						/>

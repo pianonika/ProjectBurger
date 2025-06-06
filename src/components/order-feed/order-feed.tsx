@@ -1,13 +1,20 @@
 import React from 'react';
 import s from './order-feed.module.less';
 import OrderFeedCard from '@components/order-feed/order-feed-card/order-feed-card';
+import { Link, useLocation } from 'react-router-dom';
+import IngredientCard from '@components/ingredient-card/ingredient-card';
 
 export const OrderFeed = ({}) => {
+	const location = useLocation();
 	const data = {
 		success: true,
 		orders: [
 			{
-				ingredients: ['643d69a5c3f7b9001cfa093c', '643d69a5c3f7b9001cfa093f', '643d69a5c3f7b9001cfa093d'],
+				ingredients: [
+					'643d69a5c3f7b9001cfa093c',
+					'643d69a5c3f7b9001cfa093f',
+					'643d69a5c3f7b9001cfa093d',
+				],
 				_id: '034535',
 				status: 'done',
 				number: 1,
@@ -32,7 +39,14 @@ export const OrderFeed = ({}) => {
 			{data?.orders &&
 				data.orders.map((order: any, index: number) => (
 					<div className={s.orderFeedCard} key={index}>
-						<OrderFeedCard order={order}></OrderFeedCard>
+						<Link
+							key={`${order._id}`}
+							to={`/orders/${order._id}`}
+							state={{ modalLocation: location }}>
+							<OrderFeedCard
+								order={order}
+								key={`${order._id} + ${index}`}></OrderFeedCard>
+						</Link>
 					</div>
 				))}
 		</div>
