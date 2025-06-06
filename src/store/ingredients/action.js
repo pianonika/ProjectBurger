@@ -18,7 +18,10 @@ export function getIngredients() {
 				const ingredients = ingredientsConstructor(res);
 				dispatch({
 					type: GET_INGREDIENTS_SUCCESS,
-					payload: { filtred: ingredients, defaultList: res.data },
+					payload: {
+						filtred: ingredients,
+						defaultList: defaultListConstructor(res.data),
+					},
 				});
 			})
 			.catch((err) => {
@@ -28,6 +31,15 @@ export function getIngredients() {
 			});
 	};
 }
+
+const defaultListConstructor = (data) => {
+	let newData = {};
+	!!data.length &&
+		data.map((item) => {
+			newData[item._id] = item;
+		});
+	return newData;
+};
 
 const ingredientsConstructor = (res) => {
 	const data = new Object();
