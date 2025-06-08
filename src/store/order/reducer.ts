@@ -3,9 +3,10 @@ import {
 	SEND_ORDER,
 	SEND_ORDER_FAILED,
 	SEND_ORDER_SUCCESS,
-} from './action.js';
+	TSendOrderActions,
+} from './action';
 
-const initialState = {
+const initialState: orderState = {
 	currentOrder: {
 		name: '',
 		order: { number: null },
@@ -14,13 +15,22 @@ const initialState = {
 	requestInProgress: false,
 	sendOrderFailed: false,
 };
-// {
-// 	name: 'Space флюоресцентный бургер',
-// 	order: { number: 2604 },
-// 	success: true,
-// },
 
-export const orderReducer = (state = initialState, action) => {
+export interface orderState {
+	currentOrder: ICurrentOrder;
+	requestInProgress: boolean | null;
+	sendOrderFailed: boolean;
+}
+export interface ICurrentOrder {
+	name: string;
+	order: { number: string | null };
+	success: boolean | null;
+}
+
+export const orderReducer = (
+	state = initialState,
+	action: TSendOrderActions
+) => {
 	switch (action.type) {
 		case SEND_ORDER: {
 			return {
