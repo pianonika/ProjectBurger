@@ -26,7 +26,6 @@ export const App = () => {
 	const location = useLocation();
 	const navigate: NavigateFunction = useNavigate();
 	const modalLocation: Location = location.state?.modalLocation;
-	console.log(location);
 	const handleModalClose = () => {
 		navigate(-1);
 	};
