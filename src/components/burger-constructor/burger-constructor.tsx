@@ -13,7 +13,7 @@ import {
 } from '@models/ingredient-model.model';
 import { useAppDispatch, useAppSelector } from '@models/hooks';
 import { ADD_FILLINGS_ITEM, SET_BUN } from '@store/cart/action';
-import {CLEAR_ORDER_INFO, getOrderInfo, sendOrder} from '@store/order/action';
+import { CLEAR_ORDER_INFO, sendOrder } from '@store/order/action';
 import { INCREMENT_INGREDIENTS_COUNT } from '@store/ingredients/action';
 import { useDrop } from 'react-dnd';
 import uuid from 'react-uuid';
@@ -54,7 +54,7 @@ export const BurgerConstructor = () => {
 	};
 
 	const totalPrice: number = useMemo<number>(() => {
-		const fillingsPrice = chosenIngredients?.fillings?.[0]?.price
+		const fillingsPrice = chosenIngredients?.fillings?.[0]?.['price']
 			? chosenIngredients?.fillings?.reduce(
 					(acc: number, curr: IngredientModel) => acc + curr.price,
 					0

@@ -4,17 +4,39 @@ import {
 	GET_INGREDIENTS_FAILED,
 	GET_INGREDIENTS_SUCCESS,
 	INCREMENT_INGREDIENTS_COUNT,
-} from './action.js';
-import ingredientCard from "@components/ingredient-card/ingredient-card";
+	TIngredientsActions,
+} from './action';
+import {
+	IngredientModel,
+	IngredientModelUnic,
+} from '@models/ingredient-model.model';
 
-const initialState = {
-	items: {},
+const initialState: TIngredients = {
+	items: {
+		bun: [],
+		sauce: [],
+		main: [],
+	},
 	defaultList: {},
 	itemsRequest: false,
 	itemsFailed: false,
 };
 
-export const ingredientsReducer = (state = initialState, action) => {
+export type TIngredients = {
+	items: {
+		bun: IngredientModelUnic[];
+		sauce: IngredientModelUnic[];
+		main: IngredientModelUnic[];
+	};
+	defaultList: { [key: string]: IngredientModel[] };
+	itemsRequest: false;
+	itemsFailed: false;
+};
+
+export const ingredientsReducer = (
+	state = initialState,
+	action: TIngredientsActions
+) => {
 	switch (action.type) {
 		case GET_INGREDIENTS: {
 			return {

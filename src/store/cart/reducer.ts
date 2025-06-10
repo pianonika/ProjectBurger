@@ -4,14 +4,19 @@ import {
 	CLEAR_CART,
 	REMOVE_FILLINGS_ITEM,
 	SET_BUN,
-} from './action.js';
+	TCartActions,
+} from './action';
 
-const initialState = {
+const initialState: ICartState = {
 	bun: {},
 	fillings: [],
 };
+export interface ICartState {
+	bun: any;
+	fillings: any;
+}
 
-export const cartReducer = (state = initialState, action) => {
+export const cartReducer = (state = initialState, action: TCartActions) => {
 	switch (action.type) {
 		case ADD_FILLINGS_ITEM: {
 			return {
