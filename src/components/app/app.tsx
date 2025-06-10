@@ -20,7 +20,7 @@ import { checkUserAuth } from '@store/auth/action';
 import { OrderPage } from '@pages/order/order';
 import { getIngredients } from '@store/ingredients/action';
 import { NavigateFunction } from 'react-router/dist/development';
-import OrderDetails from '@components/order-details/order-details';
+import OrderFeedDetails from '@components/order-feed/order-feed-details/order-feed-details';
 
 export const App = () => {
 	const location = useLocation();
@@ -102,7 +102,7 @@ export const App = () => {
 							path='/orders/:id'
 							element={
 								<Modal isActive={true} closeModal={handleModalClose}>
-									<OrderDetails />
+									<OrderFeedDetails />
 								</Modal>
 							}
 						/>

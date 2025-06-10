@@ -7,7 +7,7 @@ export function OrderHistoryPage() {
 	return (
 		<Profile>
 			<div className={s.orders}>
-				<OrderFeed></OrderFeed>
+				<OrderFeed isStatus={true}></OrderFeed>
 			</div>
 		</Profile>
 	);

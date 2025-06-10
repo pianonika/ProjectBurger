@@ -86,3 +86,5 @@ export const authorizationReducer = (state = initialState, action) => {
 		}
 	}
 };
+
+export const getUser = (state) => state.authorization.user;

@@ -18,6 +18,7 @@ export interface OrderCard {
 	name: string;
 	createdAt: string;
 	updatedAt: string;
+	price?: number;
 }
 
 export type LiveTableAction = Insert | Data | Delete | Update | Move;

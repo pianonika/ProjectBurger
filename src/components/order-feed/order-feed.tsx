@@ -7,7 +7,9 @@ import { useAppDispatch, useAppSelector } from '@models/hooks';
 import { OrderCard } from '@models/order';
 import { getOrders } from '@store/ordersLIst/slice';
 
-export const OrderFeed = ({}) => {
+export const OrderFeed: FC<{
+	isStatus?: boolean;
+}> = ({ isStatus = false }) => {
 	const location = useLocation();
 	const dispatch = useAppDispatch();
 	const orders: OrderCard[] = useAppSelector(getOrders);
@@ -25,9 +27,10 @@ export const OrderFeed = ({}) => {
 	}, [dispatch]);
 
 	return (
-		<div className={s.list}>
-			{data?.orders &&
-				data.orders.map((order: any, index: number) => (
+		<div className={`custom-scroll ${s.list}`}>
+			{!orders.length && '...loading'}
+			{!!orders.length &&
+				orders.map((order: any, index: number) => (
 					<div className={s.orderFeedCard} key={index}>
 						<Link
 							key={`${order._id}`}
@@ -35,6 +38,7 @@ export const OrderFeed = ({}) => {
 							state={{ modalLocation: location }}>
 							<OrderFeedCard
 								order={order}
+								isStatus={isStatus}
 								key={`${order._id} + ${index}`}></OrderFeedCard>
 						</Link>
 					</div>

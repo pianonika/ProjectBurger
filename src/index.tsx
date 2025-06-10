@@ -5,9 +5,11 @@ import { App } from '@components/app/app';
 import { Provider } from 'react-redux';
 import { configureStore } from '@store/root/store';
 import { BrowserRouter } from 'react-router-dom';
+import { LiveTableActionTypes } from '@store/ordersLIst/actions';
+import { TSendOrderActions } from '@store/order/action';
 
 const store = configureStore();
-
+export type AppActions = LiveTableActionTypes | TSendOrderActions;
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
 

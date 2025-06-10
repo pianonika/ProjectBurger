@@ -1,7 +1,10 @@
 import React from 'react';
 import s from './order-table.module.less';
+import { useAppSelector } from '@models/hooks';
+import { getLiveTableState } from '@store/ordersLIst/slice';
 
 export const OrderTable = ({}) => {
+	const liveTableState = useAppSelector(getLiveTableState);
 	return (
 		<div>
 			<div className={s.readiness}>
@@ -33,16 +36,14 @@ export const OrderTable = ({}) => {
 				</div>
 			</div>
 			<div className={s.counter}>
-				<p className='text text_type_main-large'>
-					Выполнено за все время:
-				</p>
-				<p className='text text_type_digits-large'>28 752</p>
+				<p className='text text_type_main-large'>Выполнено за все время:</p>
+				<p className='text text_type_digits-large'>{liveTableState.total}</p>
 			</div>
 			<div className={s.counter}>
-				<p className='text text_type_main-large'>
-					Выполнено за сегодня:
+				<p className='text text_type_main-large'>Выполнено за сегодня:</p>
+				<p className='text text_type_digits-large'>
+					{liveTableState.totalToday}
 				</p>
-				<p className='text text_type_digits-large'>138</p>
 			</div>
 		</div>
 	);

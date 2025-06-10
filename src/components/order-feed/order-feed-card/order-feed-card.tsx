@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
 import s from './order-feed-card.module.less';
 import { OrderCard } from '@models/order';
 import {
@@ -7,14 +7,27 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import { IngredientModel } from '@models/ingredient-model.model';
 import { useAppSelector } from '@models/hooks';
+import { translations } from '@store/vars';
 
 export const OrderFeedCard: FC<{
 	order: OrderCard;
-}> = ({ order }) => {
+	isStatus: boolean;
+}> = ({ order, isStatus = false }) => {
 	const date = new Date(order.createdAt);
 	const items: { [key: string]: IngredientModel } = useAppSelector(
 		(state) => state.ingredients.defaultList
 	);
+
+	const totalPrice = order.ingredients.reduce(
+		(acc, ingredient) => items[ingredient].price + acc,
+		0
+	);
+	const ingregientsLimit = 6;
+	const [orderIngredients] = useState(
+		order.ingredients.slice(0, ingregientsLimit)
+	);
+	const excessIngregientsLimit = orderIngredients.length - ingregientsLimit + 1;
+	const isShowIngregientsTale = excessIngregientsLimit > 0;
 
 	return (
 		<div className={s.orderCard}>
@@ -22,18 +35,22 @@ export const OrderFeedCard: FC<{
 				<p className='text text_type_digits-default orderCard_id'>
 					#{order._id}
 				</p>
-				<FormattedDate date={date} />
+				<div className={s.date}>
+					<FormattedDate date={date} />
+				</div>
 			</div>
 			<div className={`text text_type_main-medium ${s.orderCard_name}`}>
 				{order.name}
 			</div>
-			<div className='orderCard_status text text_type_main-default'>
-				{order.status}
-			</div>
+			{isStatus && (
+				<div className={`${s.orderCard_status} text text_type_main-default`}>
+					{translations[order.status]}
+				</div>
+			)}
 			<div className={s.orderCard_footer}>
 				<div className={s.orderCard_ingredients}>
-					{order.ingredients &&
-						order.ingredients.map((itemId: string, index: number) => (
+					{orderIngredients &&
+						orderIngredients.map((itemId: string, index: number) => (
 							<div
 								key={`${itemId}${index}`}
 								className={s.orderCard_ingredients_item}>
@@ -42,11 +59,14 @@ export const OrderFeedCard: FC<{
 									src={items?.[itemId]?.image_mobile}
 									alt={items?.[itemId]?.name}
 								/>
+								{isShowIngregientsTale && index == ingregientsLimit - 1 && (
+									<div className={s.hover}>+{excessIngregientsLimit}</div>
+								)}
 							</div>
 						))}
 				</div>
 				<div className={s.orderCard_price}>
-					<p className='text text_type_digits-medium mr-2'>560</p>
+					<p className='text text_type_digits-default mr-2'>{totalPrice}</p>
 					<CurrencyIcon type='primary' />
 				</div>
 			</div>
