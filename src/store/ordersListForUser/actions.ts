@@ -57,4 +57,5 @@ export type TWSOrdersListForUserActions = {
 	onClose: typeof userListOnClose;
 	onError: typeof userListOnError;
 	onMessage: typeof userListOnMessage;
+	disconnect: typeof userListDisconnect;
 };

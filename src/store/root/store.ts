@@ -8,6 +8,7 @@ import {
 	onError,
 	onMessage,
 	onOpen,
+	disconnect,
 	TWSOrdersListActions,
 } from '@store/ordersList/actions';
 import { createStore } from '@reduxjs/toolkit';
@@ -16,8 +17,10 @@ import {
 	TWSOrdersListForUserActions,
 	userListConnect,
 	userListOnClose,
-	userListOnError, userListOnMessage,
+	userListOnError,
+	userListOnMessage,
 	userListOnOpen,
+	userListDisconnect,
 } from '@store/ordersListForUser/actions';
 
 // const composeEnhancers =
@@ -31,6 +34,7 @@ const composeEnhancers =
 
 const wsOrdersListActions: TWSOrdersListActions = {
 	connect,
+	disconnect,
 	onOpen,
 	onClose,
 	onError,
@@ -38,6 +42,7 @@ const wsOrdersListActions: TWSOrdersListActions = {
 };
 const wsOrdersListForUserActions: TWSOrdersListForUserActions = {
 	connect: userListConnect,
+	disconnect: userListDisconnect,
 	onOpen: userListOnOpen,
 	onClose: userListOnClose,
 	onError: userListOnError,
@@ -47,8 +52,8 @@ const wsOrdersListForUserActions: TWSOrdersListForUserActions = {
 const enhancer = composeEnhancers(
 	applyMiddleware(
 		thunk,
-		socketMiddleware(`${WS_URL}/orders/all`, wsOrdersListActions),
-		socketMiddleware(`${WS_URL}/orders`, wsOrdersListForUserActions)
+		socketMiddleware(`${WS_URL}/orders/all`, wsOrdersListActions, true),
+		socketMiddleware(`${WS_URL}/orders`, wsOrdersListForUserActions, true)
 	)
 );
 

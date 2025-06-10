@@ -1,7 +1,6 @@
 //from components to middleware
 
-import { WebsocketStatus } from '@models/live-table';
-import {Order, OrderCard} from "@models/order";
+import { OrderCard } from '@models/order';
 
 export const connect = 'connect' as const;
 export interface IConnectAction {
@@ -54,6 +53,7 @@ export interface IOnSendMessageAction {
 
 export type TWSOrdersListActions = {
 	connect: typeof connect;
+	disconnect: typeof disconnect;
 	onOpen: typeof onOpen;
 	onClose: typeof onClose;
 	onError: typeof onError;
