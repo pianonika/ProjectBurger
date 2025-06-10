@@ -1,11 +1,12 @@
-// import { Middleware } from '@reduxjs/toolkit';
 import { AppActions, AppDispatch, RootState } from '../../index';
-import type { Middleware, MiddlewareAPI } from 'redux';
+import { Middleware, MiddlewareAPI } from 'redux';
 import { IMessage, IMessageResponse } from '@models/modelsData';
-import { TWsActions } from '@store/root/store';
+import { TWSOrdersListActions } from '@store/ordersList/actions';
+import { TWSOrdersListForUserActions } from '@store/ordersListForUser/actions';
 
 export const RECONNECT_PERIOD = 3000;
 
+export type TWsActions = TWSOrdersListActions | TWSOrdersListForUserActions;
 export const socketMiddleware = (
 	wsUrl: string,
 	wsActions: TWsActions
@@ -16,10 +17,10 @@ export const socketMiddleware = (
 
 		return (next) => (action: AppActions) => {
 			const { type } = action;
-			const { wsOnConnect, onOpen, onClose, onError, onMessage } = wsActions;
+			const { connect, onOpen, onClose, onError, onMessage } = wsActions;
 			// const user = useAppSelector(getUser);
 			const accessToken = localStorage.getItem('accessToken');
-			if (type === wsOnConnect && accessToken) {
+			if (type === connect && accessToken) {
 				socket = new WebSocket(
 					`${wsUrl}?token=${accessToken.replace('Bearer ', '')}`
 				);

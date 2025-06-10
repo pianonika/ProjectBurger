@@ -8,10 +8,17 @@ import {
 	onError,
 	onMessage,
 	onOpen,
-	onSendMessage,
-} from '@store/ordersLIst/actions';
+	TWSOrdersListActions,
+} from '@store/ordersList/actions';
 import { createStore } from '@reduxjs/toolkit';
 import { WS_URL } from '@store/vars';
+import {
+	TWSOrdersListForUserActions,
+	userListConnect,
+	userListOnClose,
+	userListOnError, userListOnMessage,
+	userListOnOpen,
+} from '@store/ordersListForUser/actions';
 
 // const composeEnhancers =
 // 	typeof window === 'object' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
@@ -22,25 +29,27 @@ const composeEnhancers =
 		? (window as any)?.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
 		: null) || compose;
 
-export type TWsActions = {
-	wsOnConnect: typeof connect;
-	onOpen?: typeof onOpen;
-	onClose?: typeof onClose;
-	onError: typeof onError;
-	wsSendMessage: typeof onSendMessage;
-	onMessage: typeof onMessage;
+const wsOrdersListActions: TWSOrdersListActions = {
+	connect,
+	onOpen,
+	onClose,
+	onError,
+	onMessage,
 };
-const wsActions: TWsActions = {
-	wsOnConnect: connect,
-	wsSendMessage: onSendMessage,
-	onOpen: onOpen,
-	onClose: onClose,
-	onError: onError,
-	onMessage: onMessage,
+const wsOrdersListForUserActions: TWSOrdersListForUserActions = {
+	connect: userListConnect,
+	onOpen: userListOnOpen,
+	onClose: userListOnClose,
+	onError: userListOnError,
+	onMessage: userListOnMessage,
 };
 
 const enhancer = composeEnhancers(
-	applyMiddleware(thunk, socketMiddleware(`${WS_URL}/orders/all`, wsActions))
+	applyMiddleware(
+		thunk,
+		socketMiddleware(`${WS_URL}/orders/all`, wsOrdersListActions),
+		socketMiddleware(`${WS_URL}/orders`, wsOrdersListForUserActions)
+	)
 );
 
 export const configureStore = () => {

@@ -2,7 +2,6 @@ import { connect, LiveTableActionTypes, onMessage } from './actions';
 import { WebsocketStatus } from '@models/live-table';
 import { RootState } from '../../index';
 import { OrderCard } from '@models/order';
-import { useAppSelector } from '@models/hooks';
 
 export type LiveTableState = {
 	orders: OrderCard[];
@@ -32,7 +31,9 @@ export const liveTableReducer = (
 		case onMessage: {
 			return {
 				...state,
-				...action.payload,
+				orders: action.payload.orders,
+				total: action.payload.total,
+				totalToday: action.payload.totalToday,
 			};
 		}
 		default: {

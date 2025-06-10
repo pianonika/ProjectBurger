@@ -2,27 +2,44 @@ import React, { FC, useEffect } from 'react';
 import s from './order-feed.module.less';
 import OrderFeedCard from '@components/order-feed/order-feed-card/order-feed-card';
 import { Link, useLocation } from 'react-router-dom';
-import { connect, disconnect } from '@store/ordersLIst/actions';
 import { useAppDispatch, useAppSelector } from '@models/hooks';
 import { OrderCard } from '@models/order';
-import { getOrders } from '@store/ordersLIst/slice';
+import { getOrders } from '@store/ordersList/slice';
+import { connect, disconnect } from '@store/ordersList/actions';
+import {
+	userListConnect,
+	userListDisconnect,
+} from '@store/ordersListForUser/actions';
+import {getUserOrders} from "@store/ordersListForUser/slice";
 
 export const OrderFeed: FC<{
 	isStatus?: boolean;
-}> = ({ isStatus = false }) => {
+	isProfilePage?: boolean;
+}> = ({ isStatus = false, isProfilePage = false }) => {
 	const location = useLocation();
 	const dispatch = useAppDispatch();
-	const orders: OrderCard[] = useAppSelector(getOrders);
+	// const orders: OrderCard[] = isProfilePage ? useAppSelector(getOrders):useAppSelector(getUserOrders);
+	const orders: OrderCard[] = useAppSelector(
+		isProfilePage ? getUserOrders : getOrders
+	);
 
 	useEffect(() => {
-		dispatch({
-			type: connect,
-		});
+		isProfilePage
+			? dispatch({
+					type: userListConnect,
+			  })
+			: dispatch({
+					type: connect,
+			  });
 		// payload: `${BASE_URL}/orders`,
 		return () => {
-			dispatch({
-				type: disconnect,
-			});
+			isProfilePage
+				? dispatch({
+						type: userListDisconnect,
+				  })
+				: dispatch({
+						type: userListConnect,
+				  });
 		};
 	}, [dispatch]);
 

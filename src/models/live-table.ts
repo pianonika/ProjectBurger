@@ -1,3 +1,5 @@
+import { ActionCreator } from 'redux';
+
 export enum WebsocketStatus {
 	CONNECTING = 'CONNECTING...',
 	ONLINE = 'ONLINE',

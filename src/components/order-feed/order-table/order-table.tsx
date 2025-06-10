@@ -1,7 +1,7 @@
 import React from 'react';
 import s from './order-table.module.less';
 import { useAppSelector } from '@models/hooks';
-import { getLiveTableState } from '@store/ordersLIst/slice';
+import { getLiveTableState } from '@store/ordersList/slice';
 
 export const OrderTable = ({}) => {
 	const liveTableState = useAppSelector(getLiveTableState);
