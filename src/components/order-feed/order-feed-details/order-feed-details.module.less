@@ -21,7 +21,7 @@
 	margin-bottom: 30px;
 }
 .table {
-	margin-top: 30px;
+	height: 100%;
 	tr {
 		margin-top: 16px;
 
@@ -29,6 +29,12 @@
 			padding-left: 16px;
 		}
 	}
+}
+.tableWrapper {
+	height: 256px;
+	margin-top: 30px;
+	overflow: hidden auto;
+	scrollbar-width: thin;
 }
 .item {
 	&_currency {
@@ -63,4 +69,13 @@
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
+}
+.modal_content {
+	position: relative;
+	min-width: 720px;
+	padding: 60px 100px 60px 100px;
+	box-sizing: border-box;
+	z-index: 1001;
+	margin: auto;
+	text-align: center;
 }

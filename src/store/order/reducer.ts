@@ -1,10 +1,14 @@
 import {
 	CLEAR_ORDER_INFO,
+	DELETE_ORDER_CURR_CARD,
+	GET_ORDER_CURR_CARD_SUCCESS,
 	SEND_ORDER,
 	SEND_ORDER_FAILED,
 	SEND_ORDER_SUCCESS,
 	TSendOrderActions,
 } from './action';
+import { OrderCard } from '@models/order';
+import { RootState } from '../../index';
 
 const initialState: orderState = {
 	currentOrder: {
@@ -14,12 +18,14 @@ const initialState: orderState = {
 	},
 	requestInProgress: false,
 	sendOrderFailed: false,
+	currOrderCard: null,
 };
 
 export interface orderState {
 	currentOrder: ICurrentOrder;
 	requestInProgress: boolean | null;
 	sendOrderFailed: boolean;
+	currOrderCard: OrderCard | null;
 }
 export interface ICurrentOrder {
 	name: string;
@@ -59,8 +65,15 @@ export const orderReducer = (
 				},
 			};
 		}
+		case GET_ORDER_CURR_CARD_SUCCESS: {
+			return { ...state, currOrderCard: action.payload };
+		}
+		case DELETE_ORDER_CURR_CARD: {
+			return { ...state, currOrderCard: null };
+		}
 		default: {
 			return state;
 		}
 	}
 };
+export const getCurrOrderCard = (state: RootState) => state.order.currOrderCard;

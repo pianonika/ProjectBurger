@@ -6,13 +6,15 @@ import {
 	FormattedDate,
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import { IngredientModel } from '@models/ingredient-model.model';
-import { useAppSelector } from '@models/hooks';
+import { useAppDispatch, useAppSelector } from '@models/hooks';
 import { translations } from '@store/vars';
+import { SET_ORDER_CURR_CARD } from '@store/order/action';
 
 export const OrderFeedCard: FC<{
 	order: OrderCard;
 	isStatus: boolean;
 }> = ({ order, isStatus = false }) => {
+	const dispatch = useAppDispatch();
 	const date = new Date(order.createdAt);
 	const items: { [key: string]: IngredientModel } = useAppSelector(
 		(state) => state.ingredients.defaultList
@@ -29,11 +31,26 @@ export const OrderFeedCard: FC<{
 	const excessIngregientsLimit = orderIngredients.length - ingregientsLimit + 1;
 	const isShowIngregientsTale = excessIngregientsLimit > 0;
 
+	const saveOrderForModal = () => {
+		dispatch({
+			type: SET_ORDER_CURR_CARD,
+			payload: order,
+		});
+	};
+
+	// useEffect(() => {
+	// 	return () => {
+	// 		dispatch({
+	// 			type: DELETE_ORDER_CURR_CARD,
+	// 		});
+	// 	};
+	// }, []);
+
 	return (
-		<div className={s.orderCard}>
+		<div className={s.orderCard} onClick={() => saveOrderForModal()}>
 			<div className={s.orderCard_header}>
 				<p className='text text_type_digits-default orderCard_id'>
-					#{order._id}
+					#{order.number}
 				</p>
 				<div className={s.date}>
 					<FormattedDate date={date} />

@@ -5,6 +5,7 @@ import {
 	GET_INGREDIENTS_SUCCESS,
 	INCREMENT_INGREDIENTS_COUNT,
 } from './action.js';
+import ingredientCard from "@components/ingredient-card/ingredient-card";
 
 const initialState = {
 	items: {},

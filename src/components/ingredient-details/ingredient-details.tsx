@@ -14,8 +14,7 @@ export const IngredientDetails = () => {
 	const items: IngredientModel[] = useAppSelector(
 		(state) => state.ingredients.defaultList
 	);
-	// @ts-ignore
-	const ingredient: IngredientModel = chosenIngredient ?? items?.[id];
+	const ingredient: IngredientModel = chosenIngredient ?? (id && items?.[id]);
 	const removeCurrIngredient: () => void = () => {
 		dispatch({
 			type: REMOVE_CURR_INGREDIENT,

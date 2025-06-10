@@ -64,17 +64,15 @@ export const App = () => {
 						path='/profile'
 						element={<OnlyAuth component={<ProfilePage />} />}
 					/>
-					<Route
-						path='/profile/feed'
-						element={<OnlyAuth component={<OrderFeedPage />} />}
-					/>
+					<Route path='/feed' element={<OrderFeedPage />} />
+					<Route path='/feed/:numberId' element={<OrderFeedDetails />} />
 					<Route
 						path='/profile/orders'
 						element={<OnlyAuth component={<OrderHistoryPage />} />}
 					/>
 					<Route
-						path='/orders/:id'
-						element={<OnlyAuth component={<OrderPage />} />}
+						path='/profile/orders/:numberId'
+						element={<OnlyAuth component={<OrderFeedDetails />} />}
 					/>
 					<Route path='/ingredients/:id' element={<IngredientDetailsPage />} />
 					<Route path='*' element={<NotFound404 />} />
@@ -96,10 +94,23 @@ export const App = () => {
 					</Routes>
 				)}
 
-				{modalLocation && location.pathname.includes('/orders/') && (
+				{modalLocation && location.pathname.includes('orders') && (
 					<Routes>
 						<Route
-							path='/orders/:id'
+							path='/profile/orders/:numberId'
+							element={
+								<Modal isActive={true} closeModal={handleModalClose}>
+									<OrderFeedDetails />
+								</Modal>
+							}
+						/>
+					</Routes>
+				)}
+
+				{modalLocation && location.pathname.includes('feed') && (
+					<Routes>
+						<Route
+							path='/feed/:numberId'
 							element={
 								<Modal isActive={true} closeModal={handleModalClose}>
 									<OrderFeedDetails />

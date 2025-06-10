@@ -5,12 +5,12 @@ import { Link, useLocation } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '@models/hooks';
 import { OrderCard } from '@models/order';
 import { getOrders } from '@store/ordersList/slice';
-import { connect, disconnect } from '@store/ordersList/actions';
+import { connect } from '@store/ordersList/actions';
 import {
 	userListConnect,
 	userListDisconnect,
 } from '@store/ordersListForUser/actions';
-import {getUserOrders} from "@store/ordersListForUser/slice";
+import { getUserOrders } from '@store/ordersListForUser/slice';
 
 export const OrderFeed: FC<{
 	isStatus?: boolean;
@@ -18,10 +18,12 @@ export const OrderFeed: FC<{
 }> = ({ isStatus = false, isProfilePage = false }) => {
 	const location = useLocation();
 	const dispatch = useAppDispatch();
-	// const orders: OrderCard[] = isProfilePage ? useAppSelector(getOrders):useAppSelector(getUserOrders);
 	const orders: OrderCard[] = useAppSelector(
 		isProfilePage ? getUserOrders : getOrders
 	);
+	const calcLink = (id) => {
+		return isProfilePage ? `/profile/orders/${id}` : `/feed/${id}`;
+	};
 
 	useEffect(() => {
 		isProfilePage
@@ -51,7 +53,7 @@ export const OrderFeed: FC<{
 					<div className={s.orderFeedCard} key={index}>
 						<Link
 							key={`${order._id}`}
-							to={`/orders/${order._id}`}
+							to={calcLink(order.number)}
 							state={{ modalLocation: location }}>
 							<OrderFeedCard
 								order={order}
