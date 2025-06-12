@@ -38,14 +38,6 @@ export const OrderFeedCard: FC<{
 		});
 	};
 
-	// useEffect(() => {
-	// 	return () => {
-	// 		dispatch({
-	// 			type: DELETE_ORDER_CURR_CARD,
-	// 		});
-	// 	};
-	// }, []);
-
 	return (
 		<div className={s.orderCard} onClick={() => saveOrderForModal()}>
 			<div className={s.orderCard_header}>

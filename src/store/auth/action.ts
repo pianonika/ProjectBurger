@@ -162,9 +162,6 @@ export const logoutRequest = (): AppThunkAction => (dispatch: AppDispatch) => {
 	dispatch({
 		type: LOGOUT_REQUEST,
 	});
-	// dispatch({
-	// 	type: LOGOUT_SUCCESS,
-	// });
 
 	fetchWithRefresh('/api/auth/logout', {
 		method: 'POST',
