@@ -5,7 +5,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '@models/hooks';
 import { OrderCard } from '@models/order';
 import { getOrders } from '@store/ordersList/slice';
-import { connect } from '@store/ordersList/actions';
+import { connect, disconnect } from '@store/ordersList/actions';
 import {
 	userListConnect,
 	userListDisconnect,
@@ -40,7 +40,7 @@ export const OrderFeed: FC<{
 						type: userListDisconnect,
 				  })
 				: dispatch({
-						type: userListConnect,
+						type: disconnect,
 				  });
 		};
 	}, [dispatch]);

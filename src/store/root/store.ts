@@ -32,7 +32,6 @@ const composeEnhancers =
 		? (window as any)?.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
 		: null) || compose;
 
-
 export const wsOrdersListActions: TWSOrdersListActions = {
 	connect: connect,
 	disconnect: disconnect,

@@ -1,18 +1,16 @@
 import type { Middleware, MiddlewareAPI } from '@reduxjs/toolkit';
 
 import type { AppActions } from '@store/root/action';
-import type { IMessage, IMessageResponse } from '@models/modelsData';
-import type { TWSOrdersListActions } from '@store/ordersList/actions';
-import type { TWSOrdersListForUserActions } from '@store/ordersListForUser/actions';
+import type { IMessageResponse } from '@models/modelsData';
 import type { AppDispatch, RootState } from '../../index';
 import { refreshToken } from '@utils/checkResponse';
+import { TWSOrdersListForUserActions } from '@store/ordersListForUser/actions';
+import { TWSOrdersListActions } from '@store/ordersList/actions';
 
 export const RECONNECT_PERIOD = 3000;
-
-export type TWsActions = TWSOrdersListActions | TWSOrdersListForUserActions;
 export const socketMiddleware = (
 	wsUrl: string,
-	wsActions: TWsActions,
+	wsActions: TWSOrdersListActions | TWSOrdersListForUserActions,
 	withTokenRefresh = false
 ): Middleware => {
 	return ((store: MiddlewareAPI<AppDispatch, RootState>) => {
@@ -33,22 +31,16 @@ export const socketMiddleware = (
 				isConnected = true;
 			}
 			if (socket) {
-				// socket.onopen = (event) => {
-				// 	dispatch({ type: onOpen, payload: event });
-				// };
-				socket.onopen = event => {
-					// @ts-ignore
-					dispatch({ type: onOpen, payload: event });
+				socket.onopen = () => {
+					dispatch({ type: onOpen });
 				};
 
-				socket.onerror = (event) => {
-					// @ts-ignore
-					dispatch({ type: onError, payload: event });
+				socket.onerror = () => {
+					dispatch({ type: onError, payload: 'Error' });
 				};
 
-				socket.onclose = (event) => {
-					// @ts-ignore
-					dispatch({ type: onClose, payload: event });
+				socket.onclose = () => {
+					dispatch({ type: onClose });
 
 					if (isConnected) {
 						reconnectTimer = window.setTimeout(() => {
@@ -60,8 +52,6 @@ export const socketMiddleware = (
 				socket.onmessage = (event) => {
 					const { data } = event;
 					const parsedData: IMessageResponse = JSON.parse(data);
-					const { success, ...restParsedData } = parsedData;
-
 					try {
 						if (
 							withTokenRefresh &&
@@ -80,15 +70,13 @@ export const socketMiddleware = (
 									dispatch({ type: onError, payload: error });
 								});
 
-							// @ts-ignore
 							dispatch({ type: disconnect });
 
 							return;
 						}
-						// @ts-ignore
 						dispatch({
 							type: onMessage,
-							payload: restParsedData,
+							payload: parsedData,
 						});
 					} catch (error) {
 						dispatch({
@@ -97,15 +85,6 @@ export const socketMiddleware = (
 						});
 					}
 				};
-
-				if (type === onMessage) {
-					const payload = action.payload;
-					const message = {
-						...(payload as unknown as IMessage),
-						token: accessToken,
-					};
-					socket.send(JSON.stringify(message));
-				}
 
 				if (socket && type === disconnect) {
 					clearTimeout(reconnectTimer);

@@ -40,6 +40,15 @@ export interface IUserListOnMessageAction {
 	};
 }
 
+export type TWSOrdersListForUserActions = {
+	connect: typeof userListConnect;
+	onOpen: typeof userListOnOpen;
+	onClose: typeof userListOnClose;
+	onError: typeof userListOnError;
+	onMessage: typeof userListOnMessage;
+	disconnect: typeof userListDisconnect;
+};
+
 export type TUserListActionTypes =
 	| IUserListConnectAction
 	| IUserListDisconnectAction
@@ -49,11 +58,3 @@ export type TUserListActionTypes =
 	| IUserListOnCloseAction
 	| IUserListOnMessageAction;
 
-export type TWSOrdersListForUserActions = {
-	connect: typeof userListConnect;
-	onOpen: typeof userListOnOpen;
-	onClose: typeof userListOnClose;
-	onError: typeof userListOnError;
-	onMessage: typeof userListOnMessage;
-	disconnect: typeof userListDisconnect;
-};

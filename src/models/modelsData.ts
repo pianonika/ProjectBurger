@@ -1,3 +1,5 @@
+import { OrderCard } from '@models/order';
+
 export interface IUserResponse {
 	id: string;
 	token: string;
@@ -7,12 +9,11 @@ export interface IUserResponse {
 }
 
 export interface IMessageResponse {
-	message: string;
 	success: boolean;
-	username: string;
-
-	id?: string;
-	isBot?: boolean;
+	orders: OrderCard[];
+	total: string;
+	totalToday: string;
+	message?: string;
 }
 
 export interface IMessage extends Omit<IMessageResponse, 'success'> {

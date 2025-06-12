@@ -10,7 +10,6 @@ export interface IConnectAction {
 export const disconnect = 'disconnect' as const;
 export interface IDisconnectAction {
 	readonly type: typeof disconnect;
-	readonly payload: string;
 }
 
 export const onConnecting = 'onConnecting' as const;
@@ -42,12 +41,6 @@ export interface IOnMessageAction {
 		total: string;
 		totalToday: string;
 	};
-}
-
-export const onSendMessage = 'onSendMessage' as const;
-export interface IOnSendMessageAction {
-	readonly type: typeof onSendMessage;
-	readonly payload: string;
 }
 
 export type TWSOrdersListActions = {
