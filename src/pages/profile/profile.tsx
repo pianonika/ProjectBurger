@@ -19,13 +19,13 @@ export function ProfilePage() {
 	const [isFormChanged, setIsFormChanged] = useState<boolean>(false);
 	const { values, setValues } = useForm({
 		password: '',
-		name: user.name,
-		email: user.email,
+		name: user?.name ?? '',
+		email: user?.email ?? '',
 		isFormChanged: 'false',
 	});
 
 	const onChange: (e: ChangeEvent<HTMLInputElement>) => void = (e) => {
-		const previousValue = user[e.target.name];
+		const previousValue = user?.[e.target.name];
 		setValues({ ...values, [e.target.name]: e.target.value });
 		if (previousValue !== e.target.value) {
 			setIsFormChanged(true);

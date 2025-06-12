@@ -1,6 +1,7 @@
 import {
 	FORGOT_REQUEST,
 	FORGOT_SUCCESS,
+	IAuthActions,
 	LOGIN_SUCCESS,
 	LOGOUT_SUCCESS,
 	REGISTER_REQUEST,
@@ -10,14 +11,27 @@ import {
 	SET_AUTH_FLAG,
 	SET_USER,
 } from '@store/auth/action';
+import { RootState } from '../../index';
 
-const initialState = {
-	user: null,
+const initialState: IAuthorizationState = {
+	user: undefined,
 	isAuthChecked: false,
 	requestInProgress: false,
 };
+export interface IAuthorizationState {
+	user: IUser | undefined;
+	isAuthChecked: boolean;
+	requestInProgress: boolean;
+}
+export interface IUser {
+	email: string;
+	name: string;
+}
 
-export const authorizationReducer = (state = initialState, action) => {
+export const authorizationReducer = (
+	state = initialState,
+	action: IAuthActions
+) => {
 	switch (action.type) {
 		case SET_USER: {
 			return {
@@ -27,7 +41,7 @@ export const authorizationReducer = (state = initialState, action) => {
 		}
 		case LOGIN_SUCCESS: {
 			return {
-				user: { ...state.user, ...action.payload },
+				user: { ...state.user, ...action.payload.user },
 				isAuthChecked: true,
 				requestInProgress: state.requestInProgress,
 			};
@@ -86,3 +100,5 @@ export const authorizationReducer = (state = initialState, action) => {
 		}
 	}
 };
+
+export const getUser = (state: RootState) => state.authorization.user;

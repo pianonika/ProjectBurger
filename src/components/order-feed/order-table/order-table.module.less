@@ -1,0 +1,35 @@
+.readiness {
+	display: flex;
+	&_column {
+		width: 40%;
+		& + & {
+			margin-left: 36px;
+		}
+	}
+	&_list {
+		padding-inline-start: 0;
+		margin-top: 16px;
+		display: flex;
+		flex-direction: column;
+		height: 117px;
+		flex-wrap: wrap;
+		overflow: hidden;
+		&_item {
+			overflow: hidden;
+			text-overflow: ellipsis;
+			text-align: left;
+			font-size: 24px;
+			width: 48%;
+			margin-top: 8px;
+			flex-shrink: 0;
+			& + & {
+			}
+			&.ready {
+				color: #00cccc;
+			}
+		}
+	}
+}
+.counter {
+	margin-top: 60px;
+}

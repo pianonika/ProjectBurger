@@ -1,5 +1,0 @@
-export const ADD_FILLINGS_ITEM = 'ADD_FILLINGS_ITEM';
-export const REMOVE_FILLINGS_ITEM = 'REMOVE_FILLINGS_ITEM';
-export const SET_BUN = 'SET_BUN';
-export const CHANGE_ITEMS_ORDER = 'CHANGE_ITEMS_ORDER';
-export const CLEAR_CART = 'CLEAR_CART';

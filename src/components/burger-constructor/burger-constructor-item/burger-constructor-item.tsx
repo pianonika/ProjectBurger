@@ -1,13 +1,14 @@
 import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
 import s from '../burger-constructor.module.less';
 import { IngredientModelUnic } from '@models/ingredient-model.model';
-import { CHANGE_ITEMS_ORDER, REMOVE_FILLINGS_ITEM } from '@store/cart/action';
 import { DECREMENT_INGREDIENTS_COUNT } from '@store/ingredients/action';
 import { useAppDispatch, useAppSelector } from '@models/hooks';
 import { useDrag, useDrop } from 'react-dnd';
 import React, { FC, useRef } from 'react';
 import { XYCoord } from 'react-dnd/src/types/monitors';
 import type { DropTargetMonitor } from 'react-dnd/src/types';
+import { getFillings } from '@store/cart/reducer';
+import { CHANGE_ITEMS_ORDER, REMOVE_FILLINGS_ITEM } from '@store/cart/action';
 
 type DragObject = {
 	id: string;
@@ -33,11 +34,11 @@ export const BurgerConstructorItem: FC<BurgerConstructorItem> = ({
 	ingredient,
 }) => {
 	const dispatch = useAppDispatch();
-	const fillings = useAppSelector((store) => store.cart.fillings);
+	const fillings = useAppSelector(getFillings);
 	const deleteIngredient = (deleteIngredient: IngredientModelUnic) => {
 		dispatch({
 			type: REMOVE_FILLINGS_ITEM,
-			payload: deleteIngredient.uniqueId,
+			payload: deleteIngredient.uniqueId ?? '',
 		});
 		dispatch({
 			type: DECREMENT_INGREDIENTS_COUNT,

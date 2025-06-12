@@ -1,3 +1,5 @@
+import {Data, Delete, Insert, Move, Update} from "@models/live-table";
+
 export interface Order {
 	number: string;
 }
@@ -7,3 +9,18 @@ export interface OrderStore {
 	order: Order;
 	success: boolean;
 }
+
+export interface OrderCard {
+	ingredients: Array<string>;
+	_id: string;
+	status: string;
+	number: number;
+	name: string;
+	createdAt: string;
+	updatedAt: string;
+	price?: number;
+}
+
+export type LiveTableAction = Insert | Data | Delete | Update | Move;
+
+export type LiveTableActions = Array<LiveTableAction>;
