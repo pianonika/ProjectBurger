@@ -8,7 +8,7 @@ export const CLEAR_CART = 'CLEAR_CART' as const;
 
 export interface IAddFillingsAction {
 	readonly type: typeof ADD_FILLINGS_ITEM;
-	readonly payload: IngredientModelUnic[];
+	readonly payload: IngredientModelUnic;
 }
 export interface IRemoveFillingsAction {
 	readonly type: typeof REMOVE_FILLINGS_ITEM;

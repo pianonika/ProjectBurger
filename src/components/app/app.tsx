@@ -16,11 +16,10 @@ import { OnlyAuth, OnlyUnAuth } from '@components/app/protected-route';
 import { OrderFeedPage } from '@pages/orders-feed/orders-feed';
 import { OrderHistoryPage } from '@pages/orders-history/orders-history';
 import { useAppDispatch } from '@models/hooks';
-import { checkUserAuth } from '@store/auth/action';
-import { OrderPage } from '@pages/order/order';
-import { getIngredients } from '@store/ingredients/action';
+import { checkUserAuthThunk } from '@store/auth/action';
 import { NavigateFunction } from 'react-router/dist/development';
 import OrderFeedDetails from '@components/order-feed/order-feed-details/order-feed-details';
+import { getIngredientsThunk } from '@store/ingredients/action';
 
 export const App = () => {
 	const location = useLocation();
@@ -32,9 +31,9 @@ export const App = () => {
 	const dispatch = useAppDispatch();
 
 	useEffect(() => {
-		dispatch(checkUserAuth());
-		dispatch(getIngredients());
-	}, []);
+		dispatch(checkUserAuthThunk());
+		dispatch(getIngredientsThunk());
+	}, [dispatch]);
 
 	return (
 		<div className={s.page}>

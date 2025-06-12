@@ -3,12 +3,10 @@ import { OrderCard } from '@models/order';
 export const userListConnect = 'UserListConnect' as const;
 export interface IUserListConnectAction {
 	readonly type: typeof userListConnect;
-	readonly payload: string;
 }
 export const userListDisconnect = 'UserListDisconnect' as const;
 export interface IUserListDisconnectAction {
 	readonly type: typeof userListDisconnect;
-	readonly payload: string;
 }
 
 export const userListOnConnecting = 'UserListOnConnecting' as const;

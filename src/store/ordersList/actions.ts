@@ -5,7 +5,6 @@ import { OrderCard } from '@models/order';
 export const connect = 'connect' as const;
 export interface IConnectAction {
 	readonly type: typeof connect;
-	readonly payload: string;
 }
 
 export const disconnect = 'disconnect' as const;
@@ -19,9 +18,9 @@ export interface IOnConnectingAction {
 	readonly type: typeof onConnecting;
 }
 
-export const onOpen = 'onOpen' as const;
+export const WS_ON_OPEN = 'WS_ON_OPEN' as const;
 export interface IOnOpenAction {
-	readonly type: typeof onOpen;
+	readonly type: typeof WS_ON_OPEN;
 }
 
 export const onError = 'onError' as const;
@@ -54,7 +53,7 @@ export interface IOnSendMessageAction {
 export type TWSOrdersListActions = {
 	connect: typeof connect;
 	disconnect: typeof disconnect;
-	onOpen: typeof onOpen;
+	onOpen: typeof WS_ON_OPEN;
 	onClose: typeof onClose;
 	onError: typeof onError;
 	onMessage: typeof onMessage;

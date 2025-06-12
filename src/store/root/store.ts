@@ -7,7 +7,7 @@ import {
 	onClose,
 	onError,
 	onMessage,
-	onOpen,
+	WS_ON_OPEN,
 	disconnect,
 	TWSOrdersListActions,
 } from '@store/ordersList/actions';
@@ -32,15 +32,16 @@ const composeEnhancers =
 		? (window as any)?.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
 		: null) || compose;
 
-const wsOrdersListActions: TWSOrdersListActions = {
-	connect,
-	disconnect,
-	onOpen,
-	onClose,
-	onError,
-	onMessage,
+
+export const wsOrdersListActions: TWSOrdersListActions = {
+	connect: connect,
+	disconnect: disconnect,
+	onOpen: WS_ON_OPEN,
+	onClose: onClose,
+	onError: onError,
+	onMessage: onMessage,
 };
-const wsOrdersListForUserActions: TWSOrdersListForUserActions = {
+export const wsOrdersListForUserActions: TWSOrdersListForUserActions = {
 	connect: userListConnect,
 	disconnect: userListDisconnect,
 	onOpen: userListOnOpen,

@@ -1,7 +1,7 @@
 import { ingredientsCategories } from '../../store/vars';
 import { request } from '@utils/checkResponse';
-import { REMOVE_CURR_INGREDIENT } from '@store/chosen-ingredient/action';
-import {IngredientModelUnic} from "@models/ingredient-model.model";
+import { IngredientModelUnic } from '@models/ingredient-model.model';
+import { AppDispatch, AppThunkAction } from '../../index';
 
 export const GET_INGREDIENTS = 'GET_INGREDIENTS' as const;
 export const GET_INGREDIENTS_FAILED = 'GET_INGREDIENTS_FAILED' as const;
@@ -30,10 +30,18 @@ export interface IDegredientsIngredientsCount {
 	readonly payload: IngredientModelUnic;
 }
 
-export function getIngredients() {
-	return function (dispatch) {
+export const GET_INGREDIENTS_R = 'GET_INGREDIENTS_R' as const;
+export interface IGetIngredientsAction {
+	readonly type: typeof GET_INGREDIENTS_R;
+}
+export const getIngredientsAction = (): IGetIngredientsAction => ({
+	type: GET_INGREDIENTS_R,
+});
+
+export const getIngredientsThunk =
+	(): AppThunkAction => (dispatch: AppDispatch) => {
 		dispatch({
-			type: GET_INGREDIENTS,
+			type: GET_INGREDIENTS_R,
 		});
 
 		request('/api/ingredients')
@@ -53,7 +61,6 @@ export function getIngredients() {
 				});
 			});
 	};
-}
 
 const defaultListConstructor = (data) => {
 	let newData = {};
@@ -82,4 +89,5 @@ export type TIngredientsActions =
 	| IGetIngredientsSuccess
 	| IGetIngredientsFailed
 	| IIncrementIngredientsCount
+	| IGetIngredientsAction
 	| IDegredientsIngredientsCount;

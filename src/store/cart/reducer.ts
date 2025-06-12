@@ -6,6 +6,7 @@ import {
 	SET_BUN,
 	TCartActions,
 } from './action';
+import {RootState} from "../../index";
 
 const initialState: ICartState = {
 	bun: {},
@@ -56,3 +57,4 @@ export const cartReducer = (state = initialState, action: TCartActions) => {
 		}
 	}
 };
+export const getFillings = (state: RootState) => state.cart.fillings;
