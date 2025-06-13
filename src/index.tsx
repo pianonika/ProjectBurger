@@ -25,10 +25,10 @@ const root = createRoot(domNode);
 
 root.render(
 	<StrictMode>
-		<BrowserRouter>
+		<HashRouter>
 			<Provider store={store}>
 				<App />
 			</Provider>
-		</BrowserRouter>
+		</HashRouter>
 	</StrictMode>
 );
