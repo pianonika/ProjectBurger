@@ -21,15 +21,15 @@ export const OrderFeedCard: FC<{
 	);
 
 	const totalPrice = order.ingredients.reduce(
-		(acc, ingredient) => items[ingredient].price + acc,
+		(acc, ingredient) => items[ingredient]?.price + acc,
 		0
 	);
-	const ingregientsLimit = 6;
+	const IngredientsLimit = 6;
 	const [orderIngredients] = useState(
-		order.ingredients.slice(0, ingregientsLimit)
+		order.ingredients.slice(0, IngredientsLimit)
 	);
-	const excessIngregientsLimit = orderIngredients.length - ingregientsLimit + 1;
-	const isShowIngregientsTale = excessIngregientsLimit > 0;
+	const excessIngredientsLimit = orderIngredients.length - IngredientsLimit + 1;
+	const isShowIngredientsTale = excessIngredientsLimit > 0;
 
 	const saveOrderForModal = () => {
 		dispatch({
@@ -68,8 +68,8 @@ export const OrderFeedCard: FC<{
 									src={items?.[itemId]?.image_mobile}
 									alt={items?.[itemId]?.name}
 								/>
-								{isShowIngregientsTale && index == ingregientsLimit - 1 && (
-									<div className={s.hover}>+{excessIngregientsLimit}</div>
+								{isShowIngredientsTale && index == IngredientsLimit - 1 && (
+									<div className={s.hover}>+{excessIngredientsLimit}</div>
 								)}
 							</div>
 						))}
