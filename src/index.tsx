@@ -7,8 +7,6 @@ import { configureStore } from '@store/root/store';
 import { HashRouter} from 'react-router-dom';
 import type { AppActions } from '@store/root/action';
 import type { ThunkAction, ThunkDispatch } from 'redux-thunk';
-import type { AppActions } from '@store/root/action';
-import type { ThunkAction, ThunkDispatch } from 'redux-thunk';
 
 const store = configureStore();
 export type RootState = ReturnType<typeof store.getState>;
