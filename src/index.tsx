@@ -4,7 +4,9 @@ import './styles.css';
 import { App } from '@components/app/app';
 import { Provider } from 'react-redux';
 import { configureStore } from '@store/root/store';
-import {BrowserRouter, HashRouter} from 'react-router-dom';
+import { HashRouter} from 'react-router-dom';
+import type { AppActions } from '@store/root/action';
+import type { ThunkAction, ThunkDispatch } from 'redux-thunk';
 import type { AppActions } from '@store/root/action';
 import type { ThunkAction, ThunkDispatch } from 'redux-thunk';
 
@@ -23,10 +25,10 @@ const root = createRoot(domNode);
 
 root.render(
 	<StrictMode>
-		<HashRouter>
+		<BrowserRouter>
 			<Provider store={store}>
 				<App />
 			</Provider>
-		</HashRouter>
+		</BrowserRouter>
 	</StrictMode>
 );
