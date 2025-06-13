@@ -16,7 +16,7 @@ export const checkSuccess = (res: any & { success: boolean }) => {
 
 export const request = (
 	endpoint: string | URL | Request,
-	options: RequestInit
+	options?: RequestInit
 ) => {
 	return fetch(`${BASE_URL}${endpoint}`, options)
 		.then(checkResponse)

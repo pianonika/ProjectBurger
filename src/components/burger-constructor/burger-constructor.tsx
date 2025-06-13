@@ -54,7 +54,7 @@ export const BurgerConstructor = () => {
 	};
 
 	const totalPrice: number = useMemo<number>(() => {
-		const fillingsPrice = chosenIngredients?.fillings?.[0]?.price
+		const fillingsPrice = chosenIngredients?.fillings?.[0]?.['price']
 			? chosenIngredients?.fillings?.reduce(
 					(acc: number, curr: IngredientModel) => acc + curr.price,
 					0
@@ -195,7 +195,7 @@ export const BurgerConstructor = () => {
 					onClick={() => handleIngredientClick()}>
 					Оформить заказ
 				</Button>
-				sss{order.requestInProgress}
+				{order.requestInProgress}
 			</div>
 			{isActiveModal && (
 				<Modal isActive={isActiveModal} closeModal={closeOrderDetails}>

@@ -13,12 +13,13 @@ import Modal from '@components/modal/modal';
 import { IngredientDetailsPage } from '@pages/ingredient-details-page/ingredient-details-page';
 import { ProfilePage } from '@pages/profile/profile';
 import { OnlyAuth, OnlyUnAuth } from '@components/app/protected-route';
+import { OrderFeedPage } from '@pages/orders-feed/orders-feed';
+import { OrderHistoryPage } from '@pages/orders-history/orders-history';
 import { useAppDispatch } from '@models/hooks';
-import { checkUserAuth } from '@store/auth/action';
-import { OrderListPage } from '@pages/orders-list/orders-list';
-import { OrderPage } from '@pages/order/order';
-import { getIngredients } from '@store/ingredients/action';
+import { checkUserAuthThunk } from '@store/auth/action';
 import { NavigateFunction } from 'react-router/dist/development';
+import OrderFeedDetails from '@components/order-feed/order-feed-details/order-feed-details';
+import { getIngredientsThunk } from '@store/ingredients/action';
 
 export const App = () => {
 	const location = useLocation();
@@ -30,9 +31,9 @@ export const App = () => {
 	const dispatch = useAppDispatch();
 
 	useEffect(() => {
-		dispatch(checkUserAuth());
-		dispatch(getIngredients());
-	}, []);
+		dispatch(checkUserAuthThunk());
+		dispatch(getIngredientsThunk());
+	}, [dispatch]);
 
 	return (
 		<div className={s.page}>
@@ -62,19 +63,21 @@ export const App = () => {
 						path='/profile'
 						element={<OnlyAuth component={<ProfilePage />} />}
 					/>
+					<Route path='/feed' element={<OrderFeedPage />} />
+					<Route path='/feed/:numberId' element={<OrderFeedDetails />} />
 					<Route
 						path='/profile/orders'
-						element={<OnlyAuth component={<OrderListPage />} />}
+						element={<OnlyAuth component={<OrderHistoryPage />} />}
 					/>
 					<Route
-						path='/profile/orders/:number'
-						element={<OnlyAuth component={<OrderPage />} />}
+						path='/profile/orders/:numberId'
+						element={<OnlyAuth component={<OrderFeedDetails />} />}
 					/>
 					<Route path='/ingredients/:id' element={<IngredientDetailsPage />} />
 					<Route path='*' element={<NotFound404 />} />
 				</Routes>
 
-				{modalLocation && (
+				{modalLocation && location.pathname.includes('/ingredients/') && (
 					<Routes>
 						<Route
 							path='/ingredients/:id'
@@ -84,6 +87,32 @@ export const App = () => {
 									closeModal={handleModalClose}
 									title={'Детали ингредиента'}>
 									<IngredientDetails />
+								</Modal>
+							}
+						/>
+					</Routes>
+				)}
+
+				{modalLocation && location.pathname.includes('orders') && (
+					<Routes>
+						<Route
+							path='/profile/orders/:numberId'
+							element={
+								<Modal isActive={true} closeModal={handleModalClose}>
+									<OrderFeedDetails />
+								</Modal>
+							}
+						/>
+					</Routes>
+				)}
+
+				{modalLocation && location.pathname.includes('feed') && (
+					<Routes>
+						<Route
+							path='/feed/:numberId'
+							element={
+								<Modal isActive={true} closeModal={handleModalClose}>
+									<OrderFeedDetails />
 								</Modal>
 							}
 						/>
