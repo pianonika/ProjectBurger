@@ -79,7 +79,7 @@
 		"commit": "npm run check && cz",
 		"test": "jest",
 		"cypress": "cypress open",
-		"predeploy": "npm run dist",
+		"predeploy": "npm run bild",
 		"deploy": "gh-pages -d dist"
 	},
 	"dependencies": {
