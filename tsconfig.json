@@ -29,7 +29,7 @@
 			"@utils/*": ["./src/utils/*"]
 		}
 	},
-	"outDir": "./dist/",
+	"outDir": "./build/",
 	"include": ["src/**/*", "models/*"]
 	//	"exclude": ["src/utils/*"]
 }
