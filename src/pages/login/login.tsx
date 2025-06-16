@@ -42,7 +42,7 @@ export function LoginPage() {
 								onChange={handleChange}
 							/>
 						</div>
-						<div className={s.form_field}>
+						<div className={s.form_field} data-testid='login-form_btn'>
 							<Button htmlType={'submit'} type={'primary'}>
 								Войти
 							</Button>

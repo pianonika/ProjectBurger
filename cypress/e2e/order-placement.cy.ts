@@ -4,13 +4,13 @@ import { cleanup } from '@testing-library/react';
 describe('check burger-constructor', () => {
 	const email = 'pianonika@gmail.com';
 	const password = '123';
-	afterEach(() => cleanup());
+	// afterEach(() => cleanup());
 	beforeEach(() => {
 		cy.visit('http://localhost:8080');
 
-		cy.intercept('GET', 'api/auth/login', { fixture: 'user.json' });
-		cy.intercept('POST', 'api/orders', { fixture: 'order.json' });
-		cy.intercept('GET', 'api/ingredients', { fixture: 'ingredients.json' });
+		cy.intercept('POST', 'api/auth/login', { fixture: 'user' });
+		cy.intercept('POST', 'api/orders', { fixture: 'order' });
+		cy.intercept('GET', 'api/ingredients', { fixture: 'ingredients' });
 
 		window.localStorage.setItem(
 			'refreshToken',
@@ -22,7 +22,8 @@ describe('check burger-constructor', () => {
 	it('should open modal after click order button', function () {
 		cy.get('[data-testid=login-btn]').click();
 		cy.get('[data-testid=email_input]').type(`${email}`);
-		cy.get('[data-testid=password_input]').type(`${password}{enter}`);
+		cy.get('[data-testid=password_input]').type(`${password}`);
+		cy.get('[data-testid=login-form_btn]').click();
 
 		cy.get('[data-testid=ingredients] [data-testid=ingredient-card]')
 			.first()

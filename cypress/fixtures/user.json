@@ -1,9 +1,9 @@
 {
 	"success": true,
-	"accessToken": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3Zjk0MTQxZThlNjFkMDAxY2VjMWVhZSIsImlhdCI6MTc1MDA5MDU0MCwiZXhwIjoxNzUwMDkxNzQwfQ.zmReD1-cYYXwrfRZ7cSGUQ1XCgMgEnaIykxE7l5QM7M",
-	"refreshToken": "359fabc8f610516512f37ee2e04af8dab7c3de38b6a5e534cc4f998bb57c6e5eaba65123b43e4741",
+	"accessToken": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3Zjk0MTQxZThlNjFkMDAxY2VjMWVhZSIsImlhdCI6MTc1MDEwNTU2NCwiZXhwIjoxNzUwMTA2NzY0fQ.6ukNsLAtUJ6rPQ9y5k3MVfOa7NORtIYfc0-5wQbFUjU",
+	"refreshToken": "10186f48fe2024afdde5648b25b1ead172a78a594903b246cd272447411f43ada50498444ddf48e8",
 	"user": {
 		"email": "pianonika@gmail.com",
-		"name": "Nate"
+		"name": "Nate123"
 	}
 }

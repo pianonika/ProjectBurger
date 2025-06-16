@@ -5,7 +5,7 @@ describe('check burger-constructor', () => {
 	afterEach(() => cleanup());
 	beforeEach(() => {
 		cy.visit('http://localhost:8080');
-		cy.intercept('GET', 'api/ingredients', { fixture: 'ingredients.json' });
+		cy.intercept('GET', 'api/ingredients', { fixture: 'ingredients' });
 	});
 
 	it('should open modal page by click with ingredient data', function () {
