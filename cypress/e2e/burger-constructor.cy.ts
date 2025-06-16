@@ -7,18 +7,6 @@ describe('check burger-constructor', () => {
 		cy.visit('http://localhost:8080');
 		cy.intercept('GET', 'api/ingredients', { fixture: 'ingredients.json' });
 	});
-	// beforeEach(() => {
-	// 	cy.intercept('GET', 'api/auth/user', { fixture: 'user.json' });
-	// 	cy.intercept('POST', 'api/orders', { fixture: 'order.json' }).as(
-	// 		'postOrder'
-	// 	);
-	//
-	// 	window.localStorage.setItem(
-	// 		'refreshToken',
-	// 		JSON.stringify('test-refreshToken')
-	// 	);
-	// 	cy.setCookie('accessToken', 'test-refreshToken');
-	// });
 
 	it('should open modal page by click with ingredient data', function () {
 		cy.get('[data-testid=ingredients] [data-testid=ingredient-card]')

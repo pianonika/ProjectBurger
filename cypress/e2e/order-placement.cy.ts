@@ -18,13 +18,6 @@ describe('check burger-constructor', () => {
 		);
 		cy.setCookie('accessToken', 'test-refreshToken');
 	});
-	// beforeEach(() => {
-	// 	cy.intercept('GET', 'api/auth/user', { fixture: 'user.json' });
-	// 	cy.intercept('POST', 'api/orders', { fixture: 'order.json' }).as(
-	// 		'postOrder'
-	// 	);
-	//
-	// });
 
 	it('should open modal after click order button', function () {
 		cy.get('[data-testid=login-btn]').click();
