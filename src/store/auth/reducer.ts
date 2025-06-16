@@ -13,7 +13,7 @@ import {
 } from '@store/auth/action';
 import { RootState } from '../../index';
 
-const initialState: IAuthorizationState = {
+export const initialState: IAuthorizationState = {
 	user: undefined,
 	isAuthChecked: false,
 	requestInProgress: false,
@@ -43,7 +43,7 @@ export const authorizationReducer = (
 			return {
 				user: { ...state.user, ...action.payload.user },
 				isAuthChecked: true,
-				requestInProgress: state.requestInProgress,
+				requestInProgress: false,
 			};
 		}
 		case LOGOUT_SUCCESS: {

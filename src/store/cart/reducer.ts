@@ -6,9 +6,9 @@ import {
 	SET_BUN,
 	TCartActions,
 } from './action';
-import {RootState} from "../../index";
+import { RootState } from '../../index';
 
-const initialState: ICartState = {
+export const initialState: ICartState = {
 	bun: {},
 	fillings: [],
 };

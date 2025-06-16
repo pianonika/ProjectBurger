@@ -5,7 +5,7 @@ import {
 } from './action';
 import { IngredientModel } from '@models/ingredient-model.model';
 
-const chosenIngredientState: IChosenIngredientState = {
+export const chosenIngredientState: IChosenIngredientState = {
 	ingredient: null,
 };
 export interface IChosenIngredientState {

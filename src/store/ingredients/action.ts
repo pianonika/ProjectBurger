@@ -25,7 +25,7 @@ export interface IIncrementIngredientsCount {
 	readonly type: typeof INCREMENT_INGREDIENTS_COUNT;
 	readonly payload: IngredientModelUnic;
 }
-export interface IDegredientsIngredientsCount {
+export interface IDecrementIngredientsCount {
 	readonly type: typeof DECREMENT_INGREDIENTS_COUNT;
 	readonly payload: IngredientModelUnic;
 }
@@ -62,7 +62,7 @@ export const getIngredientsThunk =
 			});
 	};
 
-const defaultListConstructor = (data) => {
+export const defaultListConstructor = (data) => {
 	let newData = {};
 	!!data.length &&
 		data.map((item) => {
@@ -71,7 +71,7 @@ const defaultListConstructor = (data) => {
 	return newData;
 };
 
-const ingredientsConstructor = (res) => {
+export const ingredientsConstructor = (res) => {
 	const data = new Object();
 	Object.keys(ingredientsCategories).forEach((key) => {
 		data[key] = [];
@@ -89,5 +89,5 @@ export type TIngredientsActions =
 	| IGetIngredientsSuccess
 	| IGetIngredientsFailed
 	| IIncrementIngredientsCount
-	| IGetIngredientsAction
-	| IDegredientsIngredientsCount;
+	| IDecrementIngredientsCount
+	| IGetIngredientsAction;

@@ -125,15 +125,19 @@ export const BurgerConstructor = () => {
 				className={`${s.chosenIngredients} + ${
 					isOver && s.chosenIngredients__active
 				}`}>
-				<div className={`${s.constructorItem} pr-4`}>
+				<div
+					className={`${s.constructorItem} pr-4`}
+					data-testid='drop-container'>
 					{chosenIngredients?.bun?.name ? (
-						<ConstructorElement
-							type='top'
-							isLocked={true}
-							text={`${chosenIngredients.bun.name}  (верх)`}
-							price={chosenIngredients.bun.price}
-							thumbnail={chosenIngredients.bun.image}
-						/>
+						<div data-testid='constructor-element-bun'>
+							<ConstructorElement
+								type='top'
+								isLocked={true}
+								text={`${chosenIngredients.bun.name}  (верх)`}
+								price={chosenIngredients.bun.price}
+								thumbnail={chosenIngredients.bun.image}
+							/>
+						</div>
 					) : (
 						<div
 							className={`constructor-element constructor-element_pos_top ${s.emptyIngredient}`}>
@@ -145,14 +149,16 @@ export const BurgerConstructor = () => {
 					{chosenIngredients?.fillings?.length ? (
 						chosenIngredients?.fillings?.map(
 							(ingredient: IngredientModelUnic, index: number) => (
-								<BurgerConstructorItem
-									index={index}
-									id={ingredient._id}
-									text={ingredient.name}
-									price={ingredient.price}
-									thumbnail={ingredient.image}
-									ingredient={ingredient}
-									key={ingredient.uniqueId}></BurgerConstructorItem>
+								<div data-testid='constructor-element-filling'>
+									<BurgerConstructorItem
+										index={index}
+										id={ingredient._id}
+										text={ingredient.name}
+										price={ingredient.price}
+										thumbnail={ingredient.image}
+										ingredient={ingredient}
+										key={ingredient.uniqueId}></BurgerConstructorItem>
+								</div>
 							)
 						)
 					) : (
@@ -188,13 +194,15 @@ export const BurgerConstructor = () => {
 					<p className='text text_type_digits-medium mr-2'>{totalPrice}</p>
 					<CurrencyIcon type='primary' />
 				</div>
-				<Button
-					htmlType='button'
-					type='primary'
-					size='large'
-					onClick={() => handleIngredientClick()}>
-					Оформить заказ
-				</Button>
+				<div data-testid='order-btn'>
+					<Button
+						htmlType='button'
+						type='primary'
+						size='large'
+						onClick={() => handleIngredientClick()}>
+						Оформить заказ
+					</Button>
+				</div>
 				{order.requestInProgress}
 			</div>
 			{isActiveModal && (
