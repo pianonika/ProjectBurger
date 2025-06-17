@@ -10,7 +10,7 @@ import {
 import { OrderCard } from '@models/order';
 import { RootState } from '../../index';
 
-const initialState: orderState = {
+export const initialState: orderState = {
 	currentOrder: {
 		name: '',
 		order: { number: null },

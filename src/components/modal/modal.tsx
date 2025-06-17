@@ -35,7 +35,8 @@ export const Modal: FC<TProps> = ({
 		<div
 			role='presentation'
 			className={isActive ? `${s.modal} ${s.active}` : `${s.modal}`}
-			onClick={() => closeModal()}>
+			onClick={() => closeModal()}
+			data-testid='modal'>
 			<ModalOverlayEl />
 			<div
 				role='presentation'
@@ -50,7 +51,8 @@ export const Modal: FC<TProps> = ({
 					<div
 						role='presentation'
 						className={s.modal_close}
-						onClick={() => closeModal()}>
+						onClick={() => closeModal()}
+						data-testid='close-modal'>
 						<CloseIcon type='primary' />
 					</div>
 				</div>

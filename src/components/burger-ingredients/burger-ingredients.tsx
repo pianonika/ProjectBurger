@@ -6,7 +6,7 @@ import IngredientsList from '../ingredients-list/ingredients-list';
 export const BurgerIngredients = () => {
 	const [currSection, setCurrentSection] = useState<string>('bun');
 	return (
-		<div className={s.ingredients}>
+		<div className={s.ingredients} data-testId='ingredients'>
 			<div className='tabs'>
 				<Tabs
 					currSection={currSection}

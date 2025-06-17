@@ -28,9 +28,11 @@ export const IngredientDetails = () => {
 	return (
 		<>
 			{ingredient && (
-				<div className='ingredient__details'>
+				<div className='ingredient__details' data-testid='ingredient-modal'>
 					<img src={ingredient.image_large} alt='ingredient.name' />
-					<title className='text text_type_main-medium'>
+					<title
+						className={`${s.title} text text_type_main-medium`}
+						data-testid='ingredient-modal-title'>
 						{ingredient.name}
 					</title>
 					<table className={s.details_table}>

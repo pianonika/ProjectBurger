@@ -30,6 +30,11 @@
 		}
 	},
 	"outDir": "./dist/",
-	"include": ["src/**/*", "models/*"]
+	"include": [
+		"src/**/*",
+		"models/*",
+		"node_modules/cypress/types/mocha/index.d.ts",
+		"node_modules/cypress/types/mocha/index.d.ts"
+	]
 	//	"exclude": ["src/utils/*"]
 }
