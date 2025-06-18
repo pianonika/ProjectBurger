@@ -11,7 +11,7 @@ export const OrderDetails = () => {
 
 	return !isRequestInProgress ? (
 		<div className={s.ingredient__details}>
-			<p className={`${s.number} text text_type_digits-large`}>
+			<p className={`${s.number} text text_type_digits-large`} data-testid='order-number'>
 				{order?.number}
 			</p>
 			<p className='text text_type_main-medium mt-8 '>идентификатор заказа</p>

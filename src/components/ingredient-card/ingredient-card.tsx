@@ -38,10 +38,13 @@ export const IngredientCard: FC<{
 				role='presentation'
 				className={s.ingredientCardWrapper}
 				ref={dragRef}
-				onClick={() => handleIngredientClick()}>
+				onClick={() => handleIngredientClick()}
+				data-testId='ingredient-card'>
 				<div className={s.card}>
 					<div className={s.counter}>
-						<Counter count={ingredient.count} size='small' />
+						{ingredient.count && (
+							<Counter count={ingredient.count} size='small' />
+						)}
 					</div>
 					<img
 						className={s.picture}

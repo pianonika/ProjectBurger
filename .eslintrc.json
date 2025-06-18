@@ -4,6 +4,8 @@
 			"node": {
 				"extensions": [".js", ".jsx", ".ts", ".tsx"]
 			}
-		}
+		},
+		"plugins": ["cypress"],
+		"extends": ["plugin:cypress/recommended"]
 	}
 }

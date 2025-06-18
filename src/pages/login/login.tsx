@@ -26,7 +26,7 @@ export function LoginPage() {
 				<div className='page_content__left'></div>
 				<div className='page_content__center'>
 					<form className={s.form} onSubmit={login}>
-						<div className={s.form_field}>
+						<div className={s.form_field} data-testid='email_input'>
 							<Input
 								placeholder='Email'
 								value={values.email}
@@ -34,7 +34,7 @@ export function LoginPage() {
 								onChange={handleChange}
 							/>
 						</div>
-						<div className={s.form_field}>
+						<div className={s.form_field} data-testid='password_input'>
 							<PasswordInput
 								placeholder='Password'
 								value={values.password}
@@ -42,7 +42,7 @@ export function LoginPage() {
 								onChange={handleChange}
 							/>
 						</div>
-						<div className={s.form_field}>
+						<div className={s.form_field} data-testid='login-form_btn'>
 							<Button htmlType={'submit'} type={'primary'}>
 								Войти
 							</Button>

@@ -12,7 +12,7 @@ export interface IngredientModel {
 	image_large?: string;
 	__v?: number;
 	uuid?: string;
-	count: number;
+	count?: number;
 }
 export interface IngredientModelUnic extends IngredientModel {
 	uniqueId?: string;

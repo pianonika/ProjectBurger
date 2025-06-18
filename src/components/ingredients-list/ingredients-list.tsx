@@ -45,7 +45,9 @@ export const IngredientsList: FunctionComponent<ITabsProps> = ({
 								<h3 className='text text_type_main-medium mb-6'>
 									{categoriesName(key)}
 								</h3>
-								<ul className={`${s.cardsList} pl-4 pr-4`}>
+								<ul
+									data-testid='cards-list'
+									className={`${s.cardsList} pl-4 pr-4`}>
 									{ingredients.length &&
 										ingredients?.map((ingredient, ingredientIndex) => (
 											<Link

@@ -33,7 +33,7 @@ export const AppHeader = ({}) => {
 				<Link to='/' className={s.logo}>
 					<Logo />
 				</Link>
-				<div className={s.header__buttons}>
+				<div className={s.header__buttons} data-testid='login-btn'>
 					<NavLink
 						className={({ isActive }) =>
 							isActive ? `${s.link__active} ${s.link}` : `${s.link}`
