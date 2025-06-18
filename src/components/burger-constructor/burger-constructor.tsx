@@ -124,10 +124,9 @@ export const BurgerConstructor = () => {
 			<div
 				className={`${s.chosenIngredients} + ${
 					isOver && s.chosenIngredients__active
-				}`}>
-				<div
-					className={`${s.constructorItem} pr-4`}
-					data-testid='drop-container'>
+				}`}
+				data-testid='drop-container'>
+				<div className={`${s.constructorItem} pr-4`}>
 					{chosenIngredients?.bun?.name ? (
 						<div data-testid='constructor-element-bun'>
 							<ConstructorElement
